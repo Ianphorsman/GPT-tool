@@ -3,7 +3,16 @@ import { type Config } from "tailwindcss";
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    linearBorderGradients: (theme: (arg0: string) => any) => ({
+      colors: theme('colors')
+    }),
+    extend: {
+      zIndex: {
+        '-z-10': '-10'
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-border-gradients')()
+  ],
 } satisfies Config;
