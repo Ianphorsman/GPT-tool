@@ -1,11 +1,23 @@
+import colors from 'tailwindcss/colors'
+
 const Message = ({
     component = 'p',
     user = {},
-    text = 'This is some message text'
+    text = 'Pure CSS Sexiness',
+    linearGradientColor = colors.slate[950],
+    radialGradientColorFrom = colors.sky[950],
+    radialGradientColorTo = colors.indigo[950],
+    hueRotate = 'hue-rotate-60',
+    blendMode = 'multiply'
 }) => {
     return (
-        <component className="px-4 py-2 bg-gradient-to-tl from-pink-300 to-white before:rounded-lg before:opacity-25 before:bg-gradient-to-br before:from-white before:to-pink-300 before:top-0 before:left-0 before:w-full before:h-full rounded relative before:content-[''] before:absolute before:-z-10">
-            <div className="px-4 py-2 rounded bg-white shadow">
+        <component style={{
+            border: 'double 2px transparent',
+            backgroundImage: `linear-gradient(to bottom right, ${linearGradientColor}, ${linearGradientColor}), radial-gradient(circle at top left, ${radialGradientColorFrom}, ${radialGradientColorTo})`,
+            backgroundOrigin: 'border-box',
+            backgroundClip: 'padding-box, border-box'
+        }} className={`px-4 py-2 hover:cursor-pointer rounded-md relative bg-blend-${blendMode} hover:${hueRotate} transition duration-300 hover:duration-300`}>
+            <div className="px-4 py-2 rounded text-stone-400 bg-transparent">
                 {text}
             </div>
         </component>
