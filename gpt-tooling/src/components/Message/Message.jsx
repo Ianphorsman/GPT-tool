@@ -3,7 +3,7 @@ import colors from 'tailwindcss/colors'
 const Message = ({
   component = 'p',
   user = {},
-  text = 'Pure CSS Sexiness',
+  text = 'Which one looks better',
   linearGradientColor = colors.slate[950],
   radialGradientColorFrom = colors.sky[950],
   radialGradientColorTo = colors.indigo[950]
