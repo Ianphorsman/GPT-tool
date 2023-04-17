@@ -5,7 +5,7 @@ const DesignSystem = ({
     colorWeight = 950
 }) => {
    return (
-    <main className="flex min-h-screen flex-wrap flex-row items-center justify-center bg-slate-950 gap-4">
+    <main className="flex min-h-screen flex-wrap flex-row items-center justify-center bg-gray-950 gap-4">
         <p>Design System layout</p>
         <Message
             linearGradientColor={colors.emerald[colorWeight]}
