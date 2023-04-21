@@ -1,12 +1,40 @@
+import { useEffect, useState } from 'react'
+import clsx from 'clsx'
 import colors from "tailwindcss/colors"
 import Message from "../../components/Message"
+import ImageUploader from '~/components/ImageUploader'
+import { api } from '~/utils/api'
 
 const DesignSystem = ({
-    colorWeight = 950
+  colorWeight = 950
 }) => {
+  const [data, setData] = useState(null)
+  const hello = api.example.hello.useQuery({ text: 'bar' })
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('/api/fizzbuzz');
+      const jsonData = await response.json();
+      setData(jsonData);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleUpload = (imageDataUrl) => {
+    // Process the image data URL as needed (e.g., upload to a server)
+    console.log('Image data URL:', imageDataUrl);
+  };
+
+  const mainStyle = clsx(
+    'flex', 'min-h-screen', 'flex-wrap', 'flex-row', 'items-center', 'justify-center', 'gap-4',
+    'bg-gray-950'
+  )
+
    return (
-    <main className="flex min-h-screen flex-wrap flex-row items-center justify-center bg-gray-950 gap-4">
+    <main className={mainStyle}>
         <p>Design System layout</p>
+        {hello?.data?.greeting && <p>{hello.data.greeting}</p>}
+        <ImageUploader onUpload={handleUpload} />
         <Message
             linearGradientColor={colors.emerald[colorWeight]}
             radialGradientColorFrom={colors.green[colorWeight]}
