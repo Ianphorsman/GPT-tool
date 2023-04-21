@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import PageContainer from './PageContainer'
 
 const Main = ({ children }) => {
-  const mainStyles = clsx('p-8')
+  const mainStyles = clsx('bg-slate-950', 'min-h-screen')
   return (
     <main className={mainStyles}>
-      <PageContainer>
-        {children}
-      </PageContainer>
+      {children}
     </main>
   )
 }

@@ -1,26 +1,27 @@
-import colors from 'tailwindcss/colors'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 const Message = ({
-  component = 'p',
-  user = {},
-  text = 'Pure CSS Sexiness',
-  linearGradientColor = colors.slate[950],
-  radialGradientColorFrom = colors.sky[950],
-  radialGradientColorTo = colors.indigo[950]
+  children,
+  textColor = 'text-slate-300',
+  bgColor = 'bg-slate-900'
 }) => {
-
+  const containerStyles = clsx(bgColor)
+  const messageStyles = clsx('max-w-prose', 'm-auto', 'container', 'p-4', textColor)
   return (
-    <component style={{
-      border: 'double 2px transparent',
-      backgroundImage: `linear-gradient(to bottom right, ${linearGradientColor}, ${linearGradientColor}), radial-gradient(circle at top left, ${radialGradientColorFrom}, ${radialGradientColorTo})`,
-      backgroundOrigin: 'border-box',
-      backgroundClip: 'padding-box, border-box'
-    }} className={`px-4 py-2 rounded-md bg-blend-color-burn active:saturate-200 active:brightness-200 active:filter hover:cursor-pointer hover:brightness-150 relative hover:hue-rotate-90 transition duration-300 hover:duration-300`}>
-      <div className="px-4 py-2 rounded text-stone-400 bg-transparent">
-          {text}
-      </div>
-    </component>
+    <div className={containerStyles}>
+      <p className={messageStyles}>
+        {children}
+      </p>
+    </div>
   )
+}
+
+Message.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node)
+  ])
 }
 
 export default Message

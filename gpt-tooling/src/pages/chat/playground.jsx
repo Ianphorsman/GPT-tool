@@ -1,3 +1,4 @@
+import Conversation from "~/components/Conversation"
 import Header from "~/components/PageContainer/Header"
 import Main from '~/components/PageContainer/Main'
 
@@ -8,7 +9,7 @@ const Playground = () => {
         <p>GPT Playground</p>
       </Header>
       <Main>
-        <p>Foo</p>
+        <Conversation />
       </Main>
     </>
   )
