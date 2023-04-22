@@ -7,7 +7,14 @@ const Message = ({
   bgColor = 'bg-slate-900'
 }) => {
   const containerStyles = clsx(bgColor)
-  const messageStyles = clsx('max-w-prose', 'm-auto', 'container', 'p-4', textColor)
+  const messageStyles = clsx(
+    'max-w-prose',
+    'm-auto',
+    'container',
+    'p-4',
+    'transition',
+    textColor
+  )
   return (
     <div className={containerStyles}>
       <p className={messageStyles}>

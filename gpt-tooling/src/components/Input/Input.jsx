@@ -9,7 +9,8 @@ const Input = ({
   initialValue,
   onChange,
   label,
-  isTextarea = false
+  isTextarea = false,
+  inputRef
 }) => {
   const inputId = useId()
   const wrapperStyles = clsx(
@@ -37,6 +38,7 @@ const Input = ({
         defaultValue={initialValue}
         placeholder='Enter your prompt here...'
         onChange={onChange}
+        ref={inputRef}
       />
     </div>
   )

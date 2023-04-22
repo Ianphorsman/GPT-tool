@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import colors from 'tailwindcss/colors'
@@ -11,12 +12,19 @@ const Prompter = ({
   radialGradientColorFrom = colors.sky[950],
   radialGradientColorTo = colors.indigo[950]
 }) => {
+  const inputRef = useRef(null)
+
+  const _onSubmit = () => {
+    onSubmit()
+    inputRef.current.value = ''
+  }
   const prompterStyles = clsx(
     'flex',
     'flex-row',
     'container',
     'mx-auto',
-    'max-w-prose'
+    'max-w-prose',
+    'self-end'
   )
 
   return (
@@ -34,8 +42,9 @@ const Prompter = ({
         label="Enter your prompt here"
         className="flex-grow"
         onChange={onChange}
+        inputRef={inputRef}
       />
-      <Button onClick={onSubmit} style={{}}>Chat</Button>
+      <Button onClick={_onSubmit} style={{}}>Chat</Button>
     </section>
   )
 }

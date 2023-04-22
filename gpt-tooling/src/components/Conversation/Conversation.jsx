@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import clsx from 'clsx'
+import { v4 as uuidv4 } from 'uuid'
 import Message from '../Message'
-import Button from '../Button/Button'
 import Prompter from '../Prompter'
 
 const Conversation = () => {
+  const [conversation, setConversation] = useState([])
   const [message, setMessage] = useState('')
   const [prompt, setPrompt] = useState('')
+
   const streamMessage = async () => {
+
     const response = await fetch('/api/openai/chat/stream', {
       method: 'POST',
       headers: {
@@ -24,7 +27,9 @@ const Conversation = () => {
       const decoder = new TextDecoder('utf-8');
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break;
+        if (done) {
+          break;
+        }
         const nextChunk = decoder.decode(value, { stream: true });
         console.log('nextChunk', nextChunk)
         if (nextChunk.startsWith('{')) {
@@ -36,6 +41,7 @@ const Conversation = () => {
           }
         }
       }
+      //setConversation(prev => [...prev, { role: 'user', content: prompt, id: uuidv4() }, { role: 'assistant', content: message, id: uuidv4() }])
     }
   }
 
@@ -43,13 +49,24 @@ const Conversation = () => {
     'flex',
     'flex-col',
     'h-full',
-    'justify-between'
+    'justify-between',
+    'pb-2'
   )
   
   return (
     <section className={conversationSectionStyles}>
-      <Message>{message}</Message>
-      <Prompter onChange={(e) => setPrompt(e.target.value)} onSubmit={streamMessage} />
+      <div>
+        {conversation.map(({ role, content, id }) => {
+          return (
+            <Message key={id}>{content}</Message>
+          )
+        })}
+        <Message>{message}</Message>
+      </div>
+      <Prompter
+        onChange={(e) => setPrompt(e.target.value)}
+        onSubmit={streamMessage}
+      />
     </section>
   )
 }
