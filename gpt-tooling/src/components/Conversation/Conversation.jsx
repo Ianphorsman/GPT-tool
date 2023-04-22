@@ -2,9 +2,11 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import Message from '../Message'
 import Button from '../Button/Button'
+import Prompter from '../Prompter'
 
 const Conversation = () => {
   const [message, setMessage] = useState('')
+  const [prompt, setPrompt] = useState('')
   const streamMessage = async () => {
     const response = await fetch('/api/openai/chat/stream', {
       method: 'POST',
@@ -12,7 +14,10 @@ const Conversation = () => {
         'Content-Type': 'application/json',
         'Accept': 'text/event-stream'
       },
-      body: JSON.stringify({ stream: true })
+      body: JSON.stringify({
+        stream: true,
+        messages: [{ role: 'user', content: prompt }]
+      })
     })
     if (response.body) {
       const reader = response.body.getReader();
@@ -34,11 +39,17 @@ const Conversation = () => {
     }
   }
 
+  const conversationSectionStyles = clsx(
+    'flex',
+    'flex-col',
+    'h-full',
+    'justify-between'
+  )
   
   return (
-    <section>
-      <Button onClick={streamMessage}>Chat</Button>
+    <section className={conversationSectionStyles}>
       <Message>{message}</Message>
+      <Prompter onChange={(e) => setPrompt(e.target.value)} onSubmit={streamMessage} />
     </section>
   )
 }

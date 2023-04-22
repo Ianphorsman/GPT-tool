@@ -3,9 +3,9 @@ import clsx from 'clsx'
 import PageContainer from './PageContainer'
 
 const Header = ({ children }) => {
-  const headerStyles = clsx('p-8', 'bg-slate-950')
+  const headerStyles = clsx('p-8', 'bg-slate-950', 'w-full', 'text-slate-300')
   return (
-    <header className={headerStyles}>
+    <header style={{ height: '13vh' }} className={headerStyles}>
       <PageContainer>
         {children}
       </PageContainer>

@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import clsx from 'clsx'
 
 const Main = ({ children }) => {
-  const mainStyles = clsx('bg-slate-950', 'min-h-screen')
+  const mainStyles = clsx('bg-slate-950')
   return (
-    <main className={mainStyles}>
+    <main style={{ height: '87vh' }} className={mainStyles}>
       {children}
     </main>
   )
