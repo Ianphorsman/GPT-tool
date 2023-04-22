@@ -34,9 +34,9 @@ async function* streamCompletion(data) {
 
 const defaultBody = {
   model: 'gpt-3.5-turbo',
-  max_tokens: 100,
+  max_tokens: 50,
   temperature: 0,
-  messages: [{ role: 'user', content: 'say testing 123' }]
+  messages: [{ role: 'user', content: 'say hello world' }]
 }
 
 export default async function handler(
@@ -72,14 +72,14 @@ export default async function handler(
           const { content } = parsed.choices[0].delta;
           if (content) {
             console.log('content', content)
-            res.write(`data: ${JSON.stringify(parsed)}\n\n`);
+            res.write(`${JSON.stringify(parsed)}\n\n`);
           }
       } catch (error) {
           if (DEBUG) console.error("Could not JSON parse stream message", message, error);
       }
     }
 
-    res.write(`data: [DONE]`);
+    res.write(`[DONE]`);
     res.end();
   } catch (error) {
     try {
