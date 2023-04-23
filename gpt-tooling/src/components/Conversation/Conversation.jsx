@@ -60,16 +60,22 @@ const Conversation = () => {
     'justify-between',
     'pb-2'
   )
+
+  const roleStyleMap = {
+    assistant: 'bg-slate-900',
+    user: 'bg-slate-800',
+    system: 'bg-indigo-900'
+  }
   
   return (
     <section className={conversationSectionStyles}>
       <div>
-        {conversation.map(({ role, content, id }) => {
+        {conversation.filter(Boolean).map(({ role, content, id }) => {
           return (
-            <Message key={id}>{content}</Message>
+            <Message key={id} bgColor={roleStyleMap[role]}>{content}</Message>
           )
         })}
-        <Message isStreaming={false}>{message}</Message>
+        <Message isStreaming={false} bgColor="bg-transparent">{message}</Message>
       </div>
       <Prompter
         onChange={(e) => setPrompt(e.target.value)}
