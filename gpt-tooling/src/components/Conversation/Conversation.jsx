@@ -69,7 +69,7 @@ const Conversation = () => {
             <Message key={id}>{content}</Message>
           )
         })}
-        <Message isStreaming={false} bgColor="bg-slate-600">{message}</Message>
+        <Message isStreaming={false}>{message}</Message>
       </div>
       <Prompter
         onChange={(e) => setPrompt(e.target.value)}
