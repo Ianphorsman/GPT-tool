@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { v4 as uuidv4 } from 'uuid'
 import Message from '../Message'
@@ -10,7 +10,6 @@ const Conversation = () => {
   const [prompt, setPrompt] = useState('')
 
   const streamMessage = async () => {
-
     const response = await fetch('/api/openai/chat/stream', {
       method: 'POST',
       headers: {
@@ -25,23 +24,28 @@ const Conversation = () => {
     if (response.body) {
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
+      setConversation((prev) => [
+        ...prev,
+        (message.length > 0 && { role: 'assistant', content: message, id: uuidv4() }),
+        { role: 'user', content: prompt, id: uuidv4() },
+      ], () => setMessage(''))
+      let assistantMessage = ''
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
           break;
         }
         const nextChunk = decoder.decode(value, { stream: true });
-        console.log('nextChunk', nextChunk)
         if (nextChunk.startsWith('{')) {
           try {
             const parsed = JSON.parse(nextChunk)
-            setMessage(prev => `${prev}${parsed.choices[0].delta.content}`)
+            assistantMessage += parsed.choices[0].delta.content
+            setMessage(assistantMessage)
           } catch (e) {
-            console.log('Error parsing JSON: ' + e);
+            console.log('Error parsing JSON: ' + e,'Chunk: ', nextChunk);
           }
         }
       }
-      //setConversation(prev => [...prev, { role: 'user', content: prompt, id: uuidv4() }, { role: 'assistant', content: message, id: uuidv4() }])
     }
   }
 
@@ -61,7 +65,7 @@ const Conversation = () => {
             <Message key={id}>{content}</Message>
           )
         })}
-        <Message>{message}</Message>
+        <Message isStreaming={false} bgColor="bg-slate-600">{message}</Message>
       </div>
       <Prompter
         onChange={(e) => setPrompt(e.target.value)}
