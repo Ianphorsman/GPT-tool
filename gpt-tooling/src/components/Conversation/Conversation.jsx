@@ -41,10 +41,14 @@ const Conversation = () => {
             const parsed = JSON.parse(nextChunk)
             assistantMessage += parsed.choices[0].delta.content
             setMessage(assistantMessage)
+            //setMessage(prev => `${prev}${parsed.choices[0].delta.content}`)
           } catch (e) {
             console.log('Error parsing JSON: ' + e,'Chunk: ', nextChunk);
           }
         }
+        /*if (nextChunk.includes('DONE')) {
+          setConversation(prev => [...prev, { role: 'assistant', content: message, id: uuidv4() }])
+        }*/
       }
     }
   }
