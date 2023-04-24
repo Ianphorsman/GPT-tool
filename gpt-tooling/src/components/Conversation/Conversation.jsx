@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import { v4 as uuidv4 } from 'uuid'
 import Message from '../Message'
@@ -10,6 +10,8 @@ const Conversation = () => {
   const [prompt, setPrompt] = useState('')
 
   const streamMessage = async () => {
+    const abortController = new AbortController()
+
     const response = await fetch('/api/openai/chat/stream', {
       method: 'POST',
       headers: {
@@ -19,8 +21,10 @@ const Conversation = () => {
       body: JSON.stringify({
         stream: true,
         messages: [{ role: 'user', content: prompt }]
-      })
+      }),
+      signal: abortController.signal
     })
+
     if (response.body) {
       const reader = response.body.getReader();
       const decoder = new TextDecoder('utf-8');
@@ -58,11 +62,12 @@ const Conversation = () => {
     'flex-col',
     'h-full',
     'justify-between',
-    'pb-2'
+    'pb-2',
+    'flex-grow'
   )
 
   const roleStyleMap = {
-    assistant: 'bg-slate-900',
+    assistant: 'bg-transparent',
     user: 'bg-slate-800',
     system: 'bg-indigo-900'
   }

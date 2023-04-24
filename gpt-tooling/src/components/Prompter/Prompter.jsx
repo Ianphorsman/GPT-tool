@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import colors from 'tailwindcss/colors'
 import Input from '../Input'
 import Button from '../Button/Button'
+import useEventListener from '~/hooks/useEventListener'
 
 const Prompter = ({
   onChange,
@@ -18,6 +19,15 @@ const Prompter = ({
     onSubmit()
     inputRef.current.value = ''
   }
+
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      _onSubmit()
+    }
+  }
+
+  useEventListener('keydown', handleEnter)
+  
   const prompterStyles = clsx(
     'flex',
     'flex-row',

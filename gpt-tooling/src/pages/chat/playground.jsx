@@ -1,6 +1,7 @@
 import Conversation from "~/components/Conversation"
 import Header from "~/components/PageContainer/Header"
 import Main from '~/components/PageContainer/Main'
+import SideNavigation from "~/components/SideNavigation"
 
 const Playground = () => {
   return (
@@ -8,7 +9,8 @@ const Playground = () => {
       <Header>
         <p>GPT Playground</p>
       </Header>
-      <Main>
+      <Main styles="flex flex-row">
+        <SideNavigation styles="" />
         <Conversation />
       </Main>
     </div>
