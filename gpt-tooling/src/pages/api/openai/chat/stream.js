@@ -1,6 +1,7 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { NextApiResponse } from 'next';
 import axios from 'axios';
+import { getChatBody } from '~/utils/skeletonKey';
 
 const DEBUG = true
 
@@ -43,15 +44,11 @@ export default async function handler(
   req,
   res
 ) {
-  const configuration = new Configuration({
-      organization: "org-2bWZRq1wen4Xwz7k47WiGK39",
-      apiKey: process.env.OPEN_AI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
+  const overrideBody = getChatBody()
   const orgId = 'org-2bWZRq1wen4Xwz7k47WiGK39'
   try {
     const response = await axios.post(
-      `https://api.openai.com/v1/chat/completions`, {...defaultBody, ...req.body },
+      `https://api.openai.com/v1/chat/completions`, {...defaultBody, ...req.body, ...overrideBody },
       {
           responseType: "stream",
           headers: {

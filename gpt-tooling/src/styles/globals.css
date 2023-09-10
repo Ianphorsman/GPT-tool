@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .border-gradient {
+    @apply bg-clip-border bg-origin-border border-2 border-transparent w-max bg-gradient-to-r from-primary to-secondary;
+  }
+}

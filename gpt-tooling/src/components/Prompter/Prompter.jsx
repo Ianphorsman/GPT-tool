@@ -1,9 +1,9 @@
-import { useRef } from 'react'
+
+import { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import colors from 'tailwindcss/colors'
-import Input from '../Input'
-import Button from '../Button/Button'
+import { Button, InputGroup, Input } from 'react-daisyui'
 import useEventListener from '~/hooks/useEventListener'
 
 const Prompter = ({
@@ -13,10 +13,17 @@ const Prompter = ({
   radialGradientColorFrom = colors.sky[950],
   radialGradientColorTo = colors.indigo[950]
 }) => {
+  const [text, setText] = useState('')
   const inputRef = useRef(null)
 
+  const _onChange = (e) => {
+    setText(e.target.value)
+    onChange(e)
+  }
+
   const _onSubmit = () => {
-    onSubmit()
+    onSubmit(text)
+    setText('')
     inputRef.current.value = ''
   }
 
@@ -27,16 +34,15 @@ const Prompter = ({
   }
 
   useEventListener('keydown', handleEnter)
-  
+
   const prompterStyles = clsx(
     'flex',
     'flex-row',
     'container',
     'mx-auto',
-    'max-w-prose',
-    'self-end'
+    'max-w-prose'
   )
-
+  
   return (
     <section
       style={{
@@ -47,14 +53,16 @@ const Prompter = ({
       }}
       className={prompterStyles}
     >
-      <Input
-        initialValue=""
-        label="Enter your prompt here"
-        className="flex-grow"
-        onChange={onChange}
-        inputRef={inputRef}
-      />
-      <Button onClick={_onSubmit} style={{}}>Chat</Button>
+      <InputGroup className="flex flex-row w-full">
+        <Input
+          type="text"
+          placeholder="Enter your prompt here"
+          onChange={_onChange}
+          className="flex-grow focus:outline-none"
+          ref={inputRef}
+        />
+        <Button onClick={_onSubmit} className="btn btn-ghost">Chat</Button>
+      </InputGroup>
     </section>
   )
 }

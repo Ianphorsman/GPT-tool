@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import clsx from 'clsx'
 import { v4 as uuidv4 } from 'uuid'
 import Message from '../Message'
@@ -45,14 +45,10 @@ const Conversation = () => {
             const parsed = JSON.parse(nextChunk)
             assistantMessage += parsed.choices[0].delta.content
             setMessage(assistantMessage)
-            //setMessage(prev => `${prev}${parsed.choices[0].delta.content}`)
           } catch (e) {
             console.log('Error parsing JSON: ' + e,'Chunk: ', nextChunk);
           }
         }
-        /*if (nextChunk.includes('DONE')) {
-          setConversation(prev => [...prev, { role: 'assistant', content: message, id: uuidv4() }])
-        }*/
       }
     }
   }
@@ -82,10 +78,12 @@ const Conversation = () => {
         })}
         <Message isStreaming={false} bgColor="bg-transparent">{message}</Message>
       </div>
-      <Prompter
-        onChange={(e) => setPrompt(e.target.value)}
-        onSubmit={streamMessage}
-      />
+      <div>
+        <Prompter
+          onChange={(e) => setPrompt(e.target.value)}
+          onSubmit={streamMessage}
+        />
+      </div>
     </section>
   )
 }

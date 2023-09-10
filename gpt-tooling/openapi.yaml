@@ -1,0 +1,15 @@
+openapi: 3.0.2
+info:
+  title: Improved Response Plugin
+  description: A plugin to improve GPT responses by using reflection, divide and conquer, and other strategies.
+  version: 'v1'
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/openai/chat/stream:
+  /api/openai/chat/completion:
+    get:
+      operationId: getCompletion
+      summary: Get ChatGPT response
+      parameters:
+        - in:
