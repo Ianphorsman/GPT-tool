@@ -2,7 +2,7 @@
 
 import { Configuration, OpenAIApi } from "openai";
 
-export default function handler(
+export default async function handler(
   _req,
   res
 ) {
