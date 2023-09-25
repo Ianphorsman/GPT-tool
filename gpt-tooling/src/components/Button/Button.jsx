@@ -1,7 +1,6 @@
 import colors from 'tailwindcss/colors'
 
 const Button = ({
-  user = {},
   children,
   onClick,
   linearGradientColor = colors.slate[950],

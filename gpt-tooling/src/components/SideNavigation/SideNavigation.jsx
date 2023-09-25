@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import Tabs from '../Tabs/Tabs'
@@ -11,7 +10,6 @@ const TABS = [
 ]
 
 const SideNavigation = ({
-  children,
   styles = ''
 }) => {
   const sideNavigationStyles = clsx('border-r', 'border-slate-800', styles)

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import colors from 'tailwindcss/colors'
 
 const Message = ({
   children,

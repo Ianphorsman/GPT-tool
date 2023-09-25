@@ -8,7 +8,7 @@ import Button from '~/components/Button/Button'
 const DesignSystem = ({
   colorWeight = 950
 }) => {
-  const [data, setData] = useState(null)
+  const [, setData] = useState(null)
   const hello = api.example.hello.useQuery({ text: 'bar' })
   useEffect(() => {
     const fetchData = async () => {

@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai'
 import { PineconeClient } from "@pinecone-database/pinecone"
-import { getPineconeClient } from '~/utils/pineconeClient'
+// import { getPineconeClient } from '~/utils/pineconeClient'
 
 const configuration = new Configuration({
   apiKey: process.env.OPEN_AI_API_KEY,

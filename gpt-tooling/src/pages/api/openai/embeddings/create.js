@@ -8,7 +8,7 @@ export default async function handler (
   req,
   res
 ) {
-  const { text, isSaved } = JSON.parse(req.body)
+  const { text } = JSON.parse(req.body)
   try {
     const response = await openai.createEmbedding({
       model: 'text-embedding-ada-002',

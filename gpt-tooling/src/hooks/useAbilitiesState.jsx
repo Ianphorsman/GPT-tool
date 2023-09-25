@@ -5,7 +5,7 @@ const useAbilitiesState = ({
 }) => {
   const [hasLongTermMemory, setHasLongTermMemory] = useState(hasLongTermMemory)
   return {
-    
+    setHasLongTermMemory
   }
 }
 

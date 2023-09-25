@@ -1,15 +1,14 @@
 import { useId } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import colors from 'tailwindcss/colors'
 
 const Input = ({
   className,
-  value,
+  //value,
   initialValue,
   onChange,
-  label,
-  isTextarea = false,
+  //label,
+  //isTextarea = false,
   inputRef
 }) => {
   const inputId = useId()

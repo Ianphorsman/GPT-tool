@@ -1,5 +1,3 @@
-import { Configuration, OpenAIApi } from 'openai'
-import { NextApiResponse } from 'next';
 import axios from 'axios';
 import { getChatBody } from '~/utils/skeletonKey';
 
