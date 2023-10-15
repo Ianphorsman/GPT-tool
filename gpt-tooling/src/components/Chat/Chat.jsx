@@ -1,6 +1,6 @@
 import { ChatBubble } from 'react-daisyui'
 
-const roleConfig = {
+/* const roleConfig = {
   user: {
     avatar: '/user.png',
     end: true,
@@ -11,7 +11,7 @@ const roleConfig = {
     end: false,
     letters: 'A'
   }
-}
+} */
 
 const Chat = ({
   messages
@@ -19,11 +19,11 @@ const Chat = ({
   console.log('messages', messages)
   return (
     <section className="p-4 flex-1">
-      {messages.map(({ role, content, createdAt }) => {
+      {messages.map(({ role, content, createdAt, id }) => {
         const timestamp = new Date(createdAt).toLocaleTimeString()
-        const avatar = `/${role}.png`
+        // const avatar = `/${role}.png`
         return (
-          <div className="relative">
+          <div className="relative" key={id}>
             <ChatBubble end={role === 'user' ? true : false} color="base-200" dataTheme="night">
               <ChatBubble.Header>
                 {role}
