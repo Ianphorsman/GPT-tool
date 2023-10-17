@@ -1,69 +1,43 @@
 
-import { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import clsx from 'clsx'
-import colors from 'tailwindcss/colors'
-import { Button, InputGroup, Input } from 'react-daisyui'
-import useEventListener from '~/hooks/useEventListener'
+import { Join, Button, Input } from 'react-daisyui'
 
 const Prompter = ({
-  onChange,
-  onSubmit,
-  linearGradientColor = colors.slate[950],
-  radialGradientColorFrom = colors.sky[950],
-  radialGradientColorTo = colors.indigo[950]
+  input,
+  handleSubmit,
+  handleShow,
+  handleInputChange
 }) => {
-  const [text, setText] = useState('')
-  const inputRef = useRef(null)
-
-  const _onChange = (e) => {
-    setText(e.target.value)
-    onChange(e)
-  }
-
-  const _onSubmit = () => {
-    onSubmit(text)
-    setText('')
-    inputRef.current.value = ''
-  }
-
-  const handleEnter = (e) => {
-    if (e.key === 'Enter') {
-      _onSubmit()
-    }
-  }
-
-  useEventListener('keydown', handleEnter)
-
-  const prompterStyles = clsx(
-    'flex',
-    'flex-row',
-    'container',
-    'mx-auto',
-    'max-w-prose'
-  )
-  
   return (
-    <section
-      style={{
-        border: 'double 2px transparent',
-        backgroundImage: `linear-gradient(to bottom right, ${linearGradientColor}, ${linearGradientColor}), radial-gradient(circle at top left, ${radialGradientColorFrom}, ${radialGradientColorTo})`,
-        backgroundOrigin: 'border-box',
-        backgroundClip: 'padding-box, border-box'
-      }}
-      className={prompterStyles}
+    <form
+      className="flex flex-row justify-center p-4"
+      onSubmit={handleSubmit}
     >
-      <InputGroup className="flex flex-row w-full">
+      <Join className="flex flex-row w-full justify-center">
+        <Button
+          className="join-item rounded-l-full"
+          color="secondary"
+          onClick={handleShow}
+          type="button"
+        >
+          Settings
+        </Button>
         <Input
-          type="text"
-          placeholder="Enter your prompt here"
-          onChange={_onChange}
-          className="flex-grow focus:outline-none"
-          ref={inputRef}
+          className="join-item max-w-prose flex-1"
+          color="secondary"
+          placeholder="Type your prompt here..."
+          value={input}
+          onChange={handleInputChange}
         />
-        <Button onClick={_onSubmit} className="btn btn-ghost">Chat</Button>
-      </InputGroup>
-    </section>
+        <Button
+          className="join-item rounded-r-full"
+          color="secondary"
+          type="submit"
+        >
+          Chat
+        </Button>
+      </Join>
+    </form>
   )
 }
 
