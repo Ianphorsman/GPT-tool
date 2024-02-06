@@ -1,8 +1,8 @@
 # GPT-tool
-A frontend interface for Multi-agent GPT conversations
+A frontend interface for Autonomous, multi-agent GPT conversations. 
 
 ## Setup
-You will need to create a `.env` file in the `./gpt-tooling` directory, and then add your own secrets
+Though this is not intended to be cloned or forked you can. You will need to create a `.env` file in the `./gpt-tooling` directory, and then add your own secrets
 for the corresponding environment variables shown in `.env.example`
 ```bash
 cd gpt-tooling
