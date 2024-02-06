@@ -37,7 +37,7 @@ const Playground = () => {
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen m-auto flex flex-col">
-        <Navbar className="pl-80 pr-20">
+        <Navbar className="pl-80 pr-20 bg-neutral">
           <Navbar.Start>
             <h1>GPT Playground</h1>
           </Navbar.Start>
@@ -58,7 +58,7 @@ const Playground = () => {
         />
         <main className="flex flex-row flex-1">
           <section className="border-r border-r-base-200 w-80 p-4">
-            <h2>Side Nav</h2>
+            <h2>Conversations</h2>
           </section>
           <section className="flex flex-col w-full">
             <Chat messages={messages} />

@@ -3,7 +3,7 @@ import { Dropdown } from 'react-daisyui'
 
 const themes = ['night', 'dracula', 'retro', 'light', 'dark']
 
-const ThemeDropdown = ({ setTheme, setHoverTheme, setIsHoverTheme }) => {
+const ThemeDropdown = ({ theme, setTheme, setHoverTheme, setIsHoverTheme }) => {
   const [isOpen, setIsOpen] = useState(false)
   const onMouseEnter = (e) => {
     setHoverTheme(e.target.text)
@@ -24,8 +24,9 @@ const ThemeDropdown = ({ setTheme, setHoverTheme, setIsHoverTheme }) => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={() => setIsHoverTheme(false)}
             onClick={onClick}
+            className={theme === themeName ? 'bg-primary' : ''}
           >
-            {themeName}
+            <p className="flex flex-row gap-2"><span>{theme === themeName ? '✓ ' : ''}</span><span>{themeName}</span></p>
           </Dropdown.Item>
         ))}
       </Dropdown.Menu>
