@@ -23,9 +23,7 @@ const Playground = () => {
     input,
     handleInputChange,
     handleSubmit,
-    append,
     stop,
-    reload,
     isLoading
   } = useChat({
     body: { model },
@@ -35,7 +33,7 @@ const Playground = () => {
   const handleShow = useCallback(() => {
     settingsModalRef.current?.showModal()
   }, [])
-  console.log('theme', theme)
+
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen m-auto flex flex-col">
