@@ -1,4 +1,4 @@
-import { Button, Badge, Modal, Select, Textarea } from "react-daisyui"
+import { Button, Modal, Select, Textarea } from "react-daisyui"
 import React, { useState } from "react"
 
 const MODEL_OPTIONS = [
@@ -37,7 +37,7 @@ const Settings = React.forwardRef(({
             {modelOptions.map(({ name, access }) => {
               return (
                 <Select.Option value={name} selected={model === name} key={name} disabled={access !== 'free'}>
-                  {name} {access === 'coming soon' ? <Badge>{access}</Badge> : null}
+                  {name} {access === 'coming soon' ? access : null}
                 </Select.Option>
               )
             })}
