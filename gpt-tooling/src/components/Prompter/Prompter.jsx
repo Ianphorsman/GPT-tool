@@ -4,6 +4,7 @@ import { Join, Button, Input } from 'react-daisyui'
 
 const Prompter = ({
   input,
+  model,
   handleSubmit,
   handleShow,
   handleInputChange

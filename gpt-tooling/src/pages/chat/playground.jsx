@@ -5,12 +5,12 @@ import { useChat } from 'ai/react'
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
 import Prompter from "~/components/Prompter"
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
 
 const Playground = () => {
   const settingsModalRef = useRef(null)
   const [model, setModel] = useState('gpt-3.5-turbo')
-  const { messages, input, handleInputChange, handleSubmit } = useChat({ body: { model }})
+  const { messages, input, handleInputChange, handleSubmit, append } = useChat({ body: { model }})
 
   const handleShow = useCallback(() => {
     settingsModalRef.current?.showModal()
