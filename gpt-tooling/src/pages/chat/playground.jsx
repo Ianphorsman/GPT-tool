@@ -1,17 +1,22 @@
 import {
-  Theme
+  Theme,
+  Navbar
 } from "react-daisyui"
 import { useChat } from 'ai/react'
-import { useState, useRef, useCallback, useEffect } from "react"
+import { useState, useRef, useCallback } from "react"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
 import Prompter from "~/components/Prompter"
+import ThemeDropdown from "~/components/ThemeDropdown"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 
 const Playground = () => {
   const settingsModalRef = useRef(null)
   const [model, setModel] = useState('gpt-3.5-turbo')
   const [customInstructions, setCustomInstructions] = useState('')
+  const [theme, setTheme] = useState('night')
+  const [hoverTheme, setHoverTheme] = useState('night')
+  const [isHoverTheme, setIsHoverTheme] = useState(false)
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
@@ -30,13 +35,23 @@ const Playground = () => {
   const handleShow = useCallback(() => {
     settingsModalRef.current?.showModal()
   }, [])
-
+  console.log('theme', theme)
   return (
-    <Theme dataTheme="night">
+    <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen m-auto flex flex-col">
-        <header className="flex flex-col p-4 border-b border-b-base-200 pl-80">
-          <h1>GPT Playground</h1>
-        </header>
+        <Navbar className="pl-80 pr-20">
+          <Navbar.Start>
+            <h1>GPT Playground</h1>
+          </Navbar.Start>
+          <Navbar.End>
+            <ThemeDropdown
+              theme={theme}
+              setTheme={setTheme}
+              setHoverTheme={setHoverTheme}
+              setIsHoverTheme={setIsHoverTheme}
+            />
+          </Navbar.End>
+        </Navbar>
         <Settings
           model={model}
           setModel={setModel}
