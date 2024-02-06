@@ -1,5 +1,6 @@
 import { Button, Modal, Select, Textarea } from "react-daisyui"
 import React, { useState } from "react"
+import { set } from "zod"
 
 const Settings = React.forwardRef(({
   model,
@@ -17,7 +18,7 @@ const Settings = React.forwardRef(({
 
   const onInputChange = (e) => {
     _setCustomInstructions(e.target.value)
-    setHasMadeChanges(true)
+    setHasMadeChanges(!!e.target.value)
   }
   return (
     <Modal ref={ref} backdrop>
