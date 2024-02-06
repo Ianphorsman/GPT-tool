@@ -5,7 +5,7 @@ import { Join, Button, Input, Loading } from 'react-daisyui'
 const Prompter = ({
   input,
   handleSubmit,
-  handleShow,
+  handleShowSettings,
   handleInputChange,
   stop,
   isLoading
@@ -19,7 +19,7 @@ const Prompter = ({
         <Button
           className="join-item rounded-l-full"
           color="secondary"
-          onClick={handleShow}
+          onClick={handleShowSettings}
           type="button"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 pl-0.5">
