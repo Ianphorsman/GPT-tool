@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Dropdown } from 'react-daisyui'
 
-const themes = ['night', 'dracula', 'retro', 'light', 'dark']
+const themes = ['night', 'dracula', 'retro', 'forest', 'sunset', 'halloween']
 
 const ThemeDropdown = ({ theme, setTheme, setHoverTheme, setIsHoverTheme }) => {
   const [isOpen, setIsOpen] = useState(false)
