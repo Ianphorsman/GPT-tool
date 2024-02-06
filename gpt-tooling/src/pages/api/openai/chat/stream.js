@@ -1,5 +1,5 @@
+// Deprecated api route - using /api/chat.js instead
 import axios from 'axios';
-import { getChatBody } from '~/utils/skeletonKey';
 
 const DEBUG = true
 
@@ -43,7 +43,7 @@ export default async function handler(
   res
 ) {
   const overrideBody = getChatBody()
-  const orgId = 'org-2bWZRq1wen4Xwz7k47WiGK39'
+  const orgId = process.env.OPENAI_ORG_ID
   try {
     const response = await axios.post(
       `https://api.openai.com/v1/chat/completions`, {...defaultBody, ...req.body, ...overrideBody },
