@@ -8,6 +8,17 @@ const Settings = React.forwardRef(({
   modelOptions = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0613', 'gpt-3.5-turbo-16k', 'gpt-3.5-turbo-16k-0613']
 }, ref) => {
   const [_customInstructions, _setCustomInstructions] = useState('')
+  const [hasMadeChanges, setHasMadeChanges] = useState(false)
+
+  const onApplyChangesClick = () => {
+    setCustomInstructions(_customInstructions)
+    setHasMadeChanges(false)
+  }
+
+  const onInputChange = (e) => {
+    _setCustomInstructions(e.target.value)
+    setHasMadeChanges(true)
+  }
   return (
     <Modal ref={ref} backdrop>
       <Modal.Header>Settings</Modal.Header>
@@ -21,10 +32,10 @@ const Settings = React.forwardRef(({
             })}
           </Select>
           <Textarea
-            onChange={(e) => { _setCustomInstructions(e.target.value) }}
+            onChange={onInputChange}
             placeholder="Type your custom instructions here..."
           />
-          <Button onClick={() => setCustomInstructions(_customInstructions)}>Apply Changes</Button>
+          <Button onClick={onApplyChangesClick} disabled={!hasMadeChanges}>Apply Changes</Button>
         </div>
       </Modal.Body>
     </Modal>
