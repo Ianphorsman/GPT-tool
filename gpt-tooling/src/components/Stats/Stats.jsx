@@ -6,6 +6,12 @@ const Stats = React.forwardRef(({
 }, ref) => {
   return (
     <Modal ref={ref} backdrop>
+      <Modal.Header>Stats</Modal.Header>
+      <Modal.Body>
+        <div className="flex flex-col justify-center items-stretch">
+          <p>Total Tokens Used: {totalTokensUsed}</p>
+        </div>
+      </Modal.Body>
     </Modal>
   )
 })

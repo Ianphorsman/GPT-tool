@@ -68,7 +68,7 @@ const Playground = () => {
           </Navbar.End>
         </Navbar>
         <Divider vertical color="accent" className="m-0 h-0.5" />
-        <Stats handleShowStats={handleShowStats} />
+        <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
         <Settings
           model={model}
           setModel={setModel}

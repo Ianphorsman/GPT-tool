@@ -1,12 +1,20 @@
-import { Button, Modal, Select, Textarea } from "react-daisyui"
+import { Button, Badge, Modal, Select, Textarea } from "react-daisyui"
 import React, { useState } from "react"
-import { set } from "zod"
+
+const MODEL_OPTIONS = [
+  { name: 'gpt-3.5-turbo', access: 'free' },
+  { name: 'gpt-3.5-turbo-0613', access: 'free' },
+  { name: 'gpt-3.5-turbo-16k', access: 'free' },
+  { name: 'gpt-3.5-turbo-16k-0613', access: 'free' },
+  { name: 'gpt-4.0-turbo', access: 'coming soon' },
+  { name: 'gpt-4-auto-summarizer', access: 'coming soon' },
+]
 
 const Settings = React.forwardRef(({
   model,
   setModel,
   setCustomInstructions,
-  modelOptions = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0613', 'gpt-3.5-turbo-16k', 'gpt-3.5-turbo-16k-0613']
+  modelOptions = MODEL_OPTIONS
 }, ref) => {
   const [_customInstructions, _setCustomInstructions] = useState('')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
@@ -26,9 +34,11 @@ const Settings = React.forwardRef(({
       <Modal.Body>
         <div className="flex flex-col justify-center items-stretch">
           <Select onChange={setModel}>
-            {modelOptions.map((modelName) => {
+            {modelOptions.map(({ name, access }) => {
               return (
-                <Select.Option value={modelName} selected={model === modelName} key={modelName}>{modelName}</Select.Option>
+                <Select.Option value={name} selected={model === name} key={name} disabled={access !== 'free'}>
+                  {name} {access === 'coming soon' ? <Badge>{access}</Badge> : null}
+                </Select.Option>
               )
             })}
           </Select>
