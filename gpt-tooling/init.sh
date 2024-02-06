@@ -1,0 +1,3 @@
+# Setup Script
+
+npm ci
