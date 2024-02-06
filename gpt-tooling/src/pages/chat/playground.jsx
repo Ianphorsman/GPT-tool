@@ -1,6 +1,7 @@
 import {
   Theme,
-  Navbar
+  Navbar,
+  Divider
 } from "react-daisyui"
 import { useChat } from 'ai/react'
 import { useState, useRef, useCallback } from "react"
@@ -50,6 +51,7 @@ const Playground = () => {
             />
           </Navbar.End>
         </Navbar>
+        <Divider vertical color="accent" className="m-0 h-0.5" />
         <Settings
           model={model}
           setModel={setModel}
@@ -57,9 +59,10 @@ const Playground = () => {
           ref={settingsModalRef}
         />
         <main className="flex flex-row flex-1">
-          <section className="border-r border-r-base-200 w-80 p-4">
+          <section className="w-80 p-4 text-center">
             <h2>Conversations</h2>
           </section>
+          <Divider horizontal color="accent" className="m-0"></Divider>
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
             <Prompter
