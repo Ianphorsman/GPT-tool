@@ -30,7 +30,7 @@ const Settings = React.forwardRef(({
   }
   return (
     <Modal ref={ref} backdrop>
-      <Modal.Header>Settings</Modal.Header>
+      <Modal.Header>Agent Settings</Modal.Header>
       <Modal.Body>
         <div className="flex flex-col justify-center items-stretch">
           <Select onChange={setModel}>
