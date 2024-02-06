@@ -1,13 +1,14 @@
 
 import PropTypes from 'prop-types'
-import { Join, Button, Input } from 'react-daisyui'
+import { Join, Button, Input, Loading, Tooltip } from 'react-daisyui'
 
 const Prompter = ({
   input,
-  model,
   handleSubmit,
   handleShow,
-  handleInputChange
+  handleInputChange,
+  stop,
+  isLoading
 }) => {
   return (
     <form
@@ -35,7 +36,14 @@ const Prompter = ({
           color="secondary"
           type="submit"
         >
-          Chat
+          {isLoading ? (
+            <Button onClick={stop}>
+              <Loading variant="ring" color="warning" />
+              <small>Stop</small>
+            </Button>
+          ) : (
+            'Chat'
+          )}
         </Button>
       </Join>
     </form>

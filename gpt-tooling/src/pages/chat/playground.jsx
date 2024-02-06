@@ -13,7 +13,16 @@ const Playground = () => {
   const [model, setModel] = useState('gpt-3.5-turbo')
   const [customInstructions, setCustomInstructions] = useState('')
   const systemPrompt = createSystemPrompt(customInstructions)
-  const { messages, input, handleInputChange, handleSubmit, append } = useChat({
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    append,
+    stop,
+    reload,
+    isLoading
+  } = useChat({
     body: { model },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
@@ -45,6 +54,8 @@ const Playground = () => {
               handleShow={handleShow}
               handleSubmit={handleSubmit}
               handleInputChange={handleInputChange}
+              stop={stop}
+              isLoading={isLoading}
             />
           </section>
         </main>
