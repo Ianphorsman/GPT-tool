@@ -11,7 +11,7 @@ const Prompter = ({
 }) => {
   return (
     <form
-      className="flex flex-row justify-center p-4"
+      className="flex flex-row self-center w-full p-4 max-w-prose"
       onSubmit={handleSubmit}
     >
       <Join className="flex flex-row w-full justify-center">
@@ -24,7 +24,7 @@ const Prompter = ({
           Settings
         </Button>
         <Input
-          className="join-item max-w-prose flex-1"
+          className="join-item flex-1"
           color="secondary"
           placeholder="Type your prompt here..."
           value={input}

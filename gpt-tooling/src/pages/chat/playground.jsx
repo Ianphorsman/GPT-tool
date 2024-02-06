@@ -2,15 +2,21 @@ import {
   Theme
 } from "react-daisyui"
 import { useChat } from 'ai/react'
+import { useState, useRef, useCallback, useEffect } from "react"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
 import Prompter from "~/components/Prompter"
-import { useState, useRef, useCallback, useEffect } from "react"
+import createSystemPrompt from "~/utils/createSystemPrompt"
 
 const Playground = () => {
   const settingsModalRef = useRef(null)
   const [model, setModel] = useState('gpt-3.5-turbo')
-  const { messages, input, handleInputChange, handleSubmit, append } = useChat({ body: { model }})
+  const [customInstructions, setCustomInstructions] = useState('')
+  const systemPrompt = createSystemPrompt(customInstructions)
+  const { messages, input, handleInputChange, handleSubmit, append } = useChat({
+    body: { model },
+    ...systemPrompt && { initialMessages: [systemPrompt] }
+  })
 
   const handleShow = useCallback(() => {
     settingsModalRef.current?.showModal()
@@ -25,6 +31,7 @@ const Playground = () => {
         <Settings
           model={model}
           setModel={setModel}
+          setCustomInstructions={setCustomInstructions}
           ref={settingsModalRef}
         />
         <main className="flex flex-row flex-1">
