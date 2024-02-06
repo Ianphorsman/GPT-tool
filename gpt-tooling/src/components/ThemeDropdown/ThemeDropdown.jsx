@@ -5,12 +5,13 @@ const themes = ['night', 'dracula', 'retro', 'forest', 'sunset', 'halloween']
 
 const ThemeDropdown = ({ theme, setTheme, setHoverTheme, setIsHoverTheme }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const onMouseEnter = (e) => {
-    setHoverTheme(e.target.text)
+  const onMouseEnter = (themeName) => {
+    setHoverTheme(themeName)
     setIsHoverTheme(true)
   }
-  const onClick = (e) => {
-    setTheme(e.target.text)
+  const onClick = (themeName) => {
+    window.localStorage.setItem('daisyui-theme', themeName)
+    setTheme(themeName)
     setIsHoverTheme(false)
     setIsOpen(false)
   }
@@ -25,9 +26,9 @@ const ThemeDropdown = ({ theme, setTheme, setHoverTheme, setIsHoverTheme }) => {
         {themes.map((themeName) => (
           <Dropdown.Item
             key={themeName}
-            onMouseEnter={onMouseEnter}
+            onMouseEnter={() => onMouseEnter(themeName)}
             onMouseLeave={() => setIsHoverTheme(false)}
-            onClick={onClick}
+            onClick={() => onClick(themeName)}
             className={theme === themeName ? 'bg-primary' : ''}
           >
             <p className="flex flex-row gap-2"><span>{theme === themeName ? '✓ ' : ''}</span><span>{themeName}</span></p>

@@ -6,7 +6,7 @@ import {
   Tooltip
 } from "react-daisyui"
 import { useChat } from 'ai/react'
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
 import Stats from "~/components/Stats"
@@ -35,6 +35,13 @@ const Playground = () => {
     body: { model },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem('daisyui-theme')
+    if (savedTheme) {
+      setTheme(savedTheme)
+    }
+  }, [])
 
   const handleShowSettings = useCallback(() => {
     settingsModalRef.current?.showModal()
