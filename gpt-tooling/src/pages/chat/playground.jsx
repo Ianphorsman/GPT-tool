@@ -1,8 +1,9 @@
 import {
-  Theme,
-  Navbar,
-  Divider,
   Button,
+  Divider,
+  Drawer,
+  Navbar,
+  Theme,
   Tooltip
 } from "react-daisyui"
 import { useChat } from 'ai/react'
@@ -54,7 +55,7 @@ const Playground = () => {
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen m-auto flex flex-col">
-        <Navbar className="pl-80 pr-20">
+        <Navbar className="md:pl-80 md:pr-20">
           <Navbar.Start>
             <h1>GPT Playground</h1>
           </Navbar.Start>
@@ -83,9 +84,9 @@ const Playground = () => {
           ref={settingsModalRef}
         />
         <main className="flex flex-row flex-1">
-          <section className="w-80 p-4 text-center">
+          <Drawer className="w-80 p-4 text-center">
             <h2>Conversations</h2>
-          </section>
+          </Drawer>
           <Divider horizontal color="accent" className="m-0"></Divider>
           <AgentsPanel />
           <Divider horizontal color="accent" className="m-0"></Divider>
