@@ -1,6 +1,6 @@
 
 import PropTypes from 'prop-types'
-import { Join, Button, Input, Loading, Tooltip } from 'react-daisyui'
+import { Join, Button, Input, Loading } from 'react-daisyui'
 
 const Prompter = ({
   input,

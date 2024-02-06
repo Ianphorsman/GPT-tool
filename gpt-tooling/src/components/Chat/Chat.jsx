@@ -24,7 +24,7 @@ const Chat = ({
           const timestamp = new Date(createdAt).toLocaleTimeString()
           return (
             <div className="relative" key={id}>
-              <ChatBubble end={role === 'user' ? true : false} color="base-200" dataTheme="night">
+              <ChatBubble end={role === 'user' ? true : false}>
                 <ChatBubble.Header>
                   {role}
                 </ChatBubble.Header>

@@ -16,7 +16,7 @@ const ThemeDropdown = ({ theme, setTheme, setHoverTheme, setIsHoverTheme }) => {
   }
   return (
     <Dropdown hover open={isOpen}>
-      <Dropdown.Toggle>Theme</Dropdown.Toggle>
+      <Dropdown.Toggle className="btn btn-ghost" button={false}>Theme</Dropdown.Toggle>
       <Dropdown.Menu>
         {themes.map((themeName) => (
           <Dropdown.Item

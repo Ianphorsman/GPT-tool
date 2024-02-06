@@ -37,7 +37,7 @@ const Playground = () => {
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen m-auto flex flex-col">
-        <Navbar className="pl-80 pr-20 bg-neutral">
+        <Navbar className="pl-80 pr-20">
           <Navbar.Start>
             <h1>GPT Playground</h1>
           </Navbar.Start>
