@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, Drawer, Menu } from 'react-daisyui'
 
-const SideNavigation = () => {
-  const [open, setOpen] = useState(false)
-  const toggleOpen = () => setOpen(prev => !prev)
+const SideNavigation = ({
+  isDrawerOpen,
+  toggleDrawerOpen
+}) => {
   return (
     <Drawer
-      open={open}
-      onClickOverlay={toggleOpen}
+      open={isDrawerOpen}
+      onClickOverlay={toggleDrawerOpen}
       className="md:w-80 md:p-4 text-center sm:hidden md:block"
       side={(
         <Menu className="p-4 w-80 h-full bg-base-200 text-base-content">
@@ -20,7 +21,7 @@ const SideNavigation = () => {
         </Menu>
       )}
     >
-     <Button color="primary" onClick={toggleOpen} className="lg:hidden">
+     <Button color="primary" onClick={toggleDrawerOpen} className="lg:hidden">
         Open drawer
       </Button>
     </Drawer>

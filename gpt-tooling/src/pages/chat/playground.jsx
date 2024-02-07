@@ -25,6 +25,7 @@ const Playground = ({ isMobile }) => {
   const [theme, setTheme] = useState('night')
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(!isMobile)
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
@@ -53,11 +54,18 @@ const Playground = ({ isMobile }) => {
     statsModalRef.current?.showModal()
   }, [])
 
+  const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
+
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen m-auto flex flex-col">
         <Navbar className="md:pl-80 md:pr-20">
           <Navbar.Start>
+            {isMobile ? (
+              <Button onClick={toggleDrawerOpen}>
+
+              </Button>
+            ) : null}
             <h1>GPT Playground</h1>
           </Navbar.Start>
           <Navbar.End>
@@ -85,7 +93,7 @@ const Playground = ({ isMobile }) => {
           ref={settingsModalRef}
         />
         <main className="flex flex-row flex-1">
-          <SideNavigation />
+          <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />
           {!isMobile ? <Divider horizontal color="accent" className="m-0"></Divider> : null}
           <AgentsPanel />
           {!isMobile ? <Divider horizontal color="accent" className="m-0"></Divider> : null}
