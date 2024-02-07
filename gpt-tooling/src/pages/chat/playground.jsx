@@ -84,7 +84,7 @@ const Playground = ({ isMobile }) => {
             />
           </Navbar.End>
         </Navbar>
-        <Divider vertical className="m-0 h-0.5" />
+        <Divider vertical color="neutral" className="m-0 h-0.5" />
         <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
         <Settings
           model={model}
