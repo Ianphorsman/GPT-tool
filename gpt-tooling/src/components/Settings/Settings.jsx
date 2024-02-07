@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, Modal, Range, Select, Textarea } from "react-daisyui"
+import { Button, Modal, Select, Textarea } from "react-daisyui"
 import { MODEL_OPTIONS } from "~/constants"
 import RangeBlock from "../RangeBlock"
 

@@ -12,7 +12,7 @@ const Prompter = ({
 }) => {
   return (
     <form
-      className="flex flex-row self-center w-full p-4 max-w-prose"
+      className="flex flex-row self-center w-full p-4 max-w-prose sticky bottom-0"
       onSubmit={handleSubmit}
     >
       <Join className="flex flex-row w-full justify-center">
