@@ -6,7 +6,3 @@ export const MODEL_OPTIONS = [
   { name: 'gpt-4.0-turbo', access: 'coming soon' },
   { name: 'gpt-4-auto-summarizer', access: 'coming soon' },
 ]
-
-export default {
-  MODEL_OPTIONS
-}

@@ -8,7 +8,7 @@ const AgentsPanel = ({
     <section className="w-16 border-x-2 border-neutral flex">
       {agents.length > 0 ? (
         <Join vertical className="m-0 rounded-none self-start">
-          {agents.map(({ name, initials, id }, i) => (
+          {agents.map(({ name, initials, id }) => (
             <Tooltip key={id} message={name} position="right">
               <Button shape="square" className="m-0 join-item">
                 {initials}
