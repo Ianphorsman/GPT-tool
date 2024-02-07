@@ -18,7 +18,7 @@ const Chat = ({
 }) => {
   
   return (
-    <section className="p-4 flex-1 flex self-center w-full max-w-prose">
+    <section className="p-4 flex self-center w-full max-w-prose overflow-y-scroll" style={{ height: 'calc(80vh - 1rem)' }}>
       <div className="max-w-prose w-full">
         {messages.filter(({ role }) => role !== 'system').map(({ role, content, createdAt, id }) => {
           const timestamp = new Date(createdAt).toLocaleTimeString()
