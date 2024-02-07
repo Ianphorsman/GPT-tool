@@ -25,7 +25,11 @@ const Playground = ({ isMobile }) => {
     model,
     setModel,
     customInstructions,
-    setCustomInstructions
+    setCustomInstructions,
+    setMaxMessageLength,
+    maxMessageLength,
+    setMaxResponses,
+    maxResponses
   } = useAgent({
     defaultModel: 'gpt-3.5-turbo'
   })
@@ -98,6 +102,10 @@ const Playground = ({ isMobile }) => {
           setModel={setModel}
           setCustomInstructions={setCustomInstructions}
           ref={settingsModalRef}
+          setMaxMessageLength={setMaxMessageLength}
+          maxMessageLength={maxMessageLength}
+          setMaxResponses={setMaxResponses}
+          maxResponses={maxResponses}
         />
         <main className="flex flex-row flex-1">
           <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />

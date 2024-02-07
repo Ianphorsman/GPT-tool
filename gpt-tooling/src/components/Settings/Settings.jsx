@@ -1,12 +1,17 @@
-import { Button, Modal, Select, Textarea } from "react-daisyui"
 import React, { useState } from "react"
+import { Button, Modal, Range, Select, Textarea } from "react-daisyui"
 import { MODEL_OPTIONS } from "~/constants"
+import RangeBlock from "../RangeBlock"
 
 const Settings = React.forwardRef(({
   model,
   setModel,
   setCustomInstructions,
-  modelOptions = MODEL_OPTIONS
+  modelOptions = MODEL_OPTIONS,
+  setMaxMessageLength,
+  maxMessageLength,
+  setMaxResponses,
+  maxResponses
 }, ref) => {
   const [_customInstructions, _setCustomInstructions] = useState('')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
@@ -34,6 +39,24 @@ const Settings = React.forwardRef(({
               )
             })}
           </Select>
+          <RangeBlock
+            label="Max message length"
+            size="xs"
+            color="ghost"
+            onChange={(e) => setMaxMessageLength(e.target.value)}
+            min={1}
+            max={2000}
+            step={maxMessageLength}
+          />
+          <RangeBlock
+            label="Max responses"
+            size="xs"
+            color="ghost"
+            onChange={(e) => setMaxResponses(e.target.value)}
+            min={1}
+            max={10}
+            step={maxResponses}
+          />
           <Textarea
             onChange={onInputChange}
             placeholder="Type your custom instructions here..."
