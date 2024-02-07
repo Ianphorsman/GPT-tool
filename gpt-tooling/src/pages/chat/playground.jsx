@@ -6,6 +6,7 @@ import {
   Tooltip
 } from "react-daisyui"
 import { useChat } from 'ai/react'
+import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
@@ -16,7 +17,7 @@ import ThemeDropdown from "~/components/ThemeDropdown"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import AgentsPanel from "~/components/AgentsPanel"
 
-const Playground = () => {
+const Playground = ({ isMobile }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const [model, setModel] = useState('gpt-3.5-turbo')
@@ -85,9 +86,9 @@ const Playground = () => {
         />
         <main className="flex flex-row flex-1">
           <SideNavigation />
-          <Divider horizontal color="accent" className="m-0"></Divider>
+          {!isMobile ? <Divider horizontal color="accent" className="m-0"></Divider> : null}
           <AgentsPanel />
-          <Divider horizontal color="accent" className="m-0"></Divider>
+          {!isMobile ? <Divider horizontal color="accent" className="m-0"></Divider> : null}
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
             <Prompter
@@ -103,6 +104,20 @@ const Playground = () => {
       </div>
     </Theme>
   )
+}
+
+const getIsMobile = (context) => {
+  const md = new MobileDetect(context.req.headers["user-agent"])
+
+  return Boolean(md.mobile())
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      isMobile: getIsMobile(context)
+    }
+  };
 }
 
 export default Playground
