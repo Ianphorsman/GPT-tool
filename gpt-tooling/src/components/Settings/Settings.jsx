@@ -32,7 +32,7 @@ const Settings = React.forwardRef(({
     <Modal ref={ref} backdrop>
       <Modal.Header>Agent Settings</Modal.Header>
       <Modal.Body>
-        <div className="flex flex-col justify-center items-stretch">
+        <div className="flex flex-col justify-center items-stretch gap-3">
           <Select onChange={setModel}>
             {modelOptions.map(({ name, access }) => {
               return (

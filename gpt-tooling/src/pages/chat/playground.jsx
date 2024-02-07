@@ -84,7 +84,7 @@ const Playground = ({ isMobile }) => {
             />
           </Navbar.End>
         </Navbar>
-        <Divider vertical color="accent" className="m-0 h-0.5" />
+        <Divider vertical className="m-0 h-0.5" />
         <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
         <Settings
           model={model}
@@ -94,9 +94,9 @@ const Playground = ({ isMobile }) => {
         />
         <main className="flex flex-row flex-1">
           <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />
-          {!isMobile ? <Divider horizontal color="accent" className="m-0"></Divider> : null}
+          {!isMobile ? <Divider horizontal className="m-0"></Divider> : null}
           <AgentsPanel />
-          {!isMobile ? <Divider horizontal color="accent" className="m-0"></Divider> : null}
+          {!isMobile ? <Divider horizontal className="m-0"></Divider> : null}
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
             <Prompter
