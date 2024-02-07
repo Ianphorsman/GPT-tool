@@ -1,59 +1,28 @@
-import PropTypes from 'prop-types'
-import clsx from 'clsx'
-import Tabs from '../Tabs/Tabs'
-import { Button } from 'react-daisyui'
+import React, { useState } from 'react'
+import { Drawer, Menu } from 'react-daisyui'
 
-const TABS = [
-  { title: 'settings' },
-  { title: 'conversations' },
-  { title: 'chat' }
-]
-
-const SideNavigation = ({
-  styles = ''
-}) => {
-  const sideNavigationStyles = clsx('border-r', 'border-slate-800', styles)
-  const onClick = async () => {
-    const result = await fetch('/api/pinecone/upsert', {
-      method: 'POST',
-      body: JSON.stringify({
-        text: 'this is some dummy text for the test'
-      })
-    })
-    const embedding = await result.json()
-    console.log('embed cli', embedding)
-  }
-  
+const SideNavigation = () => {
+  const [open, setOpen] = useState(false)
+  const toggleOpen = () => setOpen(prev => !prev)
   return (
-    <section className={sideNavigationStyles} style={{ width: '280px' }}>
-      <div className="border-gradient rounded-lg">
-        <Button
-          variant="primary"
-          className="px-4 py-2 bg-slate-900 rounded-lg"
-          onClick={onClick}
-        >
-          Embedding
-        </Button>
-      </div>
-      <Tabs>
-        {TABS.map(({ title }) => (
-          <Tabs.TabItem key={title} title={title}>
-            <div>
-            Content for Tab {title}
-            </div>
-          </Tabs.TabItem>
-        ))}
-      </Tabs>
-    </section>
+    <Drawer
+      open={open}
+      onClickOverlay={toggleOpen}
+      className="md:w-80 p-4 text-center sm:hidden md:block"
+      side={(
+        <Menu className="p-4 w-80 h-full bg-base-200 text-base-content">
+          <Menu.Item>
+            <a>Sidebar Item 1</a>
+          </Menu.Item>
+          <Menu.Item>
+            <a>Sidebar Item 2</a>
+          </Menu.Item>
+        </Menu>
+      )}
+    >
+      <h2 className="sm:hidden md:block">Conversations</h2>
+    </Drawer>
   )
-}
-
-SideNavigation.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node)
-  ]),
-  styles: PropTypes.string
 }
 
 export default SideNavigation

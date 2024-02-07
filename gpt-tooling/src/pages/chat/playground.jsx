@@ -1,7 +1,6 @@
 import {
   Button,
   Divider,
-  Drawer,
   Navbar,
   Theme,
   Tooltip
@@ -10,6 +9,7 @@ import { useChat } from 'ai/react'
 import { useState, useRef, useCallback, useEffect } from "react"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
+import SideNavigation from "~/components/SideNavigation"
 import Stats from "~/components/Stats"
 import Prompter from "~/components/Prompter"
 import ThemeDropdown from "~/components/ThemeDropdown"
@@ -84,9 +84,7 @@ const Playground = () => {
           ref={settingsModalRef}
         />
         <main className="flex flex-row flex-1">
-          <Drawer className="w-80 p-4 text-center">
-            <h2>Conversations</h2>
-          </Drawer>
+          <SideNavigation />
           <Divider horizontal color="accent" className="m-0"></Divider>
           <AgentsPanel />
           <Divider horizontal color="accent" className="m-0"></Divider>
