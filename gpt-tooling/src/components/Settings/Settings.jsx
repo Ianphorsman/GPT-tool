@@ -33,7 +33,7 @@ const Settings = React.forwardRef(({
       <Modal.Header>Agent Settings</Modal.Header>
       <Modal.Body>
         <div className="flex flex-col justify-center items-stretch gap-3">
-          <Select onChange={setModel}>
+          <Select onChange={(e) => setModel(e.target.value)}>
             {modelOptions.map(({ name, access }) => {
               return (
                 <Select.Option value={name} selected={model === name} key={name} disabled={access !== 'free'}>

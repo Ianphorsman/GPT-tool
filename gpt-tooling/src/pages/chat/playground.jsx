@@ -8,20 +8,27 @@ import {
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
+import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
 import SideNavigation from "~/components/SideNavigation"
 import Stats from "~/components/Stats"
 import Prompter from "~/components/Prompter"
 import ThemeDropdown from "~/components/ThemeDropdown"
+import useAgent from "~/hooks/useAgent"
 import createSystemPrompt from "~/utils/createSystemPrompt"
-import AgentsPanel from "~/components/AgentsPanel"
 
 const Playground = ({ isMobile }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
-  const [model, setModel] = useState('gpt-3.5-turbo')
-  const [customInstructions, setCustomInstructions] = useState('')
+  const {
+    model,
+    setModel,
+    customInstructions,
+    setCustomInstructions
+  } = useAgent({
+    defaultModel: 'gpt-3.5-turbo'
+  })
   const [theme, setTheme] = useState('night')
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
