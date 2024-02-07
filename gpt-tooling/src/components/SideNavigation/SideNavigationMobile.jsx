@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Drawer, Menu } from 'react-daisyui'
 
-const SideNavigation = ({
+const SideNavigationMobile = ({
   isDrawerOpen,
   toggleDrawerOpen
 }) => {
@@ -21,11 +21,11 @@ const SideNavigation = ({
         </Menu>
       )}
     >
-     <Button color="primary" onClick={toggleDrawerOpen} className="lg:hidden">
+      <Button color="primary" onClick={toggleDrawerOpen} className="lg:hidden">
         Open drawer
       </Button>
     </Drawer>
   )
 }
 
-export default SideNavigation
+export default SideNavigationMobile
