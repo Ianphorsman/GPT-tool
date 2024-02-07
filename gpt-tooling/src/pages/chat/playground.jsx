@@ -94,9 +94,7 @@ const Playground = ({ isMobile }) => {
         />
         <main className="flex flex-row flex-1">
           <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />
-          {!isMobile ? <Divider horizontal className="m-0"></Divider> : null}
           <AgentsPanel />
-          {!isMobile ? <Divider horizontal className="m-0"></Divider> : null}
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
             <Prompter
