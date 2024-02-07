@@ -9,12 +9,21 @@ const useAgent = ({
 }) => {
   const [model, setModel] = useState(defaultModel)
   const [customInstructions, setCustomInstructions] = useState(systemMessage)
+  const [maxMessageLength, setMaxMessageLength] = useState(1000)
+  const [maxResponses, setMaxResponses] = useState(10)
+  const [responsesLeft, setResponsesLeft] = useState(10)
 
   return {
     model,
     setModel,
     customInstructions,
-    setCustomInstructions
+    setCustomInstructions,
+    maxMessageLength,
+    setMaxMessageLength,
+    maxResponses,
+    setMaxResponses,
+    responsesLeft,
+    setResponsesLeft
   }
 }
 
