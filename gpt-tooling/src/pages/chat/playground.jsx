@@ -25,7 +25,7 @@ const Playground = ({ isMobile }) => {
   const [theme, setTheme] = useState('night')
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
-  const [isDrawerOpen, setIsDrawerOpen] = useState(!isMobile)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
