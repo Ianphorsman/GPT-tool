@@ -8,11 +8,12 @@ const openai = new OpenAI({
 export const runtime = 'edge'
 
 export default async function POST(req) {
-  const { messages, model } = await req.json()
+  const { messages, model, max_tokens = 500, temperature } = await req.json()
   console.log('model', model)
   const response = await openai.chat.completions.create({
     model,
-    max_tokens: 500,
+    max_tokens,
+    temperature,
     stream: true,
     messages
   })

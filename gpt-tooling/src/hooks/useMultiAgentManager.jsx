@@ -9,7 +9,7 @@ export const initialAgentState = {
   maxMessageLength: 1000,
   maxResponses: 10,
   responsesLeft: 10,
-  temperature: 1
+  temperature: 100
 }
 
 const initialState = {

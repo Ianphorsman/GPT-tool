@@ -26,13 +26,14 @@ const Playground = ({ isMobile }) => {
     setCustomInstructions,
     setMaxMessageLength,
     setMaxResponses,
+    setTemperature,
     setActiveAgent,
     activeAgent,
     addAgent,
     removeAgent,
     agents
   } = useMultiAgentManager()
-  const { model, maxMessageLength, maxResponses, customInstructions } = activeAgent
+  const { model, maxMessageLength, maxResponses, customInstructions, temperature } = activeAgent
   const [theme, setTheme] = useState('night')
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
@@ -46,7 +47,11 @@ const Playground = ({ isMobile }) => {
     stop,
     isLoading
   } = useChat({
-    body: { model: activeAgent.model },
+    body: {
+      model: activeAgent.model,
+      temperature: activeAgent.temperature / 100,
+      max_tokens: activeAgent.maxMessageLength
+    },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
 
@@ -107,6 +112,8 @@ const Playground = ({ isMobile }) => {
           maxMessageLength={maxMessageLength}
           setMaxResponses={setMaxResponses}
           maxResponses={maxResponses}
+          setTemperature={setTemperature}
+          temperature={temperature}
         />
         <main className="flex flex-row flex-1">
           <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />

@@ -12,7 +12,9 @@ const Settings = React.forwardRef(({
   setMaxMessageLength,
   maxMessageLength,
   setMaxResponses,
-  maxResponses
+  maxResponses,
+  setTemperature,
+  temperature
 }, ref) => {
   const [_customInstructions, _setCustomInstructions] = useState('')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
@@ -49,6 +51,15 @@ const Settings = React.forwardRef(({
             min={1}
             max={2000}
             step={maxMessageLength}
+          />
+          <RangeBlock
+            label="Temperature"
+            size="xs"
+            color="ghost"
+            onChange={(e) => setTemperature(id, e.target.value)}
+            min={0}
+            max={200}
+            step={temperature}
           />
           <RangeBlock
             label="Max responses"
