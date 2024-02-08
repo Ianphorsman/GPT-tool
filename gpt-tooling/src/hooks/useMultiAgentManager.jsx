@@ -13,7 +13,8 @@ const initialState = {
       responsesLeft: 10,
       temperature: 1
     }
-  }
+  },
+  activeAgent: 1
 }
 
 const multiAgentReducer = (state, action) => {
@@ -93,17 +94,23 @@ const multiAgentReducer = (state, action) => {
         }
       }
     case 'REMOVE_AGENT':
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [action.id]: _, ...agents } = state.agents
       return {
         ...state,
         agents
+      }
+    case 'SET_ACTIVE_AGENT':
+      return {
+        ...state,
+        activeAgent: action.id
       }
     default:
       return state
   }
 }
 
-const useMultiAgentManager = () => {
+const useMultiAgentManager = (state) => {
   const [state, dispatch] = useReducer(multiAgentReducer, initialState)
 
   const setModel = (id, model) => {
@@ -138,6 +145,10 @@ const useMultiAgentManager = () => {
     dispatch({ type: 'REMOVE_AGENT', id })
   }
 
+  const setActiveAgent = (id) => {
+    dispatch({ type: 'SET_ACTIVE_AGENT', id })
+  }
+
   return {
     agents: state.agents,
     setModel,
@@ -147,7 +158,9 @@ const useMultiAgentManager = () => {
     setResponsesLeft,
     setTemperature,
     addAgent,
-    removeAgent
+    removeAgent,
+    setActiveAgent,
+    activeAgent: state.agents[state.activeAgent]
   }
 }
 

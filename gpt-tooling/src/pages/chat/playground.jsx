@@ -15,7 +15,7 @@ import SideNavigation from "~/components/SideNavigation"
 import Stats from "~/components/Stats"
 import Prompter from "~/components/Prompter"
 import ThemeDropdown from "~/components/ThemeDropdown"
-import useAgent from "~/hooks/useAgent"
+import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 
 const Playground = ({ isMobile }) => {
@@ -29,10 +29,12 @@ const Playground = ({ isMobile }) => {
     setMaxMessageLength,
     maxMessageLength,
     setMaxResponses,
-    maxResponses
-  } = useAgent({
-    defaultModel: 'gpt-3.5-turbo'
-  })
+    maxResponses,
+    setActiveAgent,
+    activeAgent,
+    addAgent,
+    removeAgent
+  } = useMultiAgentManager()
   const [theme, setTheme] = useState('night')
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
@@ -109,7 +111,12 @@ const Playground = ({ isMobile }) => {
         />
         <main className="flex flex-row flex-1">
           <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />
-          <AgentsPanel />
+          <AgentsPanel
+            addAgent={addAgent}
+            removeAgent={removeAgent}
+            setActiveAgent={setActiveAgent}
+            activeAgent={activeAgent}
+          />
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
             <Prompter
