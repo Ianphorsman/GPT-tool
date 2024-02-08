@@ -4,6 +4,7 @@ import { MODEL_OPTIONS } from "~/constants"
 import RangeBlock from "../RangeBlock"
 
 const Settings = React.forwardRef(({
+  activeAgent,
   model,
   setModel,
   setCustomInstructions,
@@ -15,9 +16,10 @@ const Settings = React.forwardRef(({
 }, ref) => {
   const [_customInstructions, _setCustomInstructions] = useState('')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
+  const id = activeAgent.id
 
   const onApplyChangesClick = () => {
-    setCustomInstructions(_customInstructions)
+    setCustomInstructions(id, _customInstructions)
     setHasMadeChanges(false)
   }
 
@@ -30,7 +32,7 @@ const Settings = React.forwardRef(({
       <Modal.Header>Agent Settings</Modal.Header>
       <Modal.Body>
         <div className="flex flex-col justify-center items-stretch gap-3">
-          <Select onChange={(e) => setModel(e.target.value)}>
+          <Select onChange={(e) => setModel(id, e.target.value)}>
             {modelOptions.map(({ name, access }) => {
               return (
                 <Select.Option value={name} selected={model === name} key={name} disabled={access !== 'free'}>
@@ -43,7 +45,7 @@ const Settings = React.forwardRef(({
             label="Max message length"
             size="xs"
             color="ghost"
-            onChange={(e) => setMaxMessageLength(e.target.value)}
+            onChange={(e) => setMaxMessageLength(id, e.target.value)}
             min={1}
             max={2000}
             step={maxMessageLength}
@@ -52,7 +54,7 @@ const Settings = React.forwardRef(({
             label="Max responses"
             size="xs"
             color="ghost"
-            onChange={(e) => setMaxResponses(e.target.value)}
+            onChange={(e) => setMaxResponses(id, e.target.value)}
             min={1}
             max={10}
             step={maxResponses}

@@ -98,6 +98,7 @@ const Playground = ({ isMobile }) => {
         <Divider vertical color="neutral" className="m-0 h-0.5" />
         <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
         <Settings
+          activeAgent={activeAgent}
           model={model}
           setModel={setModel}
           setCustomInstructions={setCustomInstructions}
