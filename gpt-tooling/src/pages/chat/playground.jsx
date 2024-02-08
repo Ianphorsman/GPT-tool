@@ -22,19 +22,16 @@ const Playground = ({ isMobile }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const {
-    model,
     setModel,
-    customInstructions,
     setCustomInstructions,
     setMaxMessageLength,
-    maxMessageLength,
     setMaxResponses,
-    maxResponses,
     setActiveAgent,
     activeAgent,
     addAgent,
     removeAgent
   } = useMultiAgentManager()
+  const { model, maxMessageLength, maxResponses, customInstructions } = activeAgent
   const [theme, setTheme] = useState('night')
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
@@ -48,7 +45,7 @@ const Playground = ({ isMobile }) => {
     stop,
     isLoading
   } = useChat({
-    body: { model },
+    body: { model: activeAgent.model },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
 
