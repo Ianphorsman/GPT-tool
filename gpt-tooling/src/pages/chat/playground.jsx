@@ -29,7 +29,8 @@ const Playground = ({ isMobile }) => {
     setActiveAgent,
     activeAgent,
     addAgent,
-    removeAgent
+    removeAgent,
+    agents
   } = useMultiAgentManager()
   const { model, maxMessageLength, maxResponses, customInstructions } = activeAgent
   const [theme, setTheme] = useState('night')
@@ -109,6 +110,7 @@ const Playground = ({ isMobile }) => {
         <main className="flex flex-row flex-1">
           <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />
           <AgentsPanel
+            agents={Object.values(agents)}
             addAgent={addAgent}
             removeAgent={removeAgent}
             setActiveAgent={setActiveAgent}
