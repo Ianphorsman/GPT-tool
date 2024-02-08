@@ -1,17 +1,24 @@
 import { useReducer } from 'react'
 
+export const initialAgentState = {
+  name: '',
+  initials: '',
+  id: null,
+  model: 'gpt-3.5-turbo',
+  customInstructions: '',
+  maxMessageLength: 1000,
+  maxResponses: 10,
+  responsesLeft: 10,
+  temperature: 1
+}
+
 const initialState = {
   agents: {
     1: {
+      ...initialAgentState,
       name: 'agent1',
       initials: 'A1',
-      id: 1,
-      model: 'gpt-3.5-turbo',
-      customInstructions: '',
-      maxMessageLength: 1000,
-      maxResponses: 10,
-      responsesLeft: 10,
-      temperature: 1
+      id: 1
     }
   },
   activeAgent: 1
