@@ -110,7 +110,7 @@ const multiAgentReducer = (state, action) => {
   }
 }
 
-const useMultiAgentManager = (state) => {
+const useMultiAgentManager = () => {
   const [state, dispatch] = useReducer(multiAgentReducer, initialState)
 
   const setModel = (id, model) => {
