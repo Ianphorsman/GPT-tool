@@ -16,7 +16,7 @@ const initialState = {
   agents: {
     1: {
       ...initialAgentState,
-      name: 'agent1',
+      name: 'Agent1',
       initials: 'A1',
       id: 1
     }

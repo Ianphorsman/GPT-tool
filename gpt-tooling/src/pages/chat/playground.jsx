@@ -74,7 +74,7 @@ const Playground = ({ isMobile }) => {
 
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
-      <div className="min-h-screen m-auto flex flex-col">
+      <div className="min-h-screen w-screen m-auto flex flex-col">
         <Navbar className="md:pl-80 md:pr-20">
           <Navbar.Start>
             {isMobile ? (
