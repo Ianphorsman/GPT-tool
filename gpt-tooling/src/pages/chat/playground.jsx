@@ -52,7 +52,7 @@ const Playground = ({ isMobile }) => {
     body: {
       model: activeAgent.model,
       temperature: activeAgent.temperature / 100,
-      max_tokens: activeAgent.maxMessageLength
+      max_tokens: Number(activeAgent.maxMessageLength)
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
