@@ -9,8 +9,6 @@ const GenerationSettings = ({
   setCustomInstructions,
   setMaxMessageLength,
   maxMessageLength,
-  setMaxResponses,
-  maxResponses,
   setTemperature,
   temperature,
   activeAgent
@@ -68,15 +66,6 @@ const GenerationSettings = ({
           min={0}
           max={200}
           step={temperature}
-        />
-        <RangeBlock
-          label="Max responses"
-          size="xs"
-          color="ghost"
-          onChange={(e) => setMaxResponses(id, e.target.value)}
-          min={1}
-          max={10}
-          step={maxResponses}
         />
       </div>
     </div>

@@ -9,7 +9,8 @@ export const initialAgentState = {
   maxMessageLength: 1000,
   maxResponses: 10,
   responsesLeft: 10,
-  temperature: 100
+  temperature: 100,
+  autoRespondTo: []
 }
 
 const initialState = {
@@ -112,6 +113,28 @@ const multiAgentReducer = (state, action) => {
         ...state,
         activeAgent: action.id
       }
+    case 'WILL_AUTO_RESPOND_TO_AGENT':
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          [action.id]: {
+            ...state.agents[action.id],
+            autoRespondTo: [...state.agents[action.id].autoRespondTo, action.autoRespondTo]
+          }
+        }
+      }
+    case 'CANNOT_AUTO_RESPOND_TO_AGENT':
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          [action.id]: {
+            ...state.agents[action.id],
+            autoRespondTo: state.agents[action.id].autoRespondTo.filter((agent) => agent !== action.autoRespondTo)
+          }
+        }
+      }
     default:
       return state
   }
@@ -156,6 +179,14 @@ const useMultiAgentManager = () => {
     dispatch({ type: 'SET_ACTIVE_AGENT', id })
   }
 
+  const setWillAutoRespondToAgent = (id, autoRespondTo) => {
+    dispatch({ type: 'WILL_AUTO_RESPOND_TO_AGENT', id, autoRespondTo })
+  }
+
+  const setCannotAutoRespondToAgent = (id, autoRespondTo) => {
+    dispatch({ type: 'CANNOT_AUTO_RESPOND_TO_AGENT', id, autoRespondTo })
+  }
+
   return {
     agents: state.agents,
     setModel,
@@ -167,6 +198,8 @@ const useMultiAgentManager = () => {
     addAgent,
     removeAgent,
     setActiveAgent,
+    setWillAutoRespondToAgent,
+    setCannotAutoRespondToAgent,
     activeAgent: state.agents[state.activeAgent]
   }
 }

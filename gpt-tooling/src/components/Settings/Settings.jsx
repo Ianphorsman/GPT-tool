@@ -3,6 +3,7 @@ import { Modal } from "react-daisyui"
 import SettingsTabs from "./SettingsTabs"
 
 const Settings = React.forwardRef(({
+  agents,
   activeAgent,
   setModel,
   setCustomInstructions,
@@ -13,13 +14,16 @@ const Settings = React.forwardRef(({
   temperature,
   maxResponses,
   maxMessageLength,
-  model
+  model,
+  setWillAutoRespondToAgent,
+  setCannotAutoRespondToAgent
 }, ref) => {
   const [activeTab, setActiveTab] = useState('Generation Settings')
   return (
     <Modal ref={ref} backdrop className="w-11/12 max-w-5xl">
       <Modal.Body>
         <SettingsTabs
+          agents={agents}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           activeAgent={activeAgent}
@@ -33,6 +37,8 @@ const Settings = React.forwardRef(({
           maxResponses={maxResponses}
           maxMessageLength={maxMessageLength}
           model={model}
+          setWillAutoRespondToAgent={setWillAutoRespondToAgent}
+          setCannotAutoRespondToAgent={setCannotAutoRespondToAgent}
         />
       </Modal.Body>
     </Modal>

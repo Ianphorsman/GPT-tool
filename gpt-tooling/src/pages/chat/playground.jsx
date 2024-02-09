@@ -31,9 +31,11 @@ const Playground = ({ isMobile }) => {
     activeAgent,
     addAgent,
     removeAgent,
-    agents
+    agents,
+    setWillAutoRespondToAgent,
+    setCannotAutoRespondToAgent
   } = useMultiAgentManager()
-  const { model, maxMessageLength, maxResponses, customInstructions, temperature } = activeAgent
+  const { model, maxMessageLength, maxResponses, customInstructions, temperature, autoRespondTo } = activeAgent
   const [theme, setTheme] = useState('night')
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
@@ -103,6 +105,7 @@ const Playground = ({ isMobile }) => {
         <Divider vertical color="neutral" className="m-0 h-0.5" />
         <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
         <Settings
+          agents={agents}
           activeAgent={activeAgent}
           model={model}
           setModel={setModel}
@@ -114,6 +117,9 @@ const Playground = ({ isMobile }) => {
           maxResponses={maxResponses}
           setTemperature={setTemperature}
           temperature={temperature}
+          setWillAutoRespondToAgent={setWillAutoRespondToAgent}
+          setCannotAutoRespondToAgent={setCannotAutoRespondToAgent}
+          autoRespondTo={autoRespondTo}
         />
         <main className="flex flex-row flex-1">
           <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />

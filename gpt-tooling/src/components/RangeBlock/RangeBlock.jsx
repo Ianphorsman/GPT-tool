@@ -8,7 +8,9 @@ const RangeBlock = ({
   size = 'xs',
   color = 'ghost',
   min,
-  max
+  max,
+  displayTicks = false,
+  ticksStep
 }) => {
   return (
     <div className="flex flex-col gap-2">
@@ -28,6 +30,8 @@ const RangeBlock = ({
         onChange={onChange}
         min={min}
         max={max}
+        displayTicks={displayTicks}
+        ticksStep={ticksStep}
       />
     </div>
   )

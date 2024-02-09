@@ -16,6 +16,7 @@ const componentMap = {
 }
 
 const SettingsTabs = ({
+  agents,
   activeTab,
   setActiveTab,
   activeAgent,
@@ -28,7 +29,9 @@ const SettingsTabs = ({
   temperature,
   maxResponses,
   maxMessageLength,
-  model
+  model,
+  setWillAutoRespondToAgent,
+  setCannotAutoRespondToAgent
 }) => {
   const Component = componentMap[activeTab] ?? GenerationSettings
   return (
@@ -43,6 +46,7 @@ const SettingsTabs = ({
           className="mx-1 mb-6"
         >
           <Component
+            agents={agents}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             activeAgent={activeAgent}
@@ -56,6 +60,8 @@ const SettingsTabs = ({
             maxResponses={maxResponses}
             maxMessageLength={maxMessageLength}
             model={model}
+            setWillAutoRespondToAgent={setWillAutoRespondToAgent}
+            setCannotAutoRespondToAgent={setCannotAutoRespondToAgent}
           />
         </RadioTab>
       ))}
