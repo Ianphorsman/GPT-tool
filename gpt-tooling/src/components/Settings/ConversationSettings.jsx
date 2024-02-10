@@ -1,6 +1,6 @@
 import React from 'react'
 import FormFieldBlock from '../FormFieldBlock'
-import { Divider, Form } from 'react-daisyui'
+import { Divider } from 'react-daisyui'
 
 const ConversationSettings = () => {
   return (
