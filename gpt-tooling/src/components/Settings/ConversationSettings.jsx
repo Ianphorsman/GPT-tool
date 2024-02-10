@@ -22,12 +22,11 @@ const ConversationSettings = () => {
           checked={false}
           disabled
         />
-        <FormFieldBlock
-          label=""
-          />
       </section>
     </div>
   )
 }
+
+ConversationSettings.displayName = 'ConversationSettings'
 
 export default ConversationSettings
