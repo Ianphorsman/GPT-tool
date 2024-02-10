@@ -5,7 +5,8 @@ const FormFieldBlock = ({
   label,
   description,
   checked,
-  onChange
+  onChange,
+  disabled
 }) => {
   return (
     <div className="flex flex-row gap-2 items-center justify-between">
@@ -16,6 +17,7 @@ const FormFieldBlock = ({
       <Checkbox
         checked={checked}
         onChange={onChange}
+        disabled={disabled}
       />
     </div>
   )
