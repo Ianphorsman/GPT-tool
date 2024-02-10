@@ -9,13 +9,13 @@ const { RadioTab } = Tabs
 const SETTINGS_TABS = [
   'Generation Settings',
   'Agent Behaviours',
-  'Conversation Settings'
+  'Conversation'
 ]
 
 const componentMap = {
   'Generation Settings': GenerationSettings,
   'Agent Behaviours': AgentBehaviourSettings,
-  'Conversation Settings': ConversationSettings
+  'Conversation': ConversationSettings
 }
 
 const SettingsTabs = ({
