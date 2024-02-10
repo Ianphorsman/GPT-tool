@@ -26,7 +26,7 @@ const AgentBehaviourSettings = ({
       <section className="flex-1">
         <FormFieldBlock
           label="Auto-respond"
-          description="Automatically respond to incoming messages"
+          description="Automatically respond to other agents"
           checked={activeAgent.autoRespond}
         />
         {/* SVG animation of a simple cyclic graph with 2 nodes and 2 curved edges connecting them together */}

@@ -6,14 +6,20 @@ export default {
     'node_modules/daisyui/dist/**/*.js',
     'node_modules/react-daisyui/dist/**/*.js'
   ],
+  safelist: [{
+    pattern: /hljs+/
+  }],
   theme: {
+    hljs: {
+      theme: 'night-owl'
+    },
     extend: {
       zIndex: {
         '-z-10': '-10'
       }
     },
   },
-  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui"), require("tailwind-highlightjs")],
   daisyui: {
     styled: true,
     themes: true,
