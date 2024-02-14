@@ -2,20 +2,17 @@ import React from 'react'
 import { Tabs } from 'react-daisyui'
 import GenerationSettings from './GenerationSettings'
 import AgentBehaviourSettings from './AgentBehaviourSettings'
-import ConversationSettings from './ConversationSettings'
 
 const { RadioTab } = Tabs
 
 const SETTINGS_TABS = [
   'Generation Settings',
-  'Agent Behaviours',
-  'Conversation'
+  'Agent Behaviours'
 ]
 
 const componentMap = {
   'Generation Settings': GenerationSettings,
-  'Agent Behaviours': AgentBehaviourSettings,
-  'Conversation': ConversationSettings
+  'Agent Behaviours': AgentBehaviourSettings
 }
 
 const SettingsTabs = ({
