@@ -10,7 +10,6 @@ import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
-import FlowDiagram from "~/components/FlowDiagram"
 import Settings from "~/components/Settings/Settings"
 import SideNavigation from "~/components/SideNavigation"
 import Stats from "~/components/Stats"
@@ -18,11 +17,6 @@ import Prompter from "~/components/Prompter"
 import ThemeDropdown from "~/components/ThemeDropdown"
 import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
-
-const viewComponentMap = {
-  chat: Chat,
-  flow: FlowDiagram
-}
 
 const Playground = ({ isMobile }) => {
   const settingsModalRef = useRef(null)
@@ -46,7 +40,6 @@ const Playground = ({ isMobile }) => {
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [view, setView] = useState('chat')
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
@@ -80,8 +73,6 @@ const Playground = ({ isMobile }) => {
   }, [])
 
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
-
-  const ViewComponent = viewComponentMap[view]
 
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
@@ -138,7 +129,6 @@ const Playground = ({ isMobile }) => {
             removeAgent={removeAgent}
             setActiveAgent={setActiveAgent}
             activeAgent={activeAgent}
-            setView={setView}
           />
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
