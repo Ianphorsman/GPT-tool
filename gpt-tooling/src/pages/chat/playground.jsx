@@ -2,8 +2,7 @@ import {
   Button,
   Divider,
   Navbar,
-  Theme,
-  Tooltip
+  Theme
 } from "react-daisyui"
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
