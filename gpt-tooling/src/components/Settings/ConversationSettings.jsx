@@ -4,9 +4,10 @@ import { Divider } from 'react-daisyui'
 
 const ConversationSettings = () => {
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row mt-4">
       <section className="flex-1 flex flex-col items-center justify-center gap-4">
-        <h3>The goal is to eventually expose an intuitive yet flexible enough interface that allows users to orchestrate conversational flows among multiple agents.</h3>
+        <p>The goal was to eventually expose an intuitive yet flexible enough interface that allows users to orchestrate conversational flows among multiple agents.</p>
+        <p>After some research and consideration, I've decided that such tooling already exists. Will instead focus on supporting the ability to upload and store Langflow and Rivet agent flows.</p>
       </section>
       <Divider horizontal />
       <section className="flex-1 flex flex-col gap-4">
