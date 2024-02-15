@@ -91,7 +91,7 @@ const Playground = ({ isMobile }) => {
 
               </Button>
             ) : null}
-            <h1>Multi-Agent Playground</h1><sup className="text-xs ml-2">(Work in Progress)</sup>
+            <h1>Multi-Agent Playground</h1><sup className="text-xs ml-2">(Ian Horsman's Work in Progress)</sup>
           </Navbar.Start>
           <Navbar.End>
             <ThemeDropdown
