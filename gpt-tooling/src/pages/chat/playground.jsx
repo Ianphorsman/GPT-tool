@@ -6,6 +6,7 @@ import {
 } from "react-daisyui"
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
+import axios from "axios"
 import { useState, useRef, useCallback, useEffect } from "react"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
@@ -55,7 +56,7 @@ const Playground = ({ isMobile }) => {
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
-
+  const [rivetMessages, setRivetMessages] = useState([])
   useEffect(() => {
     const savedTheme = window.localStorage.getItem('daisyui-theme')
     if (savedTheme) {
@@ -72,6 +73,13 @@ const Playground = ({ isMobile }) => {
   }, [])
 
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleMessageSubmit = async () => {
+    const response = await axios.post('http://localhost:3000/api/rivet', { inputs: rivetMessages, graphId: '2-s5XWxt_SdQePeVbboCC' });
+    setRivetMessages([...rivetMessages, { message: response.data.output, type: 'assistant' }])
+  }
+
 
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
