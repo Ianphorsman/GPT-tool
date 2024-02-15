@@ -79,7 +79,7 @@ const Playground = ({ isMobile }) => {
     const response = await axios.post('http://localhost:3000/api/rivet', { inputs: rivetMessages, graphId: '2-s5XWxt_SdQePeVbboCC' });
     setRivetMessages([...rivetMessages, { message: response.data.output, type: 'assistant' }])
   }
-
+  const headingText = "(Ian Horsman's Work in Progress)"
 
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
@@ -91,7 +91,7 @@ const Playground = ({ isMobile }) => {
 
               </Button>
             ) : null}
-            <h1>Multi-Agent Playground</h1><sup className="text-xs ml-2">(Ian Horsman's Work in Progress)</sup>
+            <h1>Multi-Agent Playground</h1><sup className="text-xs ml-2">{headingText}</sup>
           </Navbar.Start>
           <Navbar.End>
             <ThemeDropdown
