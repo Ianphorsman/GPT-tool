@@ -9,7 +9,6 @@ export const runtime = 'edge'
 
 export default async function POST(req) {
   const { messages, model, max_tokens = 500, temperature } = await req.json()
-  console.log('model', model)
   const response = await openai.chat.completions.create({
     model,
     max_tokens,
@@ -17,7 +16,7 @@ export default async function POST(req) {
     stream: true,
     messages
   })
-
+  console.log('__RES', response)
   const stream = OpenAIStream(response)
 
   return new StreamingTextResponse(stream)
