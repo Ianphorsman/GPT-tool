@@ -86,6 +86,9 @@ const initialState = {
 }
 
 for await (const output of await app.stream(initialState, { recursionLimit: 100 })) {
-  console.log("output", output)
+  //console.log("output", (output?.agent1 ?? output?.agent2)?.messages[0].lc_kwargs)
+  const messages = Object.values(output)[0].messages
+  const content = Object.values(messages)[0].lc_kwargs
+  console.log("messages", content)
   console.log("-----\n");
 }

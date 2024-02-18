@@ -58,7 +58,6 @@ const Playground = ({ isMobile }) => {
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
-
   useEffect(() => {
     const savedTheme = window.localStorage.getItem('daisyui-theme')
     if (savedTheme) {
