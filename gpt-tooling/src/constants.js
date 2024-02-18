@@ -8,6 +8,4 @@ export const MODEL_OPTIONS = [
   { name: 'gpt-4-auto-summarizer', access: 'coming soon' },
 ]
 
-export const PRE_BUILT_SETUPS = [
-  { graphId: '2-s5XWxt_SdQePeVbboCC', description: 'Chat with one ai assistant', filename: 'BasicRivetExample.rivet_project' }
-]
+export const PRE_BUILT_SETUPS = []
