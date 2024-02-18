@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   const configuration = new Configuration({
       organization: "org-2bWZRq1wen4Xwz7k47WiGK39",
-      apiKey: process.env.OPEN_AI_API_KEY,
+      apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
   const response = await openai.createImage();

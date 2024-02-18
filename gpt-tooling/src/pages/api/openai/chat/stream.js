@@ -52,7 +52,7 @@ export default async function handler(
           headers: {
               Accept: "text/event-stream",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${process.env.OPEN_AI_API_KEY}`,
+              Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           },
       },
     );

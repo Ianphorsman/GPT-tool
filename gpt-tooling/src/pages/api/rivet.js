@@ -9,7 +9,7 @@ export async function runRivetGraph(graphId, inputs) {
 
   const outputs = await runGraph(project, {
     graph: graphId,
-    openAiKey: process.env.OPEN_AI_API_KEY,
+    openAiKey: process.env.OPENAI_API_KEY,
     inputs,
     remoteDebugger: rivetDebuggerServerState.server ?? undefined,
     externalFunctions: {
