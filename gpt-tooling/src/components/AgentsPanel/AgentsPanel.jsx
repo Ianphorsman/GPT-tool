@@ -47,7 +47,7 @@ const AgentsPanel = ({
       <Join vertical className="m-0 rounded-none">
         {view === 'custom' ? (
           <>
-            <Tooltip message="Add Agent (Replacing with Rivet Ironclad and Langflow file importing)" position="right">
+            <Tooltip message="Add Agent" position="right">
               <Button
                 shape="square"
                 className="m-0 join-item"
