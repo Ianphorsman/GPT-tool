@@ -39,6 +39,7 @@ const Playground = ({ isMobile }) => {
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [api, setApi] = useState('/api/chat')
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
@@ -48,7 +49,7 @@ const Playground = ({ isMobile }) => {
     stop,
     isLoading
   } = useChat({
-    api: '/api/langchain',
+    api,
     body: {
       model: activeAgent.model,
       temperature: activeAgent.temperature / 100,
@@ -118,7 +119,12 @@ const Playground = ({ isMobile }) => {
           autoRespondTo={autoRespondTo}
         />
         <main className="flex flex-row flex-1">
-          <SideNavigation isDrawerOpen={isDrawerOpen} toggleDrawerOpen={toggleDrawerOpen} />
+          <SideNavigation
+            isDrawerOpen={isDrawerOpen}
+            toggleDrawerOpen={toggleDrawerOpen}
+            api={api}
+            setApi={setApi}
+          />
           <AgentsPanel
             agents={Object.values(agents)}
             addAgent={addAgent}

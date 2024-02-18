@@ -7,13 +7,13 @@ import { DynamicTool } from "@langchain/core/tools"
 const chatModel1 = new ChatOpenAI({
   modelName: "gpt-3.5-turbo-1106",
   temperature: 1,
-  openAIApiKey: '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'
+  openAIApiKey: process.env.OPENAI_API_KEY
 })
 
 const chatModel2 = new ChatOpenAI({
   modelName: "gpt-3.5-turbo-1106",
   temperature: 1,
-  openAIApiKey: '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'
+  openAIApiKey: process.env.OPENAI_API_KEY
 })
 
 const tool = new DynamicTool({
@@ -38,7 +38,7 @@ const prompt2 = ChatPromptTemplate.fromMessages([
 // const chain2 = prompt.pipe(chatModel2)
 
 // Initialize the agents
-const agent1 = await createOpenAIToolsAgent({ llm: chatModel1, tools: [tool], prompt: prompt1, returnIntermediateSteps: true})
+const agent1 = await createOpenAIToolsAgent({ llm: chatModel1, tools: [tool], prompt: prompt1, returnIntermediateSteps: true })
 const agent2 = await createOpenAIToolsAgent({ llm: chatModel2, tools: [tool], prompt: prompt2, returnIntermediateSteps: true })
 
 // Invoke the chain to enable the AI assistants to interact conversationally

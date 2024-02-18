@@ -18,6 +18,7 @@ export default async function POST(req) {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const body = await req.json()
+    const { messages } = body
     const tools = [new TavilySearchResults({ maxResults: 1 })]
     const toolExecutor = new ToolExecutor({
       tools

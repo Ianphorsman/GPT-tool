@@ -16,7 +16,7 @@ export default async function POST(req) {
     stream: true,
     messages
   })
-  console.log('__RES', response)
+  console.log('__RES', messages)
   const stream = OpenAIStream(response)
 
   return new StreamingTextResponse(stream)
