@@ -12,7 +12,6 @@ const GenerationSettings = ({
   setTemperature,
   temperature,
   activeAgent,
-  api,
   setApi
 }) => {
   const [_customInstructions, _setCustomInstructions] = useState('')
