@@ -18,7 +18,7 @@ const agentNode = async ({ state, agent, name }, config) => {
 const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   const { maxConversationLength = 10 } = conversationSettings
   const tools = [dummyTool]
-  const agentNodes = agents.map(({ temperature, systemPrompt, name/*, tools*/ }) => {
+  const agentNodes = await Promise.all(agents.map(async ({ temperature, systemPrompt, name/*, tools*/ }) => {
     const model = new ChatOpenAI({ temperature, streaming: true })
     const agent = await createAgent(model, tools, systemPrompt)
     return async (state, config) => await agentNode({
@@ -26,7 +26,7 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
       agent,
       name
     }, config)
-  })
+  }))
   const agentState = {
     messages: {
       value: (x, y) => x.concat(y),
