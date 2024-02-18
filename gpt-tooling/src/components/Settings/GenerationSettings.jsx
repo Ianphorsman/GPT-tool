@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Divider, Select, Textarea } from 'react-daisyui'
+import { Button, Divider, Select, Textarea, Toggle } from 'react-daisyui'
 import RangeBlock from '../RangeBlock'
 import { MODEL_OPTIONS } from "~/constants"
 
@@ -11,7 +11,9 @@ const GenerationSettings = ({
   maxMessageLength,
   setTemperature,
   temperature,
-  activeAgent
+  activeAgent,
+  api,
+  setApi
 }) => {
   const [_customInstructions, _setCustomInstructions] = useState('')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
@@ -66,6 +68,11 @@ const GenerationSettings = ({
           min={0}
           max={200}
           step={temperature}
+        />
+        <label>Use LangGraph Endpoint</label>
+        <Toggle
+          color="primary"
+          onClick={() => setApi(prev => prev === '/api/chat' ? '/api/langchain' : '/api/chat')}
         />
       </div>
     </div>

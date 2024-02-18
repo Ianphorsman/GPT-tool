@@ -117,13 +117,13 @@ const Playground = ({ isMobile }) => {
           setWillAutoRespondToAgent={setWillAutoRespondToAgent}
           setCannotAutoRespondToAgent={setCannotAutoRespondToAgent}
           autoRespondTo={autoRespondTo}
+          api={api}
+          setApi={setApi}
         />
         <main className="flex flex-row flex-1">
           <SideNavigation
             isDrawerOpen={isDrawerOpen}
             toggleDrawerOpen={toggleDrawerOpen}
-            api={api}
-            setApi={setApi}
           />
           <AgentsPanel
             agents={Object.values(agents)}

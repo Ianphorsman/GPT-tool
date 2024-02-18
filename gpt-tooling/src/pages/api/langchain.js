@@ -3,10 +3,10 @@ import { TavilySearchResults } from "@langchain/community/tools/tavily_search"
 import { ToolExecutor } from "@langchain/langgraph/prebuilt"
 import { ChatOpenAI } from "@langchain/openai"
 import { convertToOpenAIFunction } from "@langchain/core/utils/function_calling"
-import { FunctionMessage } from "@langchain/core/messages"
+import { FunctionMessage, HumanMessage } from "@langchain/core/messages"
 import { RunnableLambda } from "@langchain/core/runnables"
-import { HumanMessage } from "@langchain/core/messages"
 import { StreamingTextResponse } from "ai"
+import convertMessagesToLangChainMessages from "~/langgraph/utils/convertMessagesToLangChainMessages"
 
 
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
@@ -118,7 +118,7 @@ export default async function POST(req) {
 
 
     const inputs = {
-      messages: [new HumanMessage("what is the weather in sf")]
+      messages: convertMessagesToLangChainMessages(messages)
     }
 
     const textEncoder = new TextEncoder()

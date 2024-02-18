@@ -31,7 +31,9 @@ const SettingsTabs = ({
   maxMessageLength,
   model,
   setWillAutoRespondToAgent,
-  setCannotAutoRespondToAgent
+  setCannotAutoRespondToAgent,
+  api,
+  setApi
 }) => {
   const Component = componentMap[activeTab] ?? GenerationSettings
   return (
@@ -62,6 +64,8 @@ const SettingsTabs = ({
             model={model}
             setWillAutoRespondToAgent={setWillAutoRespondToAgent}
             setCannotAutoRespondToAgent={setCannotAutoRespondToAgent}
+            api={api}
+            setApi={setApi}
           />
         </RadioTab>
       ))}
