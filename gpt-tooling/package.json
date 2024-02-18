@@ -8,7 +8,8 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "multi-agent": "node scripts/multiAgentChat.mjs",
+    "multi-agent": "env-cmd -f .env cross-env-shell \"node scripts/multiAgentChat.mjs\"",
+    "two-agents": "env-cmd -f .env cross-env-shell \"node scripts/twoAgents.mjs\"",
     "langgraph-example": "env-cmd -f .env cross-env-shell \"node scripts/langgraphExample.mjs\""
   },
   "dependencies": {
