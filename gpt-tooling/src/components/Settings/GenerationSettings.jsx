@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Divider, Select, Textarea, Toggle } from 'react-daisyui'
+import { Button, Divider, Link, Select, Textarea, Toggle } from 'react-daisyui'
 import RangeBlock from '../RangeBlock'
 import { MODEL_OPTIONS } from "~/constants"
 
@@ -68,7 +68,7 @@ const GenerationSettings = ({
           max={200}
           step={temperature}
         />
-        <label>Use LangGraph Endpoint</label>
+        <label>Use Tavily for Realtime Data <Link className="text-sm" href="https://docs.tavily.com/docs/tavily-api/introduction" target="_blank" color="primary">Learn more</Link></label>
         <Toggle
           color="primary"
           onClick={() => setApi(prev => prev === '/api/chat' ? '/api/langchain' : '/api/chat')}
