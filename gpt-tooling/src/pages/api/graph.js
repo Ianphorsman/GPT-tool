@@ -26,8 +26,13 @@ export default async function POST(req) {
       async start(controller) {
         for await (const output of await app.stream(initialState, { recursionLimit })) {
           const messages = Object.values(output)[0].messages
-          const content = JSON.stringify(Object.values(messages)[0].lc_kwargs)
-          const encodedContent = textEncoder.encode(content)
+          const { content, name } = Object.values(messages)[0].lc_kwargs
+          const strContent = 
+`
+**${name}:** \ 
+${content}
+`
+          const encodedContent = textEncoder.encode(strContent)
           controller.enqueue(encodedContent);
         }
         controller.close();
