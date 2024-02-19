@@ -74,7 +74,7 @@ const Playground = ({ isMobile }) => {
   const handleShowStats = useCallback(() => {
     statsModalRef.current?.showModal()
   }, [])
-  console.log('activeAgent', activeAgent)
+
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
 
   const headingText = "(Ian Horsman's Work in Progress)"
