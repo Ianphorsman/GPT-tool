@@ -1,8 +1,9 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
+import Playground from "./chat/playground";
 
-const Home: NextPage = () => {
+/* const Home: NextPage = () => {
   const user = useUser()
 
   return (
@@ -20,4 +21,5 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Home;*/
+export default Playground
