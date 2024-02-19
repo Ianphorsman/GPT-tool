@@ -51,6 +51,7 @@ const AgentsPanel = ({
               <Button
                 shape="square"
                 className="m-0 join-item"
+                disabled={agents.length >= 5}
                 onClick={() => addAgent(agents.length + 1, { id: agents.length + 1, name: `Agent${agents.length + 1}`, initials: `A${agents.length + 1}` })}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

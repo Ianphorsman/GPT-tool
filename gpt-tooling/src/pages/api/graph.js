@@ -5,10 +5,10 @@ export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 
 export const runtime = 'edge'
 
-const dummyAgents = [
+/* const dummyAgents = [
   { name: 'numbers', temperature: 1, systemPrompt: 'You always respond with only a single random number between 1 and 1000' },
   { name: 'words', temperature: 1, systemPrompt: 'You always respond with only a single random english word. Do not surround it in quotes' }
-]
+] */
 
 export default async function POST(req) {
   const conversationTypeMap = {
@@ -16,10 +16,11 @@ export default async function POST(req) {
   }
   try {
     const body = await req.json()
-    const { messages = []/*, agents*/, conversationSettings = { maxConversationLength: 10 } } = body
+    const { messages = [], agents, conversationSettings = { maxConversationLength: 10 } } = body
+    console.log('agents', agents)
     const { recursionLimit = 100, conversationType = 'roundRobin' } = conversationSettings
     const conversationTypeFunction = conversationTypeMap[conversationType]
-    const { app, initialState } = await conversationTypeFunction(dummyAgents, messages, conversationSettings)
+    const { app, initialState } = await conversationTypeFunction(agents, messages, conversationSettings)
 
     const textEncoder = new TextEncoder()
     const readableStream = new ReadableStream({

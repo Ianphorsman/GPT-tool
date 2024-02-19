@@ -33,7 +33,9 @@ const SettingsTabs = ({
   setWillAutoRespondToAgent,
   setCannotAutoRespondToAgent,
   api,
-  setApi
+  setApi,
+  conversationType,
+  setConversationType
 }) => {
   const Component = componentMap[activeTab] ?? GenerationSettings
   return (
@@ -66,6 +68,8 @@ const SettingsTabs = ({
             setCannotAutoRespondToAgent={setCannotAutoRespondToAgent}
             api={api}
             setApi={setApi}
+            conversationType={conversationType}
+            setConversationType={setConversationType}
           />
         </RadioTab>
       ))}

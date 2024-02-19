@@ -22,7 +22,8 @@ const initialState = {
       id: 1
     }
   },
-  activeAgent: 1
+  activeAgent: 1,
+  conversationType: 'chat'
 }
 
 const multiAgentReducer = (state, action) => {
@@ -135,6 +136,11 @@ const multiAgentReducer = (state, action) => {
           }
         }
       }
+    case 'SET_CONVERSATION_TYPE':
+      return {
+        ...state,
+        conversationType: action.conversationType
+      }
     default:
       return state
   }
@@ -187,6 +193,10 @@ const useMultiAgentManager = () => {
     dispatch({ type: 'CANNOT_AUTO_RESPOND_TO_AGENT', id, autoRespondTo })
   }
 
+  const setConversationType = (conversationType) => {
+    dispatch({ type: 'SET_CONVERSATION_TYPE', conversationType })
+  }
+
   return {
     agents: state.agents,
     setModel,
@@ -200,7 +210,9 @@ const useMultiAgentManager = () => {
     setActiveAgent,
     setWillAutoRespondToAgent,
     setCannotAutoRespondToAgent,
-    activeAgent: state.agents[state.activeAgent]
+    activeAgent: state.agents[state.activeAgent],
+    conversationType: state.conversationType,
+    setConversationType
   }
 }
 

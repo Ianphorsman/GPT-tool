@@ -18,9 +18,9 @@ const agentNode = async ({ state, agent, name }, config) => {
 const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   const { maxConversationLength = 10 } = conversationSettings
   const tools = [dummyTool]
-  const agentNodes = await Promise.all(agents.map(async ({ temperature, systemPrompt, name/*, tools*/ }) => {
-    const model = new ChatOpenAI({ temperature, streaming: true })
-    const agent = await createAgent(model, tools, systemPrompt)
+  const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name/*, tools*/ }) => {
+    const model = new ChatOpenAI({ temperature: temperature / 100, streaming: true })
+    const agent = await createAgent(model, tools, customInstructions)
     return async (state, config) => await agentNode({
       state,
       agent,
@@ -50,7 +50,6 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   workflow.setEntryPoint(`agent1`)
   agentNodes.forEach((_, index) => {
     const nextNode = index + 1 === agentNodes.length ? 1 : index + 2
-    console.log('__NEXT_NODE', nextNode)
     workflow.addConditionalEdges(`agent${index + 1}`, shouldContinue, { continue: `agent${nextNode}`, end: END })
   })
   const app = workflow.compile()

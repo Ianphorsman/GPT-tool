@@ -32,7 +32,9 @@ const Playground = ({ isMobile }) => {
     removeAgent,
     agents,
     setWillAutoRespondToAgent,
-    setCannotAutoRespondToAgent
+    setCannotAutoRespondToAgent,
+    conversationType,
+    setConversationType
   } = useMultiAgentManager()
   const { model, maxMessageLength, maxResponses, customInstructions, temperature, autoRespondTo } = activeAgent
   const [theme, setTheme] = useState('night')
@@ -54,7 +56,7 @@ const Playground = ({ isMobile }) => {
       model: activeAgent.model,
       temperature: activeAgent.temperature / 100,
       max_tokens: Number(activeAgent.maxMessageLength),
-      agents
+      agents: Object.values(agents)
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
@@ -72,7 +74,7 @@ const Playground = ({ isMobile }) => {
   const handleShowStats = useCallback(() => {
     statsModalRef.current?.showModal()
   }, [])
-
+  console.log('activeAgent', activeAgent)
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
 
   const headingText = "(Ian Horsman's Work in Progress)"
@@ -118,6 +120,8 @@ const Playground = ({ isMobile }) => {
           autoRespondTo={autoRespondTo}
           api={api}
           setApi={setApi}
+          conversationType={conversationType}
+          setConversationType={setConversationType}
         />
         <main className="flex flex-row flex-1">
           <SideNavigation
@@ -140,6 +144,7 @@ const Playground = ({ isMobile }) => {
               handleInputChange={handleInputChange}
               stop={stop}
               isLoading={isLoading}
+              agents={agents}
             />
           </section>
         </main>

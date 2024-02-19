@@ -12,19 +12,20 @@ const GenerationSettings = ({
   setTemperature,
   temperature,
   activeAgent,
+  api,
   setApi
 }) => {
-  const [_customInstructions, _setCustomInstructions] = useState('')
+  const [_customInstructions, _setCustomInstructions] = useState(activeAgent.customInstructions || '')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
   const id = activeAgent.id
 
   const onApplyChangesClick = () => {
-    setCustomInstructions(id, _customInstructions)
+    setCustomInstructions(id, _customInstructions[id])
     setHasMadeChanges(false)
   }
 
   const onInputChange = (e) => {
-    _setCustomInstructions(e.target.value)
+    _setCustomInstructions({ [id]: e.target.value })
     setHasMadeChanges(!!e.target.value)
   }
 
@@ -34,8 +35,9 @@ const GenerationSettings = ({
         <Textarea
           label="Custom Instructions"
           onChange={onInputChange}
-          placeholder="Type your custom instructions here..."
+          placeholder={"Type your custom instructions here..."}
           className="flex-1"
+          value={_customInstructions[id] || activeAgent.customInstructions || ''}
         />
         <Button onClick={onApplyChangesClick} disabled={!hasMadeChanges}>Save</Button>
       </div>
@@ -71,7 +73,14 @@ const GenerationSettings = ({
         <label>Use Tavily for Realtime Data <Link className="text-sm" href="https://docs.tavily.com/docs/tavily-api/introduction" target="_blank" color="primary">Learn more</Link></label>
         <Toggle
           color="primary"
-          onClick={() => setApi(prev => prev === '/api/chat' ? '/api/langchain' : '/api/chat')}
+          onClick={() => setApi(prev => prev === '/api/langchain' ? '/api/chat' : '/api/langchain')}
+          checked={api === '/api/langchain'}
+        />
+        <label>Round Robin Mode<span className="text-sm prose block">Agents will take turns auto-responding to each other</span></label>
+        <Toggle
+          color="primary"
+          onClick={() => setApi(prev => prev === '/api/graph' ? '/api/chat' : '/api/graph')}
+          checked={api === '/api/graph'}
         />
       </div>
     </div>

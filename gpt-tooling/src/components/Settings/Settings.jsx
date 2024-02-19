@@ -18,7 +18,9 @@ const Settings = React.forwardRef(({
   setWillAutoRespondToAgent,
   setCannotAutoRespondToAgent,
   api,
-  setApi
+  setApi,
+  conversationType,
+  setConversationType
 }, ref) => {
   const [activeTab, setActiveTab] = useState('Generation Settings')
   return (
@@ -43,6 +45,8 @@ const Settings = React.forwardRef(({
           setCannotAutoRespondToAgent={setCannotAutoRespondToAgent}
           api={api}
           setApi={setApi}
+          conversationType={conversationType}
+          setConversationType={setConversationType}
         />
       </Modal.Body>
     </Modal>

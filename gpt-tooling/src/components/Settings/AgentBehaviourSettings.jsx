@@ -23,6 +23,7 @@ const AgentBehaviourSettings = ({
       </section>
       <Divider horizontal />
       <section className="flex-1">
+        
       </section>
     </div>
   )

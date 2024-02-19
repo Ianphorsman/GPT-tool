@@ -8,12 +8,13 @@ const Prompter = ({
   handleShowSettings,
   handleInputChange,
   stop,
-  isLoading
+  isLoading,
+  agents
 }) => {
   return (
     <form
       className="flex flex-row self-center w-full p-4 max-w-prose sticky bottom-0"
-      onSubmit={handleSubmit}
+      onSubmit={(e) => handleSubmit(e, { options: { body: { agents: Object.values(agents) }}})}
     >
       <Join className="flex flex-row w-full justify-center">
         <Button
@@ -34,20 +35,20 @@ const Prompter = ({
           value={input}
           onChange={handleInputChange}
         />
-        <Button
-          className="join-item rounded-r-full"
-          color="secondary"
-          type="submit"
-        >
-          {isLoading ? (
-            <Button onClick={stop}>
-              <Loading variant="ring" color="warning" />
-              <small>Stop</small>
-            </Button>
-          ) : (
-            'Chat'
-          )}
-        </Button>
+        {!isLoading ? (
+          <Button
+            className="join-item rounded-r-full"
+            color="secondary"
+            type="submit"
+          >
+            Chat
+          </Button>
+        ) : (
+          <Button onClick={stop}>
+            <Loading variant="ring" color="warning" />
+            <small>Stop</small>
+          </Button>
+        )}
       </Join>
     </form>
   )
