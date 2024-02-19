@@ -39,7 +39,7 @@ const Playground = ({ isMobile }) => {
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [api, setApi] = useState('/api/graph')
+  const [api, setApi] = useState('/api/chat')
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
