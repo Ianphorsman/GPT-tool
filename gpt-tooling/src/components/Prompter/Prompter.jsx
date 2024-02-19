@@ -46,7 +46,7 @@ const Prompter = ({
         ) : (
           <Button onClick={stop} color="secondary" className="join-item rounded-r-full">
             <Loading variant="ring" color="warning" />
-            <small>Stop</small>
+            <small className="text-xs">Stop</small>
           </Button>
         )}
       </Join>
