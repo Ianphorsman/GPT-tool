@@ -44,7 +44,7 @@ const Prompter = ({
             Chat
           </Button>
         ) : (
-          <Button onClick={stop}>
+          <Button onClick={stop} color="secondary">
             <Loading variant="ring" color="warning" />
             <small>Stop</small>
           </Button>
