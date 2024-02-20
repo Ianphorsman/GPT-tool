@@ -13,4 +13,4 @@ cd gpt-tooling
 ```bash
 npm run dev
 ```
-Visit `localhost:3000/chat/playground`
+Visit `localhost:3000/`
