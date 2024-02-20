@@ -77,19 +77,17 @@ const Playground = ({ isMobile }) => {
 
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
 
-  const headingText = "(Ian Horsman's Work in Progress)"
-
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen w-screen m-auto flex flex-col">
-        <Navbar className="md:pl-80 md:pr-20">
+        <Navbar className="md:pl-96 md:pr-20">
           <Navbar.Start>
             {isMobile ? (
               <Button onClick={toggleDrawerOpen}>
 
               </Button>
             ) : null}
-            <h1>Multi-Agent Playground</h1><sup className="text-xs ml-2">{headingText}</sup>
+            <h1>Multi-Agent Playground</h1>
           </Navbar.Start>
           <Navbar.End>
             <ThemeDropdown
