@@ -9,7 +9,7 @@ const AgentsPanel = ({
   addAgent,
   removeAgent
 }) => {
-  const [view, setView] = useState('pre-built')
+  const [view, setView] = useState('custom')
   return (
     <section
       className="border-x-2 border-neutral flex flex-col gap-0 justify-between"
