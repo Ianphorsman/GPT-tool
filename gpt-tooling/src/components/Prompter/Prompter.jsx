@@ -19,7 +19,7 @@ const Prompter = ({
       <Join className="flex flex-row w-full justify-center">
         <Button
           className="join-item rounded-l-full"
-          color="secondary"
+          color="primary"
           onClick={handleShowSettings}
           type="button"
         >
@@ -30,7 +30,7 @@ const Prompter = ({
         </Button>
         <Input
           className="join-item flex-1 focus:outline-0"
-          color="secondary"
+          color="primary"
           placeholder="Type your prompt here..."
           value={input}
           onChange={handleInputChange}
@@ -38,13 +38,13 @@ const Prompter = ({
         {!isLoading ? (
           <Button
             className="join-item rounded-r-full"
-            color="secondary"
+            color="primary"
             type="submit"
           >
             Chat
           </Button>
         ) : (
-          <Button onClick={stop} color="secondary" className="join-item rounded-r-full">
+          <Button onClick={stop} color="primary" className="join-item rounded-r-full">
             <Loading variant="ring" color="warning" />
             <small className="text-xs">Stop</small>
           </Button>
