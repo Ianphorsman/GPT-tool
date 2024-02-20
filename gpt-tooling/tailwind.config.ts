@@ -22,7 +22,14 @@ export default {
   plugins: [require("@tailwindcss/typography"), require("daisyui"), require("tailwind-highlightjs")],
   daisyui: {
     styled: true,
-    themes: true,
+    themes: [
+      "night",
+      "dracula",
+      "retro", 
+      "forest", 
+      "sunset", 
+      "halloween"
+    ],
     base: true,
     utils: true,
     logs: true,

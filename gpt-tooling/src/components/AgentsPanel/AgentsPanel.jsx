@@ -22,7 +22,7 @@ const AgentsPanel = ({
                 <div key={id} className="flex flex-row">
                   <Button
                     shape="square"
-                    color={id === activeAgent.id ? "primary" : "ghost"}
+                    color={id === activeAgent.id ? "secondary" : "ghost"}
                     className="m-0 join-item"
                     onClick={() => setActiveAgent(id)}
                   >
