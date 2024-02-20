@@ -53,7 +53,7 @@ const GenerationSettings = ({
           })}
         </Select>
         <RangeBlock
-          label="Max message length"
+          label="Max Tokens in Response"
           size="xs"
           color="ghost"
           onChange={(e) => setMaxMessageLength(id, e.target.value)}
