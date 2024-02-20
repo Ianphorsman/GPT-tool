@@ -29,7 +29,7 @@ const Prompter = ({
           </svg>
         </Button>
         <Input
-          className="join-item flex-1"
+          className="join-item flex-1 focus:outline-0"
           color="secondary"
           placeholder="Type your prompt here..."
           value={input}
