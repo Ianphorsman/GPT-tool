@@ -125,12 +125,14 @@ export default async function POST(req) {
     const readableStream = new ReadableStream({
       async start(controller) {
         for await (const output of await app.stream(inputs)) {
-          let content = ''
-          if (output.agent || output.action) {
-            content = (output?.agent ?? output?.action)?.messages[0].lc_kwargs.content
+          if (!output.action) {
+            let content = ''
+            if (output.agent || output.action) {
+              content = (output?.agent ?? output?.action)?.messages[0].lc_kwargs.content
+            }
+            const encodedContent = textEncoder.encode(content)
+            controller.enqueue(encodedContent);
           }
-          const encodedContent = textEncoder.encode(content)
-          controller.enqueue(encodedContent);
         }
         controller.close();
       }
