@@ -140,6 +140,7 @@ const Playground = ({ isMobile }) => {
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
             <Prompter
+              api={api}
               input={input}
               handleShowSettings={handleShowSettings}
               handleSubmit={handleSubmit}
@@ -150,6 +151,7 @@ const Playground = ({ isMobile }) => {
               generateManualMessages={generateManualMessages}
               setMessages={setMessages}
               setIsLoading={_setIsLoading}
+              activeAgent={activeAgent}
             />
           </section>
         </main>

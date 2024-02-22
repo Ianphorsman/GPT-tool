@@ -2,6 +2,7 @@
 
 const generateManualMessages = async (e, payload, setMessagesFunc, setIsLoadingFunc) => {
   e.preventDefault()
+  const { activeAgent, agents, input } = payload.options.body
   setIsLoadingFunc(true)
   const response = await fetch("/api/graph", {
     method: "POST",

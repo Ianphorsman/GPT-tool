@@ -99,7 +99,10 @@ const multiAgentReducer = (state, action) => {
         ...state,
         agents: {
           ...state.agents,
-          [action.id]: action.agent
+          [action.id]: {
+            ...initialAgentState,
+            ...action.agent
+          }
         }
       }
     case 'REMOVE_AGENT':
