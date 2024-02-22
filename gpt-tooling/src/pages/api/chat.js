@@ -17,7 +17,12 @@ export default async function POST(req) {
     messages
   })
 
-  const stream = OpenAIStream(response)
+  const stream = OpenAIStream(response, {
+    onFinal: (data) => {
+      console.log('Final', data)
+    },
+    
+  })
 
   return new StreamingTextResponse(stream)
 }

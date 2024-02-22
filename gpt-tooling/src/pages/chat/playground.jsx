@@ -7,6 +7,7 @@ import {
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
+import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
@@ -18,7 +19,7 @@ import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import generateManualMessages from "~/utils/generateManualMessages"
 
-const Playground = ({ isMobile }) => {
+const Playground = ({ isMobile, isAuthenticationFeatureEnabled }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const {
@@ -44,6 +45,7 @@ const Playground = ({ isMobile }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [_isLoading, _setIsLoading] = useState(false)
   const [api, setApi] = useState('/api/chat')
+
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
@@ -80,15 +82,17 @@ const Playground = ({ isMobile }) => {
   }, [])
 
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
-
+  console.log('isAuthenticationFeatureEnabled', isAuthenticationFeatureEnabled)
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen w-screen m-auto flex flex-col">
         <Navbar className="md:pl-96 md:pr-20">
           <Navbar.Start>
-            {isMobile ? (
-              <Button onClick={toggleDrawerOpen}>
-
+            {/* isMobile */ false ? (
+              <Button color="ghost" onClick={toggleDrawerOpen}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
               </Button>
             ) : null}
             <h1>Multi-Agent Playground</h1>
@@ -100,6 +104,16 @@ const Playground = ({ isMobile }) => {
               setHoverTheme={setHoverTheme}
               setIsHoverTheme={setIsHoverTheme}
             />
+            {isAuthenticationFeatureEnabled ? (
+              <>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+                <SignedOut>
+                  <SignInButton />
+                </SignedOut>
+              </>
+            ) : null}
           </Navbar.End>
         </Navbar>
         <Divider vertical color="neutral" className="m-0 h-0.5" />
@@ -126,17 +140,22 @@ const Playground = ({ isMobile }) => {
           setConversationType={setConversationType}
         />
         <main className="flex flex-row flex-1" style={{ maxHeight: 'calc(100vh - 4rem)'}}>
-          <SideNavigation
-            isDrawerOpen={isDrawerOpen}
-            toggleDrawerOpen={toggleDrawerOpen}
-          />
-          <AgentsPanel
-            agents={Object.values(agents)}
-            addAgent={addAgent}
-            removeAgent={removeAgent}
-            setActiveAgent={setActiveAgent}
-            activeAgent={activeAgent}
-          />
+          {!isMobile ? (
+            <>
+              <SideNavigation
+                isDrawerOpen={isDrawerOpen}
+                toggleDrawerOpen={toggleDrawerOpen}
+                isMobile={isMobile}
+              />
+              <AgentsPanel
+                agents={Object.values(agents)}
+                addAgent={addAgent}
+                removeAgent={removeAgent}
+                setActiveAgent={setActiveAgent}
+                activeAgent={activeAgent}
+              />
+            </>
+          ) : null}
           <section className="flex flex-col w-full">
             <Chat messages={messages} />
             <Prompter
@@ -152,6 +171,7 @@ const Playground = ({ isMobile }) => {
               setMessages={setMessages}
               setIsLoading={_setIsLoading}
               activeAgent={activeAgent}
+              isMobile={isMobile}
             />
           </section>
         </main>
