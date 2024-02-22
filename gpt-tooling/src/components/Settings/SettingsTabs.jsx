@@ -6,13 +6,13 @@ import AgentBehaviourSettings from './AgentBehaviourSettings'
 const { RadioTab } = Tabs
 
 const SETTINGS_TABS = [
-  'Generation Settings',
-  'Agent Behaviours'
+  'Generation',
+  'Agents'
 ]
 
 const componentMap = {
-  'Generation Settings': GenerationSettings,
-  'Agent Behaviours': AgentBehaviourSettings
+  'Generation': GenerationSettings,
+  'Agents': AgentBehaviourSettings
 }
 
 const SettingsTabs = ({
@@ -35,11 +35,12 @@ const SettingsTabs = ({
   api,
   setApi,
   conversationType,
-  setConversationType
+  setConversationType,
+  isMobile
 }) => {
   const Component = componentMap[activeTab] ?? GenerationSettings
   return (
-    <Tabs variant="bordered">
+    <Tabs variant="bordered" size={isMobile ? 'xs' : 'md'}>
       {SETTINGS_TABS.map(tab => (
         <RadioTab
           key={tab}
@@ -70,6 +71,7 @@ const SettingsTabs = ({
             setApi={setApi}
             conversationType={conversationType}
             setConversationType={setConversationType}
+            isMobile={isMobile}
           />
         </RadioTab>
       ))}

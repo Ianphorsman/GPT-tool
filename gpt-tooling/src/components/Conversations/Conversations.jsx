@@ -1,10 +1,11 @@
 import React from 'react'
+import { SignedIn } from '@clerk/nextjs'
 
 const Conversations = () => {
   return (
-    <div>
+    <SignedIn>
       <h1>Conversations</h1>
-    </div>
+    </SignedIn>
   )
 }
 

@@ -82,7 +82,7 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled }) => {
   }, [])
 
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
-  console.log('isAuthenticationFeatureEnabled', isAuthenticationFeatureEnabled)
+
   return (
     <Theme dataTheme={isHoverTheme ? hoverTheme : theme}>
       <div className="min-h-screen w-screen m-auto flex flex-col">
@@ -138,6 +138,7 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled }) => {
           setApi={setApi}
           conversationType={conversationType}
           setConversationType={setConversationType}
+          isMobile={isMobile}
         />
         <main className="flex flex-row flex-1" style={{ maxHeight: 'calc(100vh - 4rem)'}}>
           {!isMobile ? (

@@ -20,9 +20,10 @@ const Settings = React.forwardRef(({
   api,
   setApi,
   conversationType,
-  setConversationType
+  setConversationType,
+  isMobile
 }, ref) => {
-  const [activeTab, setActiveTab] = useState('Generation Settings')
+  const [activeTab, setActiveTab] = useState('Generation')
   return (
     <Modal ref={ref} backdrop className="w-11/12 max-w-5xl">
       <Modal.Body>
@@ -47,6 +48,7 @@ const Settings = React.forwardRef(({
           setApi={setApi}
           conversationType={conversationType}
           setConversationType={setConversationType}
+          isMobile={isMobile}
         />
       </Modal.Body>
     </Modal>

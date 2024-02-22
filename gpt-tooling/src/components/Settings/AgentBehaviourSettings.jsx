@@ -5,11 +5,12 @@ import { Divider } from 'react-daisyui'
 const AgentBehaviourSettings = ({
   activeAgent,
   maxResponses,
-  setMaxResponses
+  setMaxResponses,
+  isMobile
 }) => {
   const { id } = activeAgent
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row flex-wrap">
       <section className="flex-1">
         <RangeBlock
           label="Max responses"
@@ -21,7 +22,7 @@ const AgentBehaviourSettings = ({
           step={maxResponses}
         />
       </section>
-      <Divider horizontal />
+      <Divider responsive={isMobile} />
       <section className="flex-1">
         
       </section>

@@ -13,7 +13,8 @@ const GenerationSettings = ({
   temperature,
   activeAgent,
   api,
-  setApi
+  setApi,
+  isMobile
 }) => {
   const [_customInstructions, _setCustomInstructions] = useState(activeAgent.customInstructions || '')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
@@ -30,8 +31,8 @@ const GenerationSettings = ({
   }
 
   return (
-    <div className="flex flex-row">
-      <div className="flex flex-1 flex-col justify-center items-stretch gap-3">
+    <div className="flex flex-row flex-wrap">
+      <div className={`flex flex-1 flex-col justify-center items-stretch gap-3 ${isMobile ? 'mb-8' : ''}`}>
         <Textarea
           label="Custom Instructions"
           onChange={onInputChange}
@@ -41,7 +42,7 @@ const GenerationSettings = ({
         />
         <Button onClick={onApplyChangesClick} disabled={!hasMadeChanges}>Save</Button>
       </div>
-      <Divider horizontal />
+      <Divider responsive={isMobile} />
       <div className="flex flex-1 flex-col justify-center items-stretch gap-4">
         <Select onChange={(e) => setModel(id, e.target.value)}>
           {MODEL_OPTIONS.map(({ name, access }) => {
