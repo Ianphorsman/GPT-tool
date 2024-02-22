@@ -16,6 +16,7 @@ import Prompter from "~/components/Prompter"
 import ThemeDropdown from "~/components/ThemeDropdown"
 import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
+import generateManualMessages from "~/utils/generateManualMessages"
 
 const Playground = ({ isMobile }) => {
   const settingsModalRef = useRef(null)
@@ -41,6 +42,7 @@ const Playground = ({ isMobile }) => {
   const [hoverTheme, setHoverTheme] = useState('night')
   const [isHoverTheme, setIsHoverTheme] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [_isLoading, _setIsLoading] = useState(false)
   const [api, setApi] = useState('/api/chat')
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
@@ -49,7 +51,8 @@ const Playground = ({ isMobile }) => {
     handleInputChange,
     handleSubmit,
     stop,
-    isLoading
+    isLoading,
+    setMessages
   } = useChat({
     api,
     body: {
@@ -61,14 +64,13 @@ const Playground = ({ isMobile }) => {
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
 
-
   useEffect(() => {
     const savedTheme = window.localStorage.getItem('daisyui-theme')
     if (savedTheme) {
       setTheme(savedTheme)
     }
   }, [])
-  console.log('messages', messages)
+
   const handleShowSettings = useCallback(() => {
     settingsModalRef.current?.showModal()
   }, [])
@@ -143,8 +145,11 @@ const Playground = ({ isMobile }) => {
               handleSubmit={handleSubmit}
               handleInputChange={handleInputChange}
               stop={stop}
-              isLoading={isLoading}
+              isLoading={isLoading || _isLoading}
               agents={agents}
+              generateManualMessages={generateManualMessages}
+              setMessages={setMessages}
+              setIsLoading={_setIsLoading}
             />
           </section>
         </main>

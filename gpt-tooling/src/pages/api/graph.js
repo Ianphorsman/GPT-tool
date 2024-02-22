@@ -1,5 +1,5 @@
-import { StreamingTextResponse } from "ai"
 import roundRobin from "../../langgraph/workflows/roundRobin"
+import generateId from "~/utils/generateId"
 
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 
@@ -23,11 +23,7 @@ export default async function POST(req) {
           if (!output?.__end__) {
             const messages = Object.values(output)[0].messages
             const { content, name } = Object.values(messages)[0].lc_kwargs
-            const strContent = 
-  `
-  **${name}:** \ 
-  ${content}
-  `
+            const strContent = JSON.stringify({ role: 'assistant', content, name, id: generateId() })
             const encodedContent = textEncoder.encode(strContent)
             controller.enqueue(encodedContent);
           }
@@ -36,7 +32,13 @@ export default async function POST(req) {
       }
     })
 
-    return new StreamingTextResponse(readableStream)
+    return new Response(readableStream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Transfer-Encoding': 'chunked'
+      }
+    })
+    //return new StreamingTextResponse(readableStream)
   } catch (error) {
     console.error(error)
   }

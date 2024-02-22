@@ -3,18 +3,29 @@ import PropTypes from 'prop-types'
 import { Join, Button, Input, Loading } from 'react-daisyui'
 
 const Prompter = ({
+  api,
   input,
   handleSubmit,
   handleShowSettings,
   handleInputChange,
   stop,
   isLoading,
-  agents
+  agents,
+  generateManualMessages,
+  setMessages,
+  setIsLoading
 }) => {
   return (
     <form
       className="flex flex-row self-center w-full p-4 max-w-prose sticky bottom-0"
-      onSubmit={(e) => handleSubmit(e, { options: { body: { agents: Object.values(agents) }}})}
+      onSubmit={(e) => {
+        const opts = { options: { body: { agents: Object.values(agents) }}}
+        if (api === '/api/chat') {
+          handleSubmit(e, opts)
+        } else {
+          generateManualMessages(e, opts, setMessages, setIsLoading)
+        }
+      }}
     >
       <Join className="flex flex-row w-full justify-center">
         <Button
