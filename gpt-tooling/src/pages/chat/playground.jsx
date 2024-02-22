@@ -60,13 +60,15 @@ const Playground = ({ isMobile }) => {
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
+
+
   useEffect(() => {
     const savedTheme = window.localStorage.getItem('daisyui-theme')
     if (savedTheme) {
       setTheme(savedTheme)
     }
   }, [])
-
+  console.log('messages', messages)
   const handleShowSettings = useCallback(() => {
     settingsModalRef.current?.showModal()
   }, [])
@@ -121,7 +123,7 @@ const Playground = ({ isMobile }) => {
           conversationType={conversationType}
           setConversationType={setConversationType}
         />
-        <main className="flex flex-row flex-1">
+        <main className="flex flex-row flex-1" style={{ maxHeight: 'calc(100vh - 4rem)'}}>
           <SideNavigation
             isDrawerOpen={isDrawerOpen}
             toggleDrawerOpen={toggleDrawerOpen}
