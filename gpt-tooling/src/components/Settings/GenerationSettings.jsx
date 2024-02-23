@@ -42,7 +42,7 @@ const GenerationSettings = ({
         />
         <Button onClick={onApplyChangesClick} disabled={!hasMadeChanges}>Save</Button>
       </div>
-      <Divider responsive={isMobile} />
+      <Divider responsive={isMobile} horizontal={!isMobile} />
       <div className="flex flex-1 flex-col justify-center items-stretch gap-4">
         <Select onChange={(e) => setModel(id, e.target.value)}>
           {MODEL_OPTIONS.map(({ name, access }) => {

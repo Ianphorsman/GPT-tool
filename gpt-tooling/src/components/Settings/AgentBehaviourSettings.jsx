@@ -22,7 +22,7 @@ const AgentBehaviourSettings = ({
           step={maxResponses}
         />
       </section>
-      <Divider responsive={isMobile} />
+      <Divider responsive={isMobile} horizontal={!isMobile} />
       <section className="flex-1">
         
       </section>
