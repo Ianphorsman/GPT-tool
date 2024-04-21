@@ -25,10 +25,10 @@ export default async function POST(req) {
             const { content, name } = Object.values(messages)[0].lc_kwargs
             const strContent = JSON.stringify({ role: 'assistant', content, name, id: generateId() })
             const encodedContent = textEncoder.encode(strContent)
-            controller.enqueue(encodedContent);
+            controller.enqueue(encodedContent)
           }
         }
-        controller.close();
+        controller.close()
       }
     })
 
