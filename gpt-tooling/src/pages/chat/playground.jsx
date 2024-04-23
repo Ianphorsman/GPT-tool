@@ -7,7 +7,6 @@ import {
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
-import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
@@ -19,7 +18,7 @@ import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import generateManualMessages from "~/utils/generateManualMessages"
 
-const Playground = ({ isMobile, isAuthenticationFeatureEnabled }) => {
+const Playground = ({ isMobile, isAuthenticationFeatureEnabled, ...restProps }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const {
@@ -45,7 +44,6 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [_isLoading, _setIsLoading] = useState(false)
   const [api, setApi] = useState('/api/chat')
-
   const systemPrompt = createSystemPrompt(customInstructions)
   const {
     messages,
@@ -65,14 +63,12 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled }) => {
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
-
   useEffect(() => {
     const savedTheme = window.localStorage.getItem('daisyui-theme')
     if (savedTheme) {
       setTheme(savedTheme)
     }
   }, [])
-
   const handleShowSettings = useCallback(() => {
     settingsModalRef.current?.showModal()
   }, [])
@@ -104,16 +100,6 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled }) => {
               setHoverTheme={setHoverTheme}
               setIsHoverTheme={setIsHoverTheme}
             />
-            {isAuthenticationFeatureEnabled ? (
-              <>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-              </>
-            ) : null}
           </Navbar.End>
         </Navbar>
         <Divider vertical color="neutral" className="m-0 h-0.5" />

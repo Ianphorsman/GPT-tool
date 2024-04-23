@@ -10,10 +10,11 @@ export default async function handler(req, res) {
     }
 
     try {
+      const timestamp = new Date()
       const { data, error } = await supabaseServer
         .from('conversations')
         .insert([
-          { user_id, title, description, created_at: new Date(), updated_at: new Date() }
+          { user_id, title, description, created_at: timestamp, updated_at: timestamp }
         ])
 
       if (error) throw error

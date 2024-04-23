@@ -1,12 +1,10 @@
 import roundRobin from "../../langgraph/workflows/roundRobin"
 import generateId from "~/utils/generateId"
-import getBatchTimestamps from "~/utils/getBatchTimestamps"
+import upsert from "~/server/conversations/upsert"
 
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 export const SUPABASE_URL = process.env.SUPABASE_URL
 export const SUPABASE_API_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 export const runtime = 'edge'
 
@@ -16,8 +14,12 @@ export default async function POST(req) {
   }
   try {
     const body = await req.json()
-    const { messages = [], agents, conversationSettings = { maxConversationLength: 10 } } = body
-    const { recursionLimit = 100, conversationType = 'roundRobin' } = conversationSettings
+    const {
+      messages = [], 
+      agents,
+      conversationSettings = { maxConversationLength: 10 }
+    } = body
+    const { conversation_id, recursionLimit = 100, conversationType = 'roundRobin' } = conversationSettings
     const conversationTypeFunction = conversationTypeMap[conversationType]
     const { app, initialState } = await conversationTypeFunction(agents, messages, conversationSettings)
 
@@ -35,17 +37,7 @@ export default async function POST(req) {
             const encodedContent = textEncoder.encode(strContent)
             controller.enqueue(encodedContent)
           } else {
-            const baseTimestamp = new Date();
-            const timestamps = getBatchTimestamps(baseTimestamp, messageBuffer.length);
-            const batch = messageBuffer.map((message, index) => ({
-              ...message,
-              created_at: timestamps[index]
-            }))
-
-            const { error } = await supabase
-              .from('conversations')
-              .insert(batch)
-            
+            const { error } = await upsert({ user_id: userId, conversation_id, messages: messageBuffer, token })
             if (error) {
               console.error('Error saving conversation to Supabase:', error);
             }
