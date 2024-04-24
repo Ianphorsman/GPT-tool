@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import getBatchTimestamps from "../../utils/getBatchTimestamps"
-import supabaseServer from '../supabaseClient'
+import supabaseServer from '../../utils/supabase/supabaseApiRouteClient'
 
-export default async function upsert({ user_id, conversation_id, messages }) {
+export default async function upsert({ user_id, conversation_id, messages, req }) {
   if (!user_id) {
     return { error: 'You must be signed in to send a message', status: 400 }
   }
@@ -20,19 +20,21 @@ export default async function upsert({ user_id, conversation_id, messages }) {
     created_at: timestamps[index]
   }))
 
+  const supabase = supabaseServer(req)
+
   try {
-    const { error } = await supabaseServer
+    const { error } = await supabase
       .from('conversations')
       .upsert({ id: conversation_id, user_id })
-      .single();
+      .single()
 
-    if (error) throw error;
+    if (error) throw error
 
-    const { error: messageError } = await supabaseServer
-        .from('messages')
-        .insert(batch);
+    const { error: messageError } = await supabase
+      .from('messages')
+      .insert(batch)
 
-    if (messageError) throw messageError;
+    if (messageError) throw messageError
 
     return { status: 201, data: "Conversation and messages upserted successfully" }
   } catch (err) {

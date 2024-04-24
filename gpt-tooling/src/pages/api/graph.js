@@ -37,7 +37,7 @@ export default async function POST(req) {
             const encodedContent = textEncoder.encode(strContent)
             controller.enqueue(encodedContent)
           } else {
-            const { error } = await upsert({ user_id: userId, conversation_id, messages: messageBuffer, token })
+            const { error } = await upsert({ user_id: userId, conversation_id, messages: messageBuffer, req })
             if (error) {
               console.error('Error saving conversation to Supabase:', error);
             }

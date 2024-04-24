@@ -1,5 +1,5 @@
 // pages/api/conversations/archive.js
-import supabaseServer from '../../../server/supabaseClient'
+import supabaseServer from '../../../utils/supabase/supabaseApiRouteClient'
 
 export default async function handler(req, res) {
     if (req.method === 'PUT') {
