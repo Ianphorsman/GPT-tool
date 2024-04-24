@@ -9,6 +9,7 @@ import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
 import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
+import fetchAllConversations from "~/server/conversations/fetchAll"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import OAuth from "~/components/OAuth"
@@ -21,7 +22,7 @@ import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import generateManualMessages from "~/utils/generateManualMessages"
 
-const Playground = ({ isMobile, user }) => {
+const Playground = ({ isMobile, user, isSignedIn }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const authRef = useRef(null)
@@ -84,8 +85,7 @@ const Playground = ({ isMobile, user }) => {
   const handleShowOAuth = useCallback(() => {
     authRef.current?.showModal()
   }, [])
-  console.log('USER', user)
-  const isSignedIn = user?.aud === 'authenticated'
+
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
 
   return (
@@ -203,12 +203,22 @@ export async function getServerSideProps(context) {
   const supabase = supabaseServerClient(context)
 
   const { data, error } = await supabase.auth.getUser()
-  console.log('DATA', data)
-  console.log('ERROR', error)
+  const { user } = data
+  const { aud, id } = user
+  let conversations
+  if (error) {
+    console.error('Error fetching user:', error)
+  } else {
+    console.log('User:', user)
+    conversations = await fetchAllConversations({ supabase, user_id: id })
+    console.log('Conversations:', conversations)
+  }
   return {
     props: {
       isMobile: getIsMobile(context),
-      user: data?.user ?? null
+      user,
+      isSignedIn: aud === 'authenticated',
+      conversations
     }
   };
 }
