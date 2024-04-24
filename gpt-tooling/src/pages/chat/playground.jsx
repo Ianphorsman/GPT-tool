@@ -9,7 +9,7 @@ import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
 import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
-import fetchAllConversations from "~/server/conversations/fetchAll"
+import { fetchAllConversations, fetchAllAgentsInConversation } from "~/utils/supabase/queries"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import OAuth from "~/components/OAuth"
@@ -22,7 +22,7 @@ import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import generateManualMessages from "~/utils/generateManualMessages"
 
-const Playground = ({ isMobile, user, isSignedIn }) => {
+const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const authRef = useRef(null)
@@ -159,6 +159,8 @@ const Playground = ({ isMobile, user, isSignedIn }) => {
                 isDrawerOpen={isDrawerOpen}
                 toggleDrawerOpen={toggleDrawerOpen}
                 isMobile={isMobile}
+                conversations={conversations}
+                fetchAllAgentsInConversation={fetchAllAgentsInConversation}
               />
               <AgentsPanel
                 agents={Object.values(agents)}
