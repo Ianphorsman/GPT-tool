@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Divider,
   Navbar,
@@ -7,8 +8,10 @@ import {
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
+import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
+import OAuth from "~/components/OAuth"
 import Settings from "~/components/Settings/Settings"
 import SideNavigation from "~/components/SideNavigation"
 import Stats from "~/components/Stats"
@@ -18,9 +21,10 @@ import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import generateManualMessages from "~/utils/generateManualMessages"
 
-const Playground = ({ isMobile, isAuthenticationFeatureEnabled, ...restProps }) => {
+const Playground = ({ isMobile, isAuthenticationFeatureEnabled, user }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
+  const authRef = useRef(null)
   const {
     setModel,
     setCustomInstructions,
@@ -77,6 +81,11 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled, ...restProps }) 
     statsModalRef.current?.showModal()
   }, [])
 
+  const handleShowOAuth = useCallback(() => {
+    authRef.current?.showModal()
+  }, [])
+  console.log('USER', user)
+  const isSignedIn = user?.aud === 'authenticated'
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
 
   return (
@@ -94,6 +103,22 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled, ...restProps }) 
             <h1>Multi-Agent Playground</h1>
           </Navbar.Start>
           <Navbar.End>
+            {isSignedIn ? (
+              <Avatar
+                src={user?.user_metadata.avatar_url}
+                size="xs"
+                shape="circle"
+                className="mr-2"
+              />
+            ) : (
+              <Button
+                color="ghost"
+                onClick={handleShowOAuth}
+                className="hover:bg-transparent"
+              >
+                <span>Sign In</span>
+              </Button>
+            )}
             <ThemeDropdown
               theme={theme}
               setTheme={setTheme}
@@ -104,6 +129,7 @@ const Playground = ({ isMobile, isAuthenticationFeatureEnabled, ...restProps }) 
         </Navbar>
         <Divider vertical color="neutral" className="m-0 h-0.5" />
         <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
+        <OAuth authRef={authRef} />
         <Settings
           agents={agents}
           activeAgent={activeAgent}
@@ -174,9 +200,15 @@ const getIsMobile = (context) => {
 }
 
 export async function getServerSideProps(context) {
+  const supabase = supabaseServerClient(context)
+
+  const { data, error } = await supabase.auth.getUser()
+  console.log('DATA', data)
+  console.log('ERROR', error)
   return {
     props: {
-      isMobile: getIsMobile(context)
+      isMobile: getIsMobile(context),
+      user: data?.user ?? null
     }
   };
 }
