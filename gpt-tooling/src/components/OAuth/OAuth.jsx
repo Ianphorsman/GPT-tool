@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal } from 'react-daisyui'
+import { Modal } from 'react-daisyui'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import supabaseClient from '~/utils/supabase/supabaseBrowserClient'

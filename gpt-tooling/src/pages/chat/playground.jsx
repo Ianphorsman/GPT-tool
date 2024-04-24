@@ -21,7 +21,7 @@ import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import generateManualMessages from "~/utils/generateManualMessages"
 
-const Playground = ({ isMobile, isAuthenticationFeatureEnabled, user }) => {
+const Playground = ({ isMobile, user }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const authRef = useRef(null)
