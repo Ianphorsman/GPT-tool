@@ -26,7 +26,7 @@ const GenerationSettings = ({
 
   const onApplyChangesClick = async () => {
     setCustomInstructions(id, _customInstructions[id])
-    upsertAgentWithSystemPrompt({
+    /*upsertAgentWithSystemPrompt({
       supabase,
       system_prompt_id: activeAgent.customInstructions.id,
       user_id: userId,
@@ -41,7 +41,7 @@ const GenerationSettings = ({
         name: activeAgent.name//,
         //description: activeAgent.description
       }
-    })
+    })*/
     setHasMadeChanges(false)
   }
 

@@ -24,7 +24,7 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
       streaming: true,
       maxTokens: maxMessageLength
     })
-    const agent = await createAgent(model, tools, customInstructions)
+    const agent = await createAgent(model, tools, customInstructions.promptText || '')
     return async (state, config) => await agentNode({
       state,
       agent,

@@ -1,6 +1,7 @@
 import roundRobin from "../../langgraph/workflows/roundRobin"
 import generateId from "~/utils/generateId"
-import upsert from "~/server/conversations/upsert"
+import supabaseClient from '~/utils/supabase/supabaseApiRouteClient'
+import { upsertConversation } from "~/utils/supabase/mutations"
 
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY
 export const SUPABASE_URL = process.env.SUPABASE_URL
@@ -17,6 +18,7 @@ export default async function POST(req) {
     const {
       messages = [], 
       agents,
+      userId,
       conversationSettings = { maxConversationLength: 10 }
     } = body
     const { conversation_id, recursionLimit = 100, conversationType = 'roundRobin' } = conversationSettings
@@ -31,13 +33,19 @@ export default async function POST(req) {
           if (!output?.__end__) {
             const messages = Object.values(output)[0].messages
             const { content, name } = Object.values(messages)[0].lc_kwargs
-            const messageObj = { role: 'assistant', content, name, id: generateId() }
+            const messageObj = { role: 'assistant', content, name }
             messageBuffer.push(messageObj)
             const strContent = JSON.stringify(messageObj)
             const encodedContent = textEncoder.encode(strContent)
             controller.enqueue(encodedContent)
           } else {
-            const { error } = await upsert({ user_id: userId, conversation_id, messages: messageBuffer, req })
+            const supabase = supabaseClient(req)
+            const { error } = await upsertConversation({
+              supabase,
+              user_id: userId,
+              conversation_id,
+              messages: messageBuffer
+            })
             if (error) {
               console.error('Error saving conversation to Supabase:', error);
             }

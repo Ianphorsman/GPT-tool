@@ -13,7 +13,7 @@ export default async function POST(req) {
   const supabase = supabaseClient(req)
   const { messages, model, max_tokens = 500, temperature, userId } = await req.json()
 
-  const sanitizedMessages = messages.map(m => ({ role: m.role, content: m.role === 'system' ? m.content.promptText : m.content }))
+  const sanitizedMessages = messages.map(m => ({ role: m.role, content: m.content }))
 
   const response = await openai.chat.completions.create({
     model,

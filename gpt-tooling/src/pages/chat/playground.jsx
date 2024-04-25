@@ -51,7 +51,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [_isLoading, _setIsLoading] = useState(false)
   const [api, setApi] = useState('/api/chat')
-  const systemPrompt = createSystemPrompt(customInstructions)
+  const systemPrompt = createSystemPrompt(customInstructions.promptText)
   const {
     messages,
     input,
