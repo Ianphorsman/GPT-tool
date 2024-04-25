@@ -105,7 +105,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
           <Navbar.End>
             {isSignedIn ? (
               <Avatar
-                src={user?.user_metadata.avatar_url}
+                src={user?.user_metadata.avatar_url || ''}
                 size="xs"
                 shape="circle"
                 className="mr-2"

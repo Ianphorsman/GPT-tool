@@ -1,11 +1,18 @@
 import { useReducer } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+
+const initialAgentId = uuidv4()
+const initialSystemPromptId = uuidv4()
 
 export const initialAgentState = {
   name: '',
   initials: '',
-  id: null,
+  id: initialAgentId,
   model: 'gpt-3.5-turbo',
-  customInstructions: '',
+  customInstructions: {
+    promptText: '',
+    id: initialSystemPromptId
+  },
   maxMessageLength: 1000,
   maxResponses: 10,
   responsesLeft: 10,
@@ -15,14 +22,13 @@ export const initialAgentState = {
 
 const initialState = {
   agents: {
-    1: {
+    [initialAgentId]: {
       ...initialAgentState,
       name: 'Agent1',
-      initials: 'A1',
-      id: 1
+      initials: 'A1'
     }
   },
-  activeAgent: 1,
+  activeAgent: initialAgentId,
   conversationType: 'chat'
 }
 
@@ -46,7 +52,10 @@ const multiAgentReducer = (state, action) => {
           ...state.agents,
           [action.id]: {
             ...state.agents[action.id],
-            customInstructions: action.customInstructions
+            customInstructions: {
+              promptText: action.customInstructions,
+              id: action.system_prompt_id || uuidv4()
+            }
           }
         }
       }
@@ -95,13 +104,19 @@ const multiAgentReducer = (state, action) => {
         }
       }
     case 'ADD_AGENT':
+      const id = uuidv4()
       return {
         ...state,
         agents: {
           ...state.agents,
-          [action.id]: {
+          [id]: {
             ...initialAgentState,
-            ...action.agent
+            ...action.agent,
+            id,
+            customInstructions: {
+              ...action.agent.customInstructions,
+              id: uuidv4()
+            }
           }
         }
       }
@@ -157,7 +172,7 @@ const useMultiAgentManager = () => {
   }
 
   const setCustomInstructions = (id, customInstructions) => {
-    dispatch({ type: 'SET_CUSTOM_INSTRUCTIONS', id, customInstructions })
+    dispatch({ type: 'SET_CUSTOM_INSTRUCTIONS', id, customInstructions, system_prompt_id })
   }
 
   const setMaxMessageLength = (id, maxMessageLength) => {

@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Divider, Link, Select, Textarea, Toggle } from 'react-daisyui'
-import RangeBlock from '../RangeBlock'
+import supabaseClient from '~/utils/supabase/supabaseBrowserClient'
+import { upsertAgentWithSystemPrompt } from "~/utils/supabase/mutations"
 import { MODEL_OPTIONS } from "~/constants"
+import RangeBlock from '../RangeBlock'
 
 const GenerationSettings = ({
   model,
@@ -19,9 +21,18 @@ const GenerationSettings = ({
   const [_customInstructions, _setCustomInstructions] = useState(activeAgent.customInstructions || '')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
   const id = activeAgent.id
-
-  const onApplyChangesClick = () => {
+  const supabase = supabaseClient()
+  const onApplyChangesClick = async () => {
     setCustomInstructions(id, _customInstructions[id])
+    upsertAgentWithSystemPrompt({
+      supabase,
+      system_prompt_id,
+      user_id,
+      agent_id,
+      title,
+      prompt_text,
+      agent
+    })
     setHasMadeChanges(false)
   }
 
