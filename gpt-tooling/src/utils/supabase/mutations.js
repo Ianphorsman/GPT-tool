@@ -72,3 +72,33 @@ export async function upsertConversation({ supabase, conversation_id, user_id, t
     return { error: err.message }
   }
 }
+
+export async function deleteConversation({ supabase, conversation_id }) {
+  try {
+    const { data, error } = await supabase
+      .from('conversations')
+      .delete()
+      .eq('id', conversation_id)
+
+    if (error) throw error
+
+    return { success: true, data }
+  } catch (err) {
+    return { error: err.message }
+  }
+}
+
+export async function deleteAgent({ supabase, agent_id }) {
+  try {
+    const { data, error } = await supabase
+      .from('agents')
+      .delete()
+      .eq('id', agent_id)
+
+    if (error) throw error
+
+    return { success: true, data }
+  } catch (err) {
+    return { error: err.message }
+  }
+}
