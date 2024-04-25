@@ -16,22 +16,31 @@ const GenerationSettings = ({
   activeAgent,
   api,
   setApi,
-  isMobile
+  isMobile,
+  userId
 }) => {
-  const [_customInstructions, _setCustomInstructions] = useState(activeAgent.customInstructions || '')
+  const [_customInstructions, _setCustomInstructions] = useState(activeAgent.customInstructions.promptText || '')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
   const id = activeAgent.id
   const supabase = supabaseClient()
+
   const onApplyChangesClick = async () => {
     setCustomInstructions(id, _customInstructions[id])
     upsertAgentWithSystemPrompt({
       supabase,
-      system_prompt_id,
-      user_id,
-      agent_id,
-      title,
-      prompt_text,
-      agent
+      system_prompt_id: activeAgent.customInstructions.id,
+      user_id: userId,
+      agent_id: id,
+      title: _customInstructions[id].substr(0, 25),
+      prompt_text: _customInstructions[id],
+      agent: {
+        model: activeAgent.model,
+        max_message_length: Number(activeAgent.maxMessageLength),
+        temperature: Number(activeAgent.temperature) / 100,
+        initials: activeAgent.initials,
+        name: activeAgent.name//,
+        //description: activeAgent.description
+      }
     })
     setHasMadeChanges(false)
   }
@@ -49,7 +58,7 @@ const GenerationSettings = ({
           onChange={onInputChange}
           placeholder={"Type your custom instructions here..."}
           className="flex-1"
-          value={_customInstructions[id] || activeAgent.customInstructions || ''}
+          value={_customInstructions[id] || activeAgent.customInstructions.promptText || ''}
         />
         <Button onClick={onApplyChangesClick} disabled={!hasMadeChanges}>Save</Button>
       </div>

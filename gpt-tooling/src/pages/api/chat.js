@@ -1,6 +1,7 @@
 import OpenAI from 'openai'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
-import upsert from '~/server/conversations/upsert'
+import supabaseClient from '~/utils/supabase/supabaseApiRouteClient'
+import { upsertConversation } from '~/utils/supabase/mutations'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -9,28 +10,28 @@ const openai = new OpenAI({
 export const runtime = 'edge'
 
 export default async function POST(req) {
-  const token = await getToken({ template: "supabase" })
-  supabase.auth.setAuth(token)
-  console.log('TOKEN', userId, token)
-  const { messages, model, max_tokens = 500, temperature } = await req.json()
+  const supabase = supabaseClient(req)
+  const { messages, model, max_tokens = 500, temperature, userId } = await req.json()
+
+  const sanitizedMessages = messages.map(m => ({ role: m.role, content: m.role === 'system' ? m.content.promptText : m.content }))
+
   const response = await openai.chat.completions.create({
     model,
     max_tokens,
     temperature,
     stream: true,
-    messages
+    messages: sanitizedMessages
   })
 
   const stream = OpenAIStream(response, {
-    onFinal: (data) => {
-      console.log('Final', data)
-      upsert({
+    onFinal: async (data) => {
+      upsertConversation({
+        supabase,
         user_id: userId,
         conversation_id: data.conversation_id,
-        messages: data.messages
+        messages: [...sanitizedMessages, { content: data }]
       })
-    },
-    
+    }
   })
 
   return new StreamingTextResponse(stream)

@@ -21,7 +21,8 @@ const Settings = React.forwardRef(({
   setApi,
   conversationType,
   setConversationType,
-  isMobile
+  isMobile,
+  userId
 }, ref) => {
   const [activeTab, setActiveTab] = useState('Generation')
   return (
@@ -49,6 +50,7 @@ const Settings = React.forwardRef(({
           conversationType={conversationType}
           setConversationType={setConversationType}
           isMobile={isMobile}
+          userId={userId}
         />
       </Modal.Body>
     </Modal>

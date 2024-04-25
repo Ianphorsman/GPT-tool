@@ -9,6 +9,7 @@ import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
 import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
+import supabaseBrowserClient from "~/utils/supabase/supabaseBrowserClient"
 import { fetchAllConversations, fetchAllAgentsInConversation } from "~/utils/supabase/queries"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
@@ -26,6 +27,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
   const authRef = useRef(null)
+  const supabase = supabaseBrowserClient()
   const {
     setModel,
     setCustomInstructions,
@@ -64,7 +66,8 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
       model: activeAgent.model,
       temperature: activeAgent.temperature / 100,
       max_tokens: Number(activeAgent.maxMessageLength),
-      agents: Object.values(agents)
+      agents: Object.values(agents),
+      userId: user?.id
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
@@ -104,12 +107,21 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
           </Navbar.Start>
           <Navbar.End>
             {isSignedIn ? (
-              <Avatar
-                src={user?.user_metadata.avatar_url || ''}
-                size="xs"
-                shape="circle"
-                className="mr-2"
-              />
+              <>
+                <Button
+                  color="ghost"
+                  onClick={() => supabase.auth.signOut()}
+                  className="hover:bg-transparent"
+                >
+                  <span>Sign Out</span>
+                </Button>
+                <Avatar
+                  src={user?.user_metadata.avatar_url || ''}
+                  size="xs"
+                  shape="circle"
+                  className="mr-2"
+                />
+              </>
             ) : (
               <Button
                 color="ghost"
@@ -131,6 +143,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
         <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
         <OAuth authRef={authRef} />
         <Settings
+          userId={user.id}
           agents={agents}
           activeAgent={activeAgent}
           model={model}
@@ -204,13 +217,13 @@ const getIsMobile = (context) => {
 export async function getServerSideProps(context) {
   const supabase = supabaseServerClient(context)
 
-  const { data, error } = await supabase.auth.getUser()
-  const { user } = data
-  const { aud, id } = user
-  let conversations
+  const { data = {}, error } = await supabase.auth.getUser()
+  const { user = {} } = data
+  const { aud, id } = user ?? {}
+  let conversations = []
   if (error) {
     console.error('Error fetching user:', error)
-  } else {
+  } else if (id) {
     console.log('User:', user)
     conversations = await fetchAllConversations({ supabase, user_id: id })
     console.log('Conversations:', conversations)
@@ -218,7 +231,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       isMobile: getIsMobile(context),
-      user,
+      user: user ?? {},
       isSignedIn: aud === 'authenticated',
       conversations
     }

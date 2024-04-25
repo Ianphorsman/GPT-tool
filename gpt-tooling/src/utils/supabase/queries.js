@@ -44,3 +44,23 @@ export async function fetchAllAgentsInConversation({ supabase, conversation_id }
     return { error: err.message }
   }
 }
+
+export async function fetchAllMessagesInConversation({ supabase, conversation_id }) {
+  if (!conversation_id) {
+    return { error: 'Conversation ID is required' }
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('messages')
+      .select('*')
+      .eq('conversation_id', conversation_id)
+      .order('created_at', { ascending: true })
+
+    if (error) throw error
+
+    return data
+  } catch (err) {
+    return { error: err.message }
+  }
+}

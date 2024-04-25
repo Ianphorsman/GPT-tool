@@ -53,8 +53,7 @@ const multiAgentReducer = (state, action) => {
           [action.id]: {
             ...state.agents[action.id],
             customInstructions: {
-              promptText: action.customInstructions,
-              id: action.system_prompt_id || uuidv4()
+              promptText: action.customInstructions
             }
           }
         }
@@ -172,7 +171,7 @@ const useMultiAgentManager = () => {
   }
 
   const setCustomInstructions = (id, customInstructions) => {
-    dispatch({ type: 'SET_CUSTOM_INSTRUCTIONS', id, customInstructions, system_prompt_id })
+    dispatch({ type: 'SET_CUSTOM_INSTRUCTIONS', id, customInstructions })
   }
 
   const setMaxMessageLength = (id, maxMessageLength) => {
