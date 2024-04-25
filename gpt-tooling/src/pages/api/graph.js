@@ -1,5 +1,4 @@
 import roundRobin from "../../langgraph/workflows/roundRobin"
-import generateId from "~/utils/generateId"
 import supabaseClient from '~/utils/supabase/supabaseApiRouteClient'
 import { upsertConversation } from "~/utils/supabase/mutations"
 
@@ -13,18 +12,12 @@ export default async function POST(req) {
   const conversationTypeMap = {
     'roundRobin': roundRobin
   }
+  const supabase = supabaseClient(req)
   try {
-    const body = await req.json()
-    const {
-      messages = [], 
-      agents,
-      userId,
-      conversationSettings = { maxConversationLength: 10 }
-    } = body
+    const { messages = [], agents, conversationSettings = { maxConversationLength: 10 }, userId } = await req.json()
     const { conversation_id, recursionLimit = 100, conversationType = 'roundRobin' } = conversationSettings
     const conversationTypeFunction = conversationTypeMap[conversationType]
     const { app, initialState } = await conversationTypeFunction(agents, messages, conversationSettings)
-
     const messageBuffer = []
     const textEncoder = new TextEncoder()
     const readableStream = new ReadableStream({
@@ -39,7 +32,6 @@ export default async function POST(req) {
             const encodedContent = textEncoder.encode(strContent)
             controller.enqueue(encodedContent)
           } else {
-            const supabase = supabaseClient(req)
             const { error } = await upsertConversation({
               supabase,
               user_id: userId,

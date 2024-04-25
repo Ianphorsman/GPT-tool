@@ -52,6 +52,8 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
   const [_isLoading, _setIsLoading] = useState(false)
   const [api, setApi] = useState('/api/chat')
   const systemPrompt = createSystemPrompt(customInstructions.promptText)
+  const userId = user.id
+
   const {
     messages,
     input,
@@ -67,7 +69,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
       temperature: activeAgent.temperature / 100,
       max_tokens: Number(activeAgent.maxMessageLength),
       agents: Object.values(agents),
-      userId: user?.id
+      userId
     },
     ...systemPrompt && { initialMessages: [systemPrompt] }
   })
@@ -200,6 +202,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
               setIsLoading={_setIsLoading}
               activeAgent={activeAgent}
               isMobile={isMobile}
+              userId={userId}
             />
           </section>
         </main>

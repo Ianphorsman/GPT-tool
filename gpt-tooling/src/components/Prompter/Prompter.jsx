@@ -14,13 +14,14 @@ const Prompter = ({
   activeAgent,
   generateManualMessages,
   setMessages,
-  setIsLoading
+  setIsLoading,
+  userId
 }) => {
   return (
     <form
       className="flex flex-row self-center w-full p-4 max-w-prose sticky bottom-0"
       onSubmit={(e) => {
-        const opts = { options: { body: { agents: Object.values(agents), activeAgent, input }}}
+        const opts = { options: { body: { agents: Object.values(agents), activeAgent, input, userId }}}
         if (api === '/api/chat') {
           handleSubmit(e, opts)
         } else {
