@@ -157,6 +157,12 @@ const multiAgentReducer = (state, action) => {
       return {
         ...state,
         conversationType: action.conversationType
+      }  
+    case 'SET_AGENTS':
+      return {
+        ...state,
+        agents: action.agents,
+        activeAgent: Object.keys(action.agents)[0]
       }
     default:
       return state
@@ -214,6 +220,10 @@ const useMultiAgentManager = () => {
     dispatch({ type: 'SET_CONVERSATION_TYPE', conversationType })
   }
 
+  const setAgents = (agents) => {
+    dispatch({ type: 'SET_AGENTS', agents })
+  }
+
   return {
     agents: state.agents,
     setModel,
@@ -229,7 +239,8 @@ const useMultiAgentManager = () => {
     setCannotAutoRespondToAgent,
     activeAgent: state.agents[state.activeAgent],
     conversationType: state.conversationType,
-    setConversationType
+    setConversationType,
+    setAgents
   }
 }
 

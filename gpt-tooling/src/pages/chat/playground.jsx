@@ -42,7 +42,8 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
     setWillAutoRespondToAgent,
     setCannotAutoRespondToAgent,
     conversationType,
-    setConversationType
+    setConversationType,
+    setAgents
   } = useMultiAgentManager()
   const { model, maxMessageLength, maxResponses, customInstructions, temperature, autoRespondTo } = activeAgent
   const [theme, setTheme] = useState('night')
@@ -178,6 +179,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
                 fetchAllAgentsInConversation={fetchAllAgentsInConversation}
                 fetchAllMessagesInConversation={fetchAllMessagesInConversation}
                 setMessages={setMessages}
+                setAgents={setAgents}
                 supabase={supabase}
               />
               <AgentsPanel

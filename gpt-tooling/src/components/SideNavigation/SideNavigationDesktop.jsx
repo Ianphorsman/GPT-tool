@@ -1,10 +1,12 @@
 import React from 'react'
+import mapAgents from '~/utils/mapAgents'
 
 const SideNavigationDesktop = ({
   conversations,
   fetchAllAgentsInConversation,
   fetchAllMessagesInConversation,
   setMessages,
+  setAgents,
   supabase
 }) => {
 
@@ -13,6 +15,9 @@ const SideNavigationDesktop = ({
       fetchAllAgentsInConversation({ supabase, conversation_id }),
       fetchAllMessagesInConversation({ supabase, conversation_id })
     ])
+    if (agents.value.length > 0) {
+      setAgents(mapAgents(agents.value))
+    }
     setMessages(messages.value)
   }
 
