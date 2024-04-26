@@ -36,7 +36,8 @@ export default async function POST(req) {
               supabase,
               user_id: userId,
               conversation_id,
-              messages: messageBuffer
+              messages: messageBuffer,
+              agents
             })
             if (error) {
               console.error('Error saving conversation to Supabase:', error);

@@ -26,13 +26,16 @@ export async function fetchAllAgentsInConversation({ supabase, conversation_id }
 
   try {
     const { data, error } = await supabase
-      .from('agents')
+      .from('conversation_agents')
       .select(`
-        *,
-        system_prompts (
-          id,
-          title,
-          prompt_text
+        agent_id,
+        agents (
+          *,
+          system_prompts (
+            id,
+            title,
+            prompt_text
+          )
         )
       `)
       .eq('conversation_id', conversation_id)

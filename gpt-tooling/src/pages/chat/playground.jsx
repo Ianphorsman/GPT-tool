@@ -10,7 +10,7 @@ import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
 import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
 import supabaseBrowserClient from "~/utils/supabase/supabaseBrowserClient"
-import { fetchAllConversations, fetchAllAgentsInConversation } from "~/utils/supabase/queries"
+import { fetchAllConversations, fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import OAuth from "~/components/OAuth"
@@ -176,6 +176,9 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
                 isMobile={isMobile}
                 conversations={conversations}
                 fetchAllAgentsInConversation={fetchAllAgentsInConversation}
+                fetchAllMessagesInConversation={fetchAllMessagesInConversation}
+                setMessages={setMessages}
+                supabase={supabase}
               />
               <AgentsPanel
                 agents={Object.values(agents)}

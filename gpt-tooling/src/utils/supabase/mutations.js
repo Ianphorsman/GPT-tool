@@ -24,14 +24,17 @@ export async function upsertAgentWithSystemPrompt({ supabase, system_prompt_id, 
   }
 }
 
-export async function linkAgentWithConversation({ supabase, agent_id, conversation_id }) {
+export async function linkAgentsWithConversation({ supabase, conversation_id, agents }) {
   try {
+    const batch = agents.map(({ id }) => ({
+      agent_id: id,
+      conversation_id
+    }))
     const { data, error } = await supabase
-      .from('agents')
-      .upsert({ id: agent_id, conversation_id })
-      .single()
+      .from('conversation_agents')
+      .upsert(batch, { returning: 'minimal' })
 
-    if (error) throw error
+      if (error) return { error: error.message }
 
     return { success: true, data }
   } catch (err) {
@@ -39,9 +42,13 @@ export async function linkAgentWithConversation({ supabase, agent_id, conversati
   }
 }
 
-export async function upsertConversation({ supabase, conversation_id, user_id, title, description, messages }) {
+export async function upsertConversation({ supabase, conversation_id, user_id, title, description, messages, agents }) {
   if (!conversation_id) {
     conversation_id = uuidv4()
+
+    if (!title) {
+      title = messages[0].content.substr(0, 25)
+    }
   }
 
   const baseTimestamp = new Date()
@@ -60,6 +67,10 @@ export async function upsertConversation({ supabase, conversation_id, user_id, t
       .single()
 
     if (error) return { error: error.message }
+
+    const { errorLinkAgents } = await linkAgentsWithConversation({ supabase, conversation_id, agents })
+
+    if (errorLinkAgents) return { error: errorLinkAgents.message }
 
     const { error: messageError } = await supabase
       .from('messages')
