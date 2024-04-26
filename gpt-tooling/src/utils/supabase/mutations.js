@@ -53,10 +53,12 @@ export async function upsertConversation({ supabase, conversation_id, user_id, t
 
   const baseTimestamp = new Date()
   const timestamps = getBatchTimestamps(baseTimestamp, messages.length)
-  const batch = messages.map(({ content }, index) => ({
+  const batch = messages.map(({ content, role, id }, index) => ({
     content,
     user_id,
     conversation_id,
+    role,
+    generated_by: id,
     created_at: timestamps[index]
   })).filter(({ content }) => content)
 
@@ -90,6 +92,21 @@ export async function deleteConversation({ supabase, conversation_id }) {
       .from('conversations')
       .delete()
       .eq('id', conversation_id)
+
+    if (error) throw error
+
+    return { success: true, data }
+  } catch (err) {
+    return { error: err.message }
+  }
+}
+
+export async function deleteMessage({ supabase, message_id }) {
+  try {
+    const { data, error } = await supabase
+      .from('messages')
+      .delete()
+      .eq('id', message_id)
 
     if (error) throw error
 

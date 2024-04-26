@@ -25,8 +25,8 @@ export default async function POST(req) {
         for await (const output of await app.stream(initialState, { recursionLimit })) {
           if (!output?.__end__) {
             const messages = Object.values(output)[0].messages
-            const { content, name } = Object.values(messages)[0].lc_kwargs
-            const messageObj = { role: 'assistant', content, name }
+            const { content, name, id } = Object.values(messages)[0].lc_kwargs
+            const messageObj = { role: 'assistant', content, name, id }
             messageBuffer.push(messageObj)
             const strContent = JSON.stringify(messageObj)
             const encodedContent = textEncoder.encode(strContent)

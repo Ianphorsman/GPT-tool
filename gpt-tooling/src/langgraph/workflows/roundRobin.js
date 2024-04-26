@@ -1,15 +1,15 @@
 import { StateGraph, END } from "@langchain/langgraph"
 import { ChatOpenAI } from "@langchain/openai"
-import { HumanMessage } from "@langchain/core/messages"
+import { AIMessage } from "@langchain/core/messages"
 import dummyTool from "../tools/dummyTool"
 import convertMessagesToLangChainMessages from "../utils/convertMessagesToLangChainMessages"
 import createAgent from "../utils/createAgent"
 
-const agentNode = async ({ state, agent, name }, config) => {
+const agentNode = async ({ state, agent, name, id }, config) => {
   const result = await agent.invoke(state, config)
   return {
     messages: [
-      new HumanMessage({ content: result.output, name })
+      new AIMessage({ content: result.output, name, id })
     ],
     responsesLeft: state.responsesLeft - 1
   }
@@ -18,7 +18,7 @@ const agentNode = async ({ state, agent, name }, config) => {
 const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   const { maxConversationLength = 10 } = conversationSettings
   const tools = [dummyTool]
-  const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name, maxMessageLength/*, tools*/ }) => {
+  const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name, maxMessageLength, id/*, tools*/ }) => {
     const model = new ChatOpenAI({
       temperature: temperature / 100,
       streaming: true,
@@ -28,7 +28,8 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
     return async (state, config) => await agentNode({
       state,
       agent,
-      name
+      name,
+      id
     }, config)
   }))
   const agentState = {
