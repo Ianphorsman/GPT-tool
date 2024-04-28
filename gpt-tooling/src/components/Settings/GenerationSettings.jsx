@@ -76,7 +76,12 @@ const GenerationSettings = ({
   return (
     <div className="flex flex-row flex-wrap">
       <div className={`flex flex-1 flex-col justify-center items-stretch gap-3 ${isMobile ? 'mb-8' : ''}`}>
-        <SearchDropdownFinder userId={userId} onSearch={searchAgents} onSelect={onSelect} />
+        <SearchDropdownFinder
+          userId={userId}
+          onSearch={searchAgents}
+          onSelect={onSelect}
+          placeholder="Search for an agent..."
+        />
         <Textarea
           label="Custom Instructions"
           onChange={onInputChange}

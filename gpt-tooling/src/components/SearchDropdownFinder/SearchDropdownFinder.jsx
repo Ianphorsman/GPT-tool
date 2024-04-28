@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import clsx from 'clsx'
 import debounce from 'lodash.debounce'
 import { Input } from 'react-daisyui'
 import supabaseClient from '~/utils/supabase/supabaseBrowserClient'
@@ -6,7 +7,9 @@ import supabaseClient from '~/utils/supabase/supabaseBrowserClient'
 function SearchDropdownFinder({
   userId,
   onSearch,
-  onSelect
+  onSelect,
+  inputStyles,
+  placeholder
 }) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
@@ -14,7 +17,7 @@ function SearchDropdownFinder({
   const supabase = supabaseClient()
 
   useEffect(() => {
-    const fetchAgents = async () => {
+    const fetchSearchResults = async () => {
       if (query.length === 0) {
         setResults([])
         return
@@ -29,7 +32,7 @@ function SearchDropdownFinder({
       }
     }
 
-    const debouncedFetch = debounce(fetchAgents, 300)
+    const debouncedFetch = debounce(fetchSearchResults, 300)
     debouncedFetch()
 
     return () => debouncedFetch.cancel()
@@ -41,14 +44,17 @@ function SearchDropdownFinder({
     setResults([])
   }
 
+  const inputClasses = clsx('join-item w-full', inputStyles)
+
   return (
     <div>
       <Input
         type="text"
-        placeholder="Search for agents..."
+        placeholder={placeholder}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="join-item w-full"
+        className={inputClasses}
+        size="sm"
       />
       {results.length > 0 ? (
         <ul>

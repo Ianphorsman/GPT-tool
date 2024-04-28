@@ -186,6 +186,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
                 setMessages={setMessages}
                 setAgents={setAgents}
                 supabase={supabase}
+                userId={userId}
               />
               <AgentsPanel
                 agents={Object.values(agents)}

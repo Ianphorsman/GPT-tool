@@ -68,13 +68,13 @@ export async function fetchAllMessagesInConversation({ supabase, conversation_id
   }
 }
 
-export async function searchAgents({ supabase, user_id, query }) {
+export async function searchByFunction({ supabase, user_id, query, rpc }) {
   if (!user_id) {
     return { error: 'User ID is required' }
   }
 
   try {
-    const { data, error } = await supabase.rpc('search_agents', {
+    const { data, error } = await supabase.rpc(rpc, {
       search_text: `%${query}%`,
       user_id
     })
@@ -87,6 +87,14 @@ export async function searchAgents({ supabase, user_id, query }) {
   } catch (err) {
     return { error: err.message }
   }
+}
+
+export async function searchAgents({ supabase, user_id, query }) {
+  return searchByFunction({ supabase, user_id, query, rpc: 'search_agents' })
+}
+
+export async function searchMessages({ supabase, user_id, query }) {
+  return searchByFunction({ supabase, user_id, query, rpc: 'search_messages' })
 }
 
 export async function fetchSingleAgent({ supabase, user_id, agent_id }) {
