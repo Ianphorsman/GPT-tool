@@ -33,7 +33,7 @@ function SearchDropdownFinder({
     debouncedFetch()
 
     return () => debouncedFetch.cancel()
-  }, [query])
+  }, [query, onSearch, supabase, userId])
 
   const onSelectOption = async ({ supabase, user_id: userId, id }) => {
     onSelect({ supabase, user_id: userId, id })
