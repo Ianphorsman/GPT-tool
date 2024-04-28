@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Divider, Input, Link, Select, Textarea, Toggle } from 'react-daisyui'
+import { Button, Divider, Link, Select, Textarea, Toggle } from 'react-daisyui'
 import supabaseClient from '~/utils/supabase/supabaseBrowserClient'
 import { upsertAgentWithSystemPrompt } from "~/utils/supabase/mutations"
 import { searchAgents, fetchSingleAgent } from '~/utils/supabase/queries'

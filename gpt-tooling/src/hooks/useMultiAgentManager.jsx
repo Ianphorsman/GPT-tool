@@ -159,7 +159,7 @@ const multiAgentReducer = (state, action) => {
         conversationType: action.conversationType
       }
     case 'SET_AGENT':
-      const { [state.activeAgent]: __, ...rest } = state.agents
+      const { [state.activeAgent]: _, ...rest } = state.agents
       return {
         ...state,
         agents: {

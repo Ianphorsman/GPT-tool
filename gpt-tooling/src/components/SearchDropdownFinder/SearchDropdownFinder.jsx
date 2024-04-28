@@ -52,7 +52,7 @@ function SearchDropdownFinder({
       />
       {results.length > 0 ? (
         <ul>
-          {results.map(({ id, title, ...rest }) => {
+          {results.map(({ id, title }) => {
             return (
               <li key={id} className="cursor-pointer" onClick={async () => await onSelectOption({ supabase, user_id: userId, id })}>
                 {title}
