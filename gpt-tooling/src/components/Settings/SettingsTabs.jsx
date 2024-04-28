@@ -37,7 +37,11 @@ const SettingsTabs = ({
   conversationType,
   setConversationType,
   isMobile,
-  userId
+  userId,
+  addAgent,
+  removeAgent,
+  setActiveAgent,
+  setAgent
 }) => {
   const Component = componentMap[activeTab] ?? GenerationSettings
   return (
@@ -74,6 +78,10 @@ const SettingsTabs = ({
             setConversationType={setConversationType}
             isMobile={isMobile}
             userId={userId}
+            addAgent={addAgent}
+            removeAgent={removeAgent}
+            setActiveAgent={setActiveAgent}
+            setAgent={setAgent}
           />
         </RadioTab>
       ))}

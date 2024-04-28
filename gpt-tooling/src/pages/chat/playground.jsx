@@ -43,6 +43,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
     setCannotAutoRespondToAgent,
     conversationType,
     setConversationType,
+    setAgent,
     setAgents
   } = useMultiAgentManager()
   const { model, maxMessageLength, maxResponses, customInstructions, temperature, autoRespondTo } = activeAgent
@@ -167,6 +168,10 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
           conversationType={conversationType}
           setConversationType={setConversationType}
           isMobile={isMobile}
+          addAgent={addAgent}
+          removeAgent={removeAgent}
+          setActiveAgent={setActiveAgent}
+          setAgent={setAgent}
         />
         <main className="flex flex-row flex-1" style={{ maxHeight: 'calc(100vh - 4rem)'}}>
           {!isMobile ? (

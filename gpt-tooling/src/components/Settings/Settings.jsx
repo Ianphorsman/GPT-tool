@@ -22,7 +22,11 @@ const Settings = React.forwardRef(({
   conversationType,
   setConversationType,
   isMobile,
-  userId
+  userId,
+  addAgent,
+  removeAgent,
+  setActiveAgent,
+  setAgent
 }, ref) => {
   const [activeTab, setActiveTab] = useState('Generation')
   return (
@@ -51,6 +55,10 @@ const Settings = React.forwardRef(({
           setConversationType={setConversationType}
           isMobile={isMobile}
           userId={userId}
+          addAgent={addAgent}
+          removeAgent={removeAgent}
+          setActiveAgent={setActiveAgent}
+          setAgent={setAgent}
         />
       </Modal.Body>
     </Modal>

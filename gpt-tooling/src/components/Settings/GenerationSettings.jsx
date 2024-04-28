@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Button, Divider, Link, Select, Textarea, Toggle } from 'react-daisyui'
+import { Button, Divider, Input, Link, Select, Textarea, Toggle } from 'react-daisyui'
 import supabaseClient from '~/utils/supabase/supabaseBrowserClient'
 import { upsertAgentWithSystemPrompt } from "~/utils/supabase/mutations"
+import { searchAgents, fetchSingleAgent } from '~/utils/supabase/queries'
 import { MODEL_OPTIONS } from "~/constants"
 import RangeBlock from '../RangeBlock'
+import SearchDropdownFinder from '../SearchDropdownFinder'
 
 const GenerationSettings = ({
   model,
@@ -17,7 +19,8 @@ const GenerationSettings = ({
   api,
   setApi,
   isMobile,
-  userId
+  userId,
+  setAgent
 }) => {
   const [_customInstructions, _setCustomInstructions] = useState(activeAgent.customInstructions.promptText || '')
   const [hasMadeChanges, setHasMadeChanges] = useState(false)
@@ -50,9 +53,30 @@ const GenerationSettings = ({
     setHasMadeChanges(!!e.target.value)
   }
 
+  const onSelect = async ({ supabase, user_id, id }) => {
+    const { data, error } = await fetchSingleAgent({ supabase, user_id, agent_id: id })
+    if (error) {
+      return
+    }
+    setAgent(id, {
+      id,
+      name: data.name,
+      initials: data.initials,
+      model: data.model,
+      customInstructions: {
+        promptText: data.system_prompts.prompt_text,
+        id: data.system_prompts.id
+      },
+      maxMessageLength: data.max_message_length,
+      temperature: data.temperature * 100
+    })
+    _setCustomInstructions({ [data.system_prompts.id]: data.system_prompts.prompt_text })
+  }
+
   return (
     <div className="flex flex-row flex-wrap">
       <div className={`flex flex-1 flex-col justify-center items-stretch gap-3 ${isMobile ? 'mb-8' : ''}`}>
+        <SearchDropdownFinder userId={userId} onSearch={searchAgents} onSelect={onSelect} />
         <Textarea
           label="Custom Instructions"
           onChange={onInputChange}

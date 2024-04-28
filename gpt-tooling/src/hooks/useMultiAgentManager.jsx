@@ -157,7 +157,17 @@ const multiAgentReducer = (state, action) => {
       return {
         ...state,
         conversationType: action.conversationType
-      }  
+      }
+    case 'SET_AGENT':
+      const { [state.activeAgent]: __, ...rest } = state.agents
+      return {
+        ...state,
+        agents: {
+          ...rest,
+          [action.id]: action.agent
+        },
+        activeAgent: action.id
+      }
     case 'SET_AGENTS':
       return {
         ...state,
@@ -220,6 +230,10 @@ const useMultiAgentManager = () => {
     dispatch({ type: 'SET_CONVERSATION_TYPE', conversationType })
   }
 
+  const setAgent = (id, agent) => {
+    dispatch({ type: 'SET_AGENT', id, agent })
+  }
+
   const setAgents = (agents) => {
     dispatch({ type: 'SET_AGENTS', agents })
   }
@@ -240,6 +254,7 @@ const useMultiAgentManager = () => {
     activeAgent: state.agents[state.activeAgent],
     conversationType: state.conversationType,
     setConversationType,
+    setAgent,
     setAgents
   }
 }

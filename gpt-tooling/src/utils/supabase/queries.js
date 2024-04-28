@@ -67,3 +67,54 @@ export async function fetchAllMessagesInConversation({ supabase, conversation_id
     return { error: err.message }
   }
 }
+
+export async function searchAgents({ supabase, user_id, query }) {
+  if (!user_id) {
+    return { error: 'User ID is required' }
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('search_agents', {
+      search_text: `%${query}%`,
+      user_id
+    })
+
+    if (error) {
+      return { error: error.message }
+    } else {
+      return { data }
+    }
+  } catch (err) {
+    return { error: err.message }
+  }
+}
+
+export async function fetchSingleAgent({ supabase, user_id, agent_id }) {
+  if (!user_id || !agent_id) {
+    return { error: 'User ID and Agent ID are required' }
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('agents')
+      .select(`
+        *,
+        system_prompts (
+          id,
+          title,
+          prompt_text
+        )
+      `)
+      .eq('user_id', user_id)
+      .eq('id', agent_id)
+      .single()
+
+    if (error) {
+      return { error: error.message }
+    } else {
+      return { data }
+    }
+  } catch (err) {
+    return { error: err.message }
+  }
+}
