@@ -26,8 +26,8 @@ const SideNavigationDesktop = ({
   }
 
   return (
-    <section className="w-80 p-4 text-center">
-      <h2>Conversations</h2>
+    <section className="w-80 p-4">
+      <h2 className="pl-3">Conversations</h2>
       <SearchDropdownFinder
         userId={userId}
         onSearch={searchMessages}
@@ -37,7 +37,7 @@ const SideNavigationDesktop = ({
       />
       <ul>
         {conversations.map((conversation, index) => (
-          <li key={index} className="p-2">
+          <li key={index} className="p-2 pl-3">
             <button onClick={() => handleConversationClick({ supabase, id: conversation.id})}>
               {conversation.title || 'Untitled'}
             </button>

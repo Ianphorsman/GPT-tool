@@ -68,6 +68,29 @@ export async function fetchAllMessagesInConversation({ supabase, conversation_id
   }
 }
 
+export async function fetchSingleConversation({ supabase, user_id, conversation_id }) {
+  if (!user_id || !conversation_id) {
+    return { error: 'User ID and Conversation ID are required' }
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('conversations')
+      .select('*')
+      .eq('user_id', user_id)
+      .eq('id', conversation_id)
+      .single()
+
+    if (error) {
+      return { error: error.message }
+    } else {
+      return { data }
+    }
+  } catch (err) {
+    return { error: err.message }
+  }
+}
+
 export async function searchByFunction({ supabase, user_id, query, rpc }) {
   if (!user_id) {
     return { error: 'User ID is required' }
