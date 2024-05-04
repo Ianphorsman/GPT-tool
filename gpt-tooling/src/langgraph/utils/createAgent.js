@@ -7,8 +7,9 @@ const createAgent = async (llm, tools, systemPrompt) => {
      new MessagesPlaceholder("messages"),
      new MessagesPlaceholder("agent_scratchpad"),
    ])
-   const agent = await createOpenAIToolsAgent({ llm, tools, prompt })
-   return new AgentExecutor({ agent, tools })
+  
+   const agent = await createOpenAIToolsAgent({ llm, tools, prompt, returnIntermediateSteps: true })
+   return AgentExecutor.fromAgentAndTools({ agent, tools, returnOnlyOutputs: false, metadata: { tokenUsage: 'tokenUsage'} })
 }
 
 export default createAgent

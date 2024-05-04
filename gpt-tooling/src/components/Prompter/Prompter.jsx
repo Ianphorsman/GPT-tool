@@ -22,7 +22,7 @@ const Prompter = ({
       className="flex flex-row self-center w-full p-4 max-w-prose sticky bottom-0"
       onSubmit={(e) => {
         const opts = { options: { body: { agents: Object.values(agents), activeAgent, input, userId }}}
-        if (api === '/api/chat') {
+        if (api === '/api/chat' || api === '/api/langchain') {
           handleSubmit(e, opts)
         } else {
           generateManualMessages(e, opts, setMessages, setIsLoading)

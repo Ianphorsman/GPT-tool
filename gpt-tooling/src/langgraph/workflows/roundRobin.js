@@ -7,6 +7,7 @@ import createAgent from "../utils/createAgent"
 
 const agentNode = async ({ state, agent, name, id }, config) => {
   const result = await agent.invoke(state, config)
+  console.log("result:", Object.keys(result), result.messages[0], result.output)
   return {
     messages: [
       new AIMessage({ content: result.output, name, id })
@@ -18,13 +19,14 @@ const agentNode = async ({ state, agent, name, id }, config) => {
 const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   const { maxConversationLength = 10 } = conversationSettings
   const tools = [dummyTool]
-  const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name, maxMessageLength, id/*, tools*/ }) => {
-    const model = new ChatOpenAI({
+  const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name, maxMessageLength, id, model/*, tools*/ }) => {
+    const llm = new ChatOpenAI({
       temperature: temperature / 100,
-      streaming: true,
-      maxTokens: maxMessageLength
+      maxTokens: maxMessageLength,
+      model: model || 'gpt-3.5-turbo',
     })
-    const agent = await createAgent(model, tools, customInstructions.promptText || '')
+
+    const agent = await createAgent(llm, tools, customInstructions.promptText || '')
     return async (state, config) => await agentNode({
       state,
       agent,
@@ -37,10 +39,11 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
       value: (x, y) => x.concat(y),
       default: () => [],
     },
+    tokenCount: 0,
     responsesLeft: maxConversationLength || 10
   }
   const shouldContinue = (state) => {
-    const { responsesLeft } = state;
+    const { responsesLeft } = state
     if (responsesLeft <= 0) {
       return "end"
     }

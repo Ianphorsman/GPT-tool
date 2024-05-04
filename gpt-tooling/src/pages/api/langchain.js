@@ -19,6 +19,7 @@ export default async function POST(req) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const body = await req.json()
     const { messages } = body
+    console.log('LANGCHAINGANG!!!')
     const tools = [new TavilySearchResults({ maxResults: 1 })]
     const toolExecutor = new ToolExecutor({
       tools
@@ -78,7 +79,8 @@ export default async function POST(req) {
       config
     ) => {
       const { messages } = state
-      const response = await newModel.invoke(messages, config)
+      const response = await newModel.invoke(messages)
+      console.log("response:", response)
       // We return a list, because this will get added to the existing list
       return {
         messages: [response],

@@ -238,9 +238,7 @@ export async function getServerSideProps(context) {
   if (error) {
     console.error('Error fetching user:', error)
   } else if (id) {
-    console.log('User:', user)
     conversations = await fetchAllConversations({ supabase, user_id: id })
-    console.log('Conversations:', conversations)
   }
   return {
     props: {
