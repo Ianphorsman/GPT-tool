@@ -1,17 +1,16 @@
 import { StateGraph, END } from "@langchain/langgraph"
 import { ChatOpenAI } from "@langchain/openai"
-import { AIMessage } from "@langchain/core/messages"
+import { SystemMessage } from "@langchain/core/messages"
+import { RunnableLambda } from "@langchain/core/runnables"
 import dummyTool from "../tools/dummyTool"
 import convertMessagesToLangChainMessages from "../utils/convertMessagesToLangChainMessages"
-import createAgent from "../utils/createAgent"
 
-const agentNode = async ({ state, agent, name, id }, config) => {
-  const result = await agent.invoke(state, config)
-  console.log("result:", Object.keys(result), result.messages[0], result.output)
+const agentNode = async ({ state, llm, name, id, customInstructions }, config) => {
+  const result = await llm.invoke([new SystemMessage({ content: customInstructions.promptText, name }), ...state.messages], config)
+  const totalTokens = result?.response_metadata?.estimatedTokenUsage?.totalTokens || 0
   return {
-    messages: [
-      new AIMessage({ content: result.output, name, id })
-    ],
+    messages: [result],
+    totalTokens: totalTokens,
     responsesLeft: state.responsesLeft - 1
   }
 }
@@ -24,22 +23,24 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
       temperature: temperature / 100,
       maxTokens: maxMessageLength,
       model: model || 'gpt-3.5-turbo',
+      streaming: true
     })
 
-    const agent = await createAgent(llm, tools, customInstructions.promptText || '')
-    return async (state, config) => await agentNode({
+    const callModel = async (state, config) => await agentNode({
       state,
-      agent,
+      llm,
       name,
-      id
+      id,
+      customInstructions
     }, config)
+    return new RunnableLambda({ func: callModel })
   }))
   const agentState = {
     messages: {
       value: (x, y) => x.concat(y),
       default: () => [],
     },
-    tokenCount: 0,
+    totalTokens: 0,
     responsesLeft: maxConversationLength || 10
   }
   const shouldContinue = (state) => {
@@ -67,12 +68,5 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   }
   return { app, initialState }
 }
-
-/*
-for await (const output of await app.stream(initialState, { recursionLimit })) {
-  console.log("output", output)
-  console.log("-----\n");
-}
-*/
 
 export default roundRobin
