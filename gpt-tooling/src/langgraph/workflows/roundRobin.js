@@ -7,10 +7,13 @@ import convertMessagesToLangChainMessages from "../utils/convertMessagesToLangCh
 
 const agentNode = async ({ state, llm, name, id, customInstructions }, config) => {
   const result = await llm.invoke([new SystemMessage({ content: customInstructions.promptText, name }), ...state.messages], config)
-  const totalTokens = result?.response_metadata?.estimatedTokenUsage?.totalTokens || 0
+  const { totalTokens, completionTokens, promptTokens } = result?.response_metadata?.estimatedTokenUsage
+  const systemTokens = state.completionTokens.length === 0 ? promptTokens : state.systemTokens
   return {
     messages: [result],
-    totalTokens: totalTokens,
+    systemTokens,
+    completionTokens: [...state.completionTokens, completionTokens],
+    totalTokens,
     responsesLeft: state.responsesLeft - 1
   }
 }
@@ -40,7 +43,9 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
       value: (x, y) => x.concat(y),
       default: () => [],
     },
+    systemTokens: 0,
     totalTokens: 0,
+    completionTokens: [],
     responsesLeft: maxConversationLength || 10
   }
   const shouldContinue = (state) => {
@@ -64,6 +69,9 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   const app = workflow.compile()
   const initialState = {
     messages: convertMessagesToLangChainMessages(messages),
+    systemTokens: 0,
+    completionTokens: [],
+    totalTokens: 0,
     responsesLeft: maxConversationLength || 10
   }
   return { app, initialState }
