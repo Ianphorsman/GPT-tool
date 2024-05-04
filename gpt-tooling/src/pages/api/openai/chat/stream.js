@@ -66,7 +66,7 @@ export default async function handler(
           delete parsed.created;
           const { content } = parsed.choices[0].delta;
           if (content) {
-            console.log('content', content)
+
             res.write(`${JSON.stringify(parsed)}\n\n`);
           }
       } catch (error) {
