@@ -5,9 +5,9 @@ import { RunnableLambda } from "@langchain/core/runnables"
 import dummyTool from "../tools/dummyTool"
 import convertMessagesToLangChainMessages from "../utils/convertMessagesToLangChainMessages"
 
-const agentNode = async ({ state, llm, name, customInstructions }, config) => {
+const agentNode = async ({ state, llm, name, customInstructions, maxContextWindow }, config) => {
   const totalTokens = state.messages[state.messages.length - 1]?.response_metadata?.estimatedTokenUsage?.totalTokens ?? 0
-  const maxTokens = Math.min(1000, Math.abs(4096 - totalTokens))
+  const maxTokens = Math.min(1000, Math.abs(maxContextWindow - totalTokens))
   //console.log('MAX TOKENS:', maxTokens, totalTokens)
   const model = llm({ maxTokens })
   const result = await model.invoke([new SystemMessage({ content: customInstructions.promptText, name }), ...state.messages], config)
@@ -21,7 +21,7 @@ const agentNode = async ({ state, llm, name, customInstructions }, config) => {
 const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   const { maxConversationLength = 20 } = conversationSettings
   const tools = [dummyTool]
-  const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name, maxMessageLength, id, model/*, tools*/ }) => {
+  const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name, maxMessageLength, maxContextWindow, id, model/*, tools*/ }) => {
     const llm = ({ maxTokens }) => {
       return new ChatOpenAI({
         temperature: temperature / 100,
@@ -36,7 +36,8 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
       llm,
       name,
       id,
-      customInstructions
+      customInstructions,
+      maxContextWindow: maxContextWindow || 4096
     }, config)
     return new RunnableLambda({ func: callModel })
   }))
