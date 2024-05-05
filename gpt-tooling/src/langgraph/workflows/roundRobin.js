@@ -5,29 +5,31 @@ import { RunnableLambda } from "@langchain/core/runnables"
 import dummyTool from "../tools/dummyTool"
 import convertMessagesToLangChainMessages from "../utils/convertMessagesToLangChainMessages"
 
-const agentNode = async ({ state, llm, name, id, customInstructions }, config) => {
-  const result = await llm.invoke([new SystemMessage({ content: customInstructions.promptText, name }), ...state.messages], config)
-  const { totalTokens, completionTokens, promptTokens } = result?.response_metadata?.estimatedTokenUsage
-  const systemTokens = state.completionTokens.length === 0 ? promptTokens : state.systemTokens
+const agentNode = async ({ state, llm, name, customInstructions }, config) => {
+  const totalTokens = state.messages[state.messages.length - 1]?.response_metadata?.estimatedTokenUsage?.totalTokens ?? 0
+  const maxTokens = Math.min(1000, Math.abs(4096 - totalTokens))
+  //console.log('MAX TOKENS:', maxTokens, totalTokens)
+  const model = llm({ maxTokens })
+  const result = await model.invoke([new SystemMessage({ content: customInstructions.promptText, name }), ...state.messages], config)
+
   return {
     messages: [result],
-    systemTokens,
-    completionTokens: [...state.completionTokens, completionTokens],
-    totalTokens,
     responsesLeft: state.responsesLeft - 1
   }
 }
 
 const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
-  const { maxConversationLength = 10 } = conversationSettings
+  const { maxConversationLength = 20 } = conversationSettings
   const tools = [dummyTool]
   const agentNodes = await Promise.all(agents.map(async ({ temperature, customInstructions, name, maxMessageLength, id, model/*, tools*/ }) => {
-    const llm = new ChatOpenAI({
-      temperature: temperature / 100,
-      maxTokens: maxMessageLength,
-      model: model || 'gpt-3.5-turbo',
-      streaming: true
-    })
+    const llm = ({ maxTokens }) => {
+      return new ChatOpenAI({
+        temperature: temperature / 100,
+        maxTokens: Math.min(maxTokens, maxMessageLength),
+        model: model || 'gpt-3.5-turbo-0613',
+        streaming: true
+      })
+    }
 
     const callModel = async (state, config) => await agentNode({
       state,
@@ -40,13 +42,48 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   }))
   const agentState = {
     messages: {
-      value: (x, y) => x.concat(y),
+      value: (x, y) => {
+        const newMessages = x.concat(y)
+        if (newMessages.length === 1) {
+          return newMessages
+        }
+        const lastMessageObj = y.find(({ response_metadata }) => response_metadata.estimatedTokenUsage.totalTokens !== undefined)
+        const { totalTokens } = lastMessageObj?.response_metadata?.estimatedTokenUsage || {}
+        const tokenThreshold = 4096
+
+        if (totalTokens < tokenThreshold) {
+          return newMessages
+        }
+        // console.log('Threshold exceeded', totalTokens, tokenThreshold, x.length)
+        let sliceIndex = 0
+        let tokensToRemove = totalTokens - tokenThreshold
+        let tokensRemoved = 0
+
+        while (tokensToRemove >= 0) {
+          sliceIndex += 1
+          const nextTokenUsage = newMessages[sliceIndex].response_metadata.estimatedTokenUsage.totalTokens
+          tokensToRemove -= nextTokenUsage
+          tokensRemoved += nextTokenUsage
+        }
+
+        const ret = newMessages.slice(sliceIndex)
+        // not sure if this will be necessary in the future
+        /*.map((message, idx) => ({
+          ...message,
+          response_metadata: {
+            ...message.response_metadata,
+            estimatedTokenUsage: {
+              ...message.response_metadata.estimatedTokenUsage,
+              totalTokens: message.response_metadata.estimatedTokenUsage.totalTokens - tokensRemoved - (idx * 4)
+            }
+          }
+        }))*/
+        // console.log('RET', ret.length)
+        return ret
+      },
       default: () => [],
     },
-    systemTokens: 0,
-    totalTokens: 0,
-    completionTokens: [],
-    responsesLeft: maxConversationLength || 10
+    responsesLeft: maxConversationLength || 30
   }
   const shouldContinue = (state) => {
     const { responsesLeft } = state
@@ -69,10 +106,7 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
   const app = workflow.compile()
   const initialState = {
     messages: convertMessagesToLangChainMessages(messages),
-    systemTokens: 0,
-    completionTokens: [],
-    totalTokens: 0,
-    responsesLeft: maxConversationLength || 10
+    responsesLeft: maxConversationLength || 30
   }
   return { app, initialState }
 }
