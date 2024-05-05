@@ -57,13 +57,13 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
         // console.log('Threshold exceeded', totalTokens, tokenThreshold, x.length)
         let sliceIndex = 0
         let tokensToRemove = totalTokens - tokenThreshold
-        let tokensRemoved = 0
+        // let tokensRemoved = 0
 
         while (tokensToRemove >= 0) {
           sliceIndex += 1
           const nextTokenUsage = newMessages[sliceIndex].response_metadata.estimatedTokenUsage.totalTokens
           tokensToRemove -= nextTokenUsage
-          tokensRemoved += nextTokenUsage
+          // tokensRemoved += nextTokenUsage
         }
 
         const ret = newMessages.slice(sliceIndex)
