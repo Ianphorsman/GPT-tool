@@ -216,7 +216,6 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
               isMobile={isMobile}
               userId={userId}
               setInput={setInput}
-              setMessages={setMessages}
               messages={messages}
             />
           </section>
