@@ -13,9 +13,11 @@ const Prompter = ({
   agents,
   activeAgent,
   generateManualMessages,
-  setMessages,
   setIsLoading,
-  userId
+  userId,
+  setInput,
+  setMessages,
+  messages
 }) => {
   return (
     <form
@@ -26,6 +28,8 @@ const Prompter = ({
           handleSubmit(e, opts)
         } else {
           generateManualMessages(e, opts, setMessages, setIsLoading)
+          setMessages([...messages, { content: input, role: 'human' }])
+          setInput('')
         }
       }}
     >

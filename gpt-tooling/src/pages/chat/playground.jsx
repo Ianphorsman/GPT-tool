@@ -61,6 +61,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
     input,
     handleInputChange,
     handleSubmit,
+    setInput,
     stop,
     isLoading,
     setMessages
@@ -214,6 +215,9 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
               activeAgent={activeAgent}
               isMobile={isMobile}
               userId={userId}
+              setInput={setInput}
+              setMessages={setMessages}
+              messages={messages}
             />
           </section>
         </main>
