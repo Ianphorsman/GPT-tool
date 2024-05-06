@@ -26,7 +26,7 @@ const SideNavigationDesktop = ({
   }
 
   return (
-    <section className="w-80 p-4">
+    <section className="w-80 p-4 flex flex-col">
       <h2 className="pl-3">Conversations</h2>
       <SearchDropdownFinder
         userId={userId}
@@ -35,7 +35,7 @@ const SideNavigationDesktop = ({
         inputStyles="my-2"
         placeholder="Search messages..."
       />
-      <ul>
+      <ul className="overflow-y-scroll flex-1">
         {conversations.map((conversation, index) => (
           <li key={index} className="p-2 pl-3">
             <button onClick={() => handleConversationClick({ supabase, id: conversation.id})}>

@@ -47,7 +47,7 @@ function SearchDropdownFinder({
   const inputClasses = clsx('join-item w-full', inputStyles)
 
   return (
-    <div>
+    <div className="sticky">
       <Input
         type="text"
         placeholder={placeholder}
