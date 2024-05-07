@@ -9,3 +9,7 @@ export const MODEL_OPTIONS = [
 ]
 
 export const PRE_BUILT_SETUPS = []
+
+export const AGENT_COLORS = [
+  'border-b border-slate-950 border-opacity-30'
+]

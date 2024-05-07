@@ -5,13 +5,12 @@ import { RunnableLambda } from "@langchain/core/runnables"
 import dummyTool from "../tools/dummyTool"
 import convertMessagesToLangChainMessages from "../utils/convertMessagesToLangChainMessages"
 
-const agentNode = async ({ state, llm, name, customInstructions, maxContextWindow }, config) => {
+const agentNode = async ({ state, llm, name, customInstructions, maxContextWindow, id }, config) => {
   const totalTokens = state.messages[state.messages.length - 1]?.response_metadata?.estimatedTokenUsage?.totalTokens ?? 0
   const maxTokens = Math.min(1000, Math.abs(maxContextWindow - totalTokens))
-  //console.log('MAX TOKENS:', maxTokens, totalTokens)
   const model = llm({ maxTokens })
   const result = await model.invoke([new SystemMessage({ content: customInstructions.promptText, name }), ...state.messages], config)
-
+  result.generated_by = id
   return {
     messages: [result],
     responsesLeft: state.responsesLeft - 1
@@ -27,7 +26,8 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
         temperature: temperature / 100,
         maxTokens: Math.min(maxTokens, maxMessageLength),
         model: model || 'gpt-3.5-turbo-0613',
-        streaming: true
+        streaming: true,
+        name
       })
     }
 

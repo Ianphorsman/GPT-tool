@@ -21,14 +21,14 @@ const Prompter = ({
 }) => {
   return (
     <form
-      className="flex flex-row self-center w-full p-4 max-w-prose sticky bottom-0"
+      className="flex flex-row self-center w-full py-4 max-w-prose sticky bottom-0"
       onSubmit={(e) => {
         const opts = { options: { body: { agents: Object.values(agents), activeAgent, input, userId }}}
         if (api === '/api/chat' || api === '/api/langchain') {
           handleSubmit(e, opts)
         } else {
           generateManualMessages(e, opts, setMessages, setIsLoading)
-          setMessages([...messages, { content: input, role: 'human' }])
+          setMessages([...messages, { content: input, role: 'user' }])
           setInput('')
         }
       }}

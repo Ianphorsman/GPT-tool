@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid"
 import roundRobin from "../../langgraph/workflows/roundRobin"
 import supabaseClient from '~/utils/supabase/supabaseApiRouteClient'
 import { upsertConversation } from "~/utils/supabase/mutations"
@@ -25,8 +26,24 @@ export default async function POST(req) {
         for await (const output of await app.stream(initialState, { recursionLimit })) {
           if (!output?.__end__) {
             const messages = Object.values(output)[0].messages
-            const { content, name, id } = Object.values(messages)[0].lc_kwargs
-            const messageObj = { role: 'assistant', content, name, id }
+
+            const {
+              content,
+              name,
+              id,
+              response_metadata: { estimatedTokenUsage } = {},
+              generated_by
+            } = Object.values(messages)[0]
+            const messageObj = {
+              role: 'assistant',
+              content,
+              name,
+              id: id || uuidv4(),
+              created_at: new Date().toISOString(),
+              generated_by,
+              estimatedTokenUsage
+            }
+
             messageBuffer.push(messageObj)
             const strContent = JSON.stringify(messageObj)
             const encodedContent = textEncoder.encode(strContent)

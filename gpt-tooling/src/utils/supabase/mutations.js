@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import getBatchTimestamps from "../getBatchTimestamps"
 
 export async function upsertAgentWithSystemPrompt({ supabase, system_prompt_id, user_id, agent_id, title, prompt_text, agent }) {
   if (!system_prompt_id) {
@@ -51,15 +50,13 @@ export async function upsertConversation({ supabase, conversation_id, user_id, t
     }
   }
 
-  const baseTimestamp = new Date()
-  const timestamps = getBatchTimestamps(baseTimestamp, messages.length)
-  const batch = messages.map(({ content, role, id }, index) => ({
+  const batch = messages.map(({ content, role, created_at, generated_by }) => ({
     content,
     user_id,
     conversation_id,
     role,
-    generated_by: id,
-    created_at: timestamps[index]
+    generated_by,
+    created_at
   })).filter(({ content }) => content)
 
   try {

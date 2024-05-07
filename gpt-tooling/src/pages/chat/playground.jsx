@@ -199,7 +199,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
             </>
           ) : null}
           <section className="flex flex-col w-full">
-            <Chat messages={messages} />
+            <Chat messages={messages} agents={agents} />
             <Prompter
               api={api}
               input={input}
