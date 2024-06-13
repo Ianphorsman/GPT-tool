@@ -8,13 +8,13 @@ import {
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
+import * as cookie from 'cookie'
 import { useRouter } from "next/router"
 import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
 import supabaseBrowserClient from "~/utils/supabase/supabaseBrowserClient"
 import { fetchAllConversations, fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
-import OAuth from "~/components/OAuth"
 import Settings from "~/components/Settings/Settings"
 import SideNavigation from "~/components/SideNavigation"
 import Stats from "~/components/Stats"
@@ -24,10 +24,10 @@ import useMultiAgentManager from "~/hooks/useMultiAgentManager"
 import createSystemPrompt from "~/utils/createSystemPrompt"
 import generateManualMessages from "~/utils/generateManualMessages"
 
+
 const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
   const settingsModalRef = useRef(null)
   const statsModalRef = useRef(null)
-  const authRef = useRef(null)
   const supabase = supabaseBrowserClient()
   const router = useRouter()
   const {
@@ -93,9 +93,14 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
     statsModalRef.current?.showModal()
   }, [])
 
-  const handleShowOAuth = useCallback(() => {
-    authRef.current?.showModal()
-  }, [])
+  const handleSignIn = async () => {
+    supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/callback`
+      }
+    })
+  }
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -138,7 +143,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
             ) : (
               <Button
                 color="ghost"
-                onClick={handleShowOAuth}
+                onClick={handleSignIn}
                 className="hover:bg-transparent"
               >
                 <span>Sign In</span>
@@ -154,7 +159,6 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
         </Navbar>
         <Divider vertical color="neutral" className="m-0 h-0.5" />
         <Stats handleShowStats={handleShowStats} ref={statsModalRef} />
-        <OAuth authRef={authRef} />
         <Settings
           userId={user.id}
           agents={agents}
@@ -241,25 +245,31 @@ const getIsMobile = (context) => {
 
 export async function getServerSideProps(context) {
   const supabase = supabaseServerClient(context)
-  // const datum = await supabase.auth.getSession()
-  // console.log('datum', datum)
-  const { data = {}, error } = await supabase.auth.getUser()
-  console.log('data', data)
-  const { user = {} } = data
-  const { aud, id } = user ?? {}
+  let userData
+  let isSignedIn = false
   let conversations = []
-  if (error) {
-    console.error('Error fetching user:', error)
-  } else if (id) {
-    conversations = await fetchAllConversations({ supabase, user_id: id })
+  if (!userData) {
+    const { data: { user } = {}, error } = await supabase.auth.getUser()
+    userData = user
+    const { aud, id } = userData ?? {}
+
+    if (error) {
+      console.error('Error fetching user:', error)
+    } else if (id) {
+      conversations = await fetchAllConversations({ supabase, user_id: id })
+    }
+    isSignedIn = aud === 'authenticated'
   }
+
   return {
     props: {
       isMobile: getIsMobile(context),
-      user: user ?? {},
-      isSignedIn: aud === 'authenticated',
-      conversations
-    }
+      user: userData ?? {},
+      isSignedIn,
+      conversations: conversations ?? []
+    },
+    // return with code param in url removed
+
   };
 }
 
