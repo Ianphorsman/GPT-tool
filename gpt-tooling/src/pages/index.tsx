@@ -1,5 +1,5 @@
 
-import Playground, { getServerSideProps } from "./chat/playground";
+import Playground, { getServerSideProps } from "./chat";
 
 export default Playground
 
