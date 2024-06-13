@@ -14,6 +14,7 @@ const OAuth = ({ authRef }) => {
           providers={['google']}
           appearance={{ theme: ThemeSupa }}
           theme="dark"
+          redirectTo={process.env.NEXT_PUBLIC_BASE_URL}
         />
       </Modal.Body>
     </Modal>
