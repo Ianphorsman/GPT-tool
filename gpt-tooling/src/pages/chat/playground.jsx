@@ -8,6 +8,7 @@ import {
 import { useChat } from 'ai/react'
 import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
+import { useRouter } from "next/router"
 import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
 import supabaseBrowserClient from "~/utils/supabase/supabaseBrowserClient"
 import { fetchAllConversations, fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
@@ -28,6 +29,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
   const statsModalRef = useRef(null)
   const authRef = useRef(null)
   const supabase = supabaseBrowserClient()
+  const router = useRouter()
   const {
     setModel,
     setCustomInstructions,
@@ -82,6 +84,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
       setTheme(savedTheme)
     }
   }, [])
+
   const handleShowSettings = useCallback(() => {
     settingsModalRef.current?.showModal()
   }, [])
@@ -94,6 +97,11 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
     authRef.current?.showModal()
   }, [])
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
+
   const toggleDrawerOpen = () => setIsDrawerOpen(prev => !prev)
 
   return (
@@ -104,7 +112,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
             {/* isMobile */ false ? (
               <Button color="ghost" onClick={toggleDrawerOpen}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
               </Button>
             ) : null}
@@ -115,7 +123,7 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
               <>
                 <Button
                   color="ghost"
-                  onClick={() => supabase.auth.signOut()}
+                  onClick={handleSignOut}
                   className="hover:bg-transparent"
                 >
                   <span>Sign Out</span>
@@ -233,8 +241,10 @@ const getIsMobile = (context) => {
 
 export async function getServerSideProps(context) {
   const supabase = supabaseServerClient(context)
-
+  // const datum = await supabase.auth.getSession()
+  // console.log('datum', datum)
   const { data = {}, error } = await supabase.auth.getUser()
+  console.log('data', data)
   const { user = {} } = data
   const { aud, id } = user ?? {}
   let conversations = []

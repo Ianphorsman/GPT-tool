@@ -26,7 +26,6 @@ export default async function POST(req) {
         for await (const output of await app.stream(initialState, { recursionLimit })) {
           if (!output?.__end__) {
             const messages = Object.values(output)[0].messages
-
             const {
               content,
               name,

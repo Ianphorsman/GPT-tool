@@ -15,6 +15,7 @@ const OAuth = ({ authRef }) => {
           appearance={{ theme: ThemeSupa }}
           theme="dark"
           redirectTo={process.env.NEXT_PUBLIC_BASE_URL}
+          onlyThirdPartyProviders
         />
       </Modal.Body>
     </Modal>
