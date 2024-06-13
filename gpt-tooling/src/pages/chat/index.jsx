@@ -11,26 +11,22 @@ const getIsMobile = (context) => {
 
 export async function getServerSideProps(context) {
   const supabase = supabaseServerClient(context)
-  let userData
-  let isSignedIn = false
   let conversations = []
-  if (!userData) {
-    const { data: { user } = {}, error } = await supabase.auth.getUser()
-    userData = user
-    const { aud, id } = userData ?? {}
 
-    if (error) {
-      console.error('Error fetching user:', error)
-    } else if (id) {
-      conversations = await fetchAllConversations({ supabase, user_id: id })
-    }
-    isSignedIn = aud === 'authenticated'
+  const { data: { user } = {}, error } = await supabase.auth.getUser()
+  const { aud, id } = user ?? {}
+
+  if (error) {
+    console.error('Error fetching user:', error)
+  } else if (id) {
+    conversations = await fetchAllConversations({ supabase, user_id: id })
   }
+  const isSignedIn = aud === 'authenticated'
 
   return {
     props: {
       isMobile: getIsMobile(context),
-      user: userData ?? {},
+      user: user ?? {},
       isSignedIn,
       conversations: conversations ?? []
     }

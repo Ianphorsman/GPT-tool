@@ -8,7 +8,6 @@ import {
 import { useChat } from 'ai/react'
 import { useState, useRef, useCallback, useEffect } from "react"
 import { useRouter } from "next/router"
-
 import supabaseBrowserClient from "~/utils/supabase/supabaseBrowserClient"
 import { fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
 import AgentsPanel from "~/components/AgentsPanel"
