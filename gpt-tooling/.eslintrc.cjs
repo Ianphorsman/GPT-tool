@@ -32,7 +32,8 @@ const config = {
     '@typescript-eslint/ban-ts-comment': [
       'error',
       {'ts-ignore': 'allow-with-description'},
-    ]
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 };
 
