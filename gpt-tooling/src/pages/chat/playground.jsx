@@ -6,13 +6,11 @@ import {
   Theme
 } from "react-daisyui"
 import { useChat } from 'ai/react'
-import MobileDetect from "mobile-detect"
 import { useState, useRef, useCallback, useEffect } from "react"
-import * as cookie from 'cookie'
 import { useRouter } from "next/router"
-import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
+
 import supabaseBrowserClient from "~/utils/supabase/supabaseBrowserClient"
-import { fetchAllConversations, fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
+import { fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
@@ -236,7 +234,5 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
     </Theme>
   )
 }
-
-
 
 export default Playground
