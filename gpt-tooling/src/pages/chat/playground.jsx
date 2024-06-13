@@ -7,9 +7,11 @@ import {
 } from "react-daisyui"
 import { useChat } from 'ai/react'
 import { useState, useRef, useCallback, useEffect } from "react"
+import MobileDetect from "mobile-detect"
 import { useRouter } from "next/router"
+import supabaseServerClient from "~/utils/supabase/supabaseServerClient"
 import supabaseBrowserClient from "~/utils/supabase/supabaseBrowserClient"
-import { fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
+import { fetchAllConversations, fetchAllAgentsInConversation, fetchAllMessagesInConversation } from "~/utils/supabase/queries"
 import AgentsPanel from "~/components/AgentsPanel"
 import Chat from "~/components/Chat"
 import Settings from "~/components/Settings/Settings"
@@ -232,6 +234,36 @@ const Playground = ({ isMobile, user, isSignedIn, conversations }) => {
       </div>
     </Theme>
   )
+}
+
+const getIsMobile = (context) => {
+  const md = new MobileDetect(context.req.headers["user-agent"])
+
+  return Boolean(md.mobile())
+}
+
+export async function getServerSideProps(context) {
+  const supabase = supabaseServerClient(context)
+  let conversations = []
+
+  const { data: { user } = {}, error } = await supabase.auth.getUser()
+  const { aud, id } = user ?? {}
+
+  if (error) {
+    console.error('Error fetching user:', error)
+  } else if (id) {
+    conversations = await fetchAllConversations({ supabase, user_id: id })
+  }
+  const isSignedIn = aud === 'authenticated'
+
+  return {
+    props: {
+      isMobile: getIsMobile(context),
+      user: user ?? {},
+      isSignedIn,
+      conversations: conversations ?? []
+    }
+  };
 }
 
 export default Playground
