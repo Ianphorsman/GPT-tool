@@ -16,7 +16,6 @@
     "langgraph-example": "env-cmd -f .env cross-env-shell \"node scripts/langgraphExample.mjs\""
   },
   "dependencies": {
-    "@langchain/langgraph": "^0.0.12",
     "@pinecone-database/pinecone": "^0.1.6",
     "@prisma/client": "^4.11.0",
     "@supabase/auth-ui-react": "^0.4.7",
@@ -36,7 +35,6 @@
     "cookie": "^0.6.0",
     "daisyui": "^4.10.4",
     "js-tiktoken": "^1.0.11",
-    "langchain": "^0.1.36",
     "lodash.debounce": "^4.0.8",
     "next": "^13.4.6",
     "openai": "^4.40.1",
@@ -54,6 +52,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@langchain/langgraph": "^0.0.23",
     "@qdrant/js-client-rest": "^1.9.0",
     "@types/eslint": "^8.21.3",
     "@types/node": "^18.15.5",
@@ -67,6 +66,7 @@
     "env-cmd": "^10.1.0",
     "eslint": "^8.36.0",
     "eslint-config-next": "^13.2.4",
+    "langchain": "^0.2.5",
     "mobile-detect": "^1.4.5",
     "postcss": "^8.4.21",
     "prettier": "^2.8.6",
