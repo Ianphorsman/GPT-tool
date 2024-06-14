@@ -110,7 +110,7 @@ export default async function POST(req) {
     workflow.addNode("agent", new RunnableLambda({ func: callModel }))
     workflow.addNode("action", new RunnableLambda({ func: callTool }))
 
-    workflow.setEntryPoint("agent")
+    workflow.addEdge("__start__", "agent")
 
     workflow.addConditionalEdges("agent", shouldContinue, { continue: "action", end: END })
 
