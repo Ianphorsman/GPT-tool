@@ -16,7 +16,6 @@
     "langgraph-example": "env-cmd -f .env cross-env-shell \"node scripts/langgraphExample.mjs\""
   },
   "dependencies": {
-    "@pinecone-database/pinecone": "^0.1.6",
     "@prisma/client": "^4.11.0",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
