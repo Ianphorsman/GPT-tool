@@ -34,7 +34,6 @@
     "clsx": "^1.2.1",
     "cookie": "^0.6.0",
     "daisyui": "^4.10.4",
-    "js-tiktoken": "^1.0.11",
     "lodash.debounce": "^4.0.8",
     "next": "^13.4.6",
     "openai": "^4.40.1",
