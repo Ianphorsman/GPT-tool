@@ -100,7 +100,7 @@ const roundRobin = async (agents, messages = [], conversationSettings = {}) => {
     workflow.addNode(`agent${index + 1}`, node)
   })
 
-  workflow.addEdge("__start__", `agent1`)
+  workflow.addEdge("__start__", agents[0].name ?? `agent1`)
   agentNodes.forEach((_, index) => {
     const nextNode = index + 1 === agentNodes.length ? 1 : index + 2
     workflow.addConditionalEdges(`agent${index + 1}`, shouldContinue, { continue: `agent${nextNode}`, end: END })
